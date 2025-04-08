@@ -1,0 +1,99 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Distribution / packaging
+*.manifest
+*.spec
+
+# Logs
+*.log
+logs/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Credentials
+*.pem
+*.key
+*.p12
+*.json
+*.credentials
+
+# Output directories and files
+output/
+**/output/
+temp/
+tmp/
+*.pdf
+*.xlsx
+*.csv
+
+# Exceptions - keep these files
+!requirements.txt
+!examples/*.pdf
+!examples/*.xlsx
+!examples/*.csv
+
+# Environment-specific directories
+step*_*/
+pipeline_*/
+
+# Sensitive files
+*.pem
+*.key
+credentials.json
+*api_key.txt
+
+# Specific directories/files to ignore
+2. Non-VMSW/
+Lastenboek/azure_webapp_refactor/
+Lastenboek/requirements.txt
+step2_function.txt
+Lastenboek/08_04non_vmsw_pipeline_finished.py 

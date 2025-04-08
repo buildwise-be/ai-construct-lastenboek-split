@@ -3302,7 +3302,7 @@ def main():
             window.category_file_path = DEFAULT_CATEGORY_FILE
             window.cat_path_edit.setPlainText(DEFAULT_CATEGORY_FILE)
             
-        default_output_dir = os.path.join(os.getcwd(), "2. Non-VMSW", "output")
+        default_output_dir = os.path.join(os.getcwd(), "output") # Simplified default path
         window.output_dir = default_output_dir
         window.out_path_edit.setPlainText(default_output_dir)
         

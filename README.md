@@ -22,6 +22,37 @@ Installeer de vereiste Python-pakketten met pip:
 pip install -r requirements.txt
 ```
 
+Installeer de Google Cloud CLI (zie [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)) en voer de volgende commando's uit voordat u begint:
+
+```bash
+pip install --upgrade google-genai
+gcloud auth application-default login
+```
+
+### Gedetailleerde Google Cloud CLI installatie-instructies
+
+#### Voor Windows:
+1. Download de Google Cloud SDK installer van: https://cloud.google.com/sdk/docs/install
+2. Voer het gedownloade GoogleCloudSDKInstaller.exe bestand uit
+3. Volg de installatie-instructies
+4. Na voltooiing zal de installer een terminal openen om `gcloud init` uit te voeren
+5. Na initialisatie, voer uit:
+   ```
+   pip install --upgrade google-genai
+   gcloud auth application-default login
+   ```
+
+#### Voor macOS/Linux:
+1. Download het juiste pakket van: https://cloud.google.com/sdk/docs/install
+2. Pak het archief (tar.gz bestand) uit naar de gewenste locatie
+3. Voer het installatiescript uit: `./google-cloud-sdk/install.sh`
+4. Initialiseer de SDK: `./google-cloud-sdk/bin/gcloud init`
+5. Na initialisatie, voer uit:
+   ```
+   pip install --upgrade google-genai
+   gcloud auth application-default login
+   ```
+
 Het script vereist de volgende pakketten:
 
 *   `pandas`
@@ -38,6 +69,17 @@ Het script vereist de volgende pakketten:
     *   U heeft een Google Cloud-project nodig waarbij de Vertex AI API is ingeschakeld.
     *   Stel de `GOOGLE_CLOUD_PROJECT` omgevingsvariabele in op uw project-ID, of voer deze in via de gebruikersinterface.
     *   Zorg ervoor dat u bent aangemeld bij Google Cloud (bijv. met `gcloud auth application-default login`).
+    *   **GDPR-compliant:** We werken met Google Vertex AI initialisatie om ervoor te zorgen dat alle data in overeenstemming met de GDPR-regelgeving wordt verwerkt.
+
+    **Een Vertex AI Project aanmaken:**
+    *   Ga naar [Google Cloud Console](https://console.cloud.google.com/)
+    *   Maak een nieuw project aan of selecteer een bestaand project
+    *   Activeer de Vertex AI API voor uw project via de API-bibliotheek
+    *   **Belangrijk:** U moet factureringsgegevens aan uw Google Cloud-project koppelen om de Vertex AI-diensten te kunnen gebruiken, zelfs binnen de gratis gebruikslimiet
+    *   U heeft twee opties voor het instellen van uw projectgegevens:
+        * Stel deze in als omgevingsvariabele (zie hieronder)
+        * OF voer deze rechtstreeks in via de gebruikersinterface (UI) van de applicatie
+
 2.  **Omgevingsvariabelen:** Maak een `.env`-bestand aan in de hoofdmap van het project als u uw `GOOGLE_CLOUD_PROJECT`-ID daar wilt opslaan:
     ```
     GOOGLE_CLOUD_PROJECT="uw-project-id"
@@ -126,6 +168,37 @@ Install the required Python packages using pip:
 pip install -r requirements.txt
 ```
 
+Install the Google Cloud CLI (see [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)) and run the following commands before setup:
+
+```bash
+pip install --upgrade google-genai
+gcloud auth application-default login
+```
+
+### Detailed Google Cloud CLI Installation Instructions
+
+#### For Windows:
+1. Download the Google Cloud SDK installer from: https://cloud.google.com/sdk/docs/install
+2. Run the downloaded GoogleCloudSDKInstaller.exe file
+3. Follow the installation prompts
+4. When complete, the installer will open a terminal to run `gcloud init`
+5. After initialization, run:
+   ```
+   pip install --upgrade google-genai
+   gcloud auth application-default login
+   ```
+
+#### For macOS/Linux:
+1. Download appropriate package from: https://cloud.google.com/sdk/docs/install
+2. Extract the archive (tar.gz file) to your preferred location
+3. Run the installation script: `./google-cloud-sdk/install.sh`
+4. Initialize the SDK: `./google-cloud-sdk/bin/gcloud init`
+5. After initialization, run:
+   ```
+   pip install --upgrade google-genai
+   gcloud auth application-default login
+   ```
+
 The script requires the following packages:
 
 *   `pandas`
@@ -142,6 +215,17 @@ The script requires the following packages:
     *   You need a Google Cloud project with the Vertex AI API enabled.
     *   Set the `GOOGLE_CLOUD_PROJECT` environment variable to your project ID, or enter it in the user interface.
     *   Ensure you are logged into Google Cloud (e.g., using `gcloud auth application-default login`).
+    *   **GDPR compliant:** We work with Google Vertex AI initialization to ensure all data is processed in compliance with GDPR regulations.
+
+    **Creating a Vertex AI Project:**
+    *   Go to the [Google Cloud Console](https://console.cloud.google.com/)
+    *   Create a new project or select an existing project
+    *   Enable the Vertex AI API for your project via the API library
+    *   **Important:** You must attach billing information to your Google Cloud project to use Vertex AI services, even within the free usage tier
+    *   You have two options for setting your project details:
+        * Set this as an environment variable (see below)
+        * OR enter this directly via the application's user interface (UI)
+
 2.  **Environment Variables:** Create a `.env` file in the project root if you want to store your `GOOGLE_CLOUD_PROJECT` ID there:
     ```
     GOOGLE_CLOUD_PROJECT="your-project-id"
@@ -230,6 +314,37 @@ Installez les paquets Python requis en utilisant pip :
 pip install -r requirements.txt
 ```
 
+Installez Google Cloud CLI (voir [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)) et exécutez les commandes suivantes avant la configuration :
+
+```bash
+pip install --upgrade google-genai
+gcloud auth application-default login
+```
+
+### Instructions d'installation détaillées pour Google Cloud CLI
+
+#### Pour Windows :
+1. Téléchargez l'installateur Google Cloud SDK depuis : https://cloud.google.com/sdk/docs/install
+2. Exécutez le fichier GoogleCloudSDKInstaller.exe téléchargé
+3. Suivez les instructions d'installation
+4. Une fois terminé, l'installateur ouvrira un terminal pour exécuter `gcloud init`
+5. Après l'initialisation, exécutez :
+   ```
+   pip install --upgrade google-genai
+   gcloud auth application-default login
+   ```
+
+#### Pour macOS/Linux :
+1. Téléchargez le package approprié depuis : https://cloud.google.com/sdk/docs/install
+2. Extrayez l'archive (fichier tar.gz) vers l'emplacement de votre choix
+3. Exécutez le script d'installation : `./google-cloud-sdk/install.sh`
+4. Initialisez le SDK : `./google-cloud-sdk/bin/gcloud init`
+5. Après l'initialisation, exécutez :
+   ```
+   pip install --upgrade google-genai
+   gcloud auth application-default login
+   ```
+
 Le script nécessite les paquets suivants :
 
 *   `pandas`
@@ -246,6 +361,17 @@ Le script nécessite les paquets suivants :
     *   Vous avez besoin d'un projet Google Cloud avec l'API Vertex AI activée.
     *   Définissez la variable d'environnement `GOOGLE_CLOUD_PROJECT` avec votre ID de projet, ou saisissez-le dans l'interface utilisateur.
     *   Assurez-vous d'être connecté à Google Cloud (par exemple, en utilisant `gcloud auth application-default login`).
+    *   **Conforme au RGPD :** Nous travaillons avec l'initialisation de Google Vertex AI pour garantir que toutes les données sont traitées conformément à la réglementation RGPD.
+
+    **Création d'un projet Vertex AI :**
+    *   Accédez à la [Console Google Cloud](https://console.cloud.google.com/)
+    *   Créez un nouveau projet ou sélectionnez un projet existant
+    *   Activez l'API Vertex AI pour votre projet via la bibliothèque d'API
+    *   **Important :** Vous devez associer des informations de facturation à votre projet Google Cloud pour utiliser les services Vertex AI, même dans le cadre de l'utilisation gratuite
+    *   Vous avez deux options pour définir les détails de votre projet :
+        * Définir cela comme variable d'environnement (voir ci-dessous)
+        * OU entrer cela directement via l'interface utilisateur (UI) de l'application
+
 2.  **Variables d'Environnement :** Créez un fichier `.env` à la racine du projet si vous souhaitez y stocker votre ID `GOOGLE_CLOUD_PROJECT` :
     ```
     GOOGLE_CLOUD_PROJECT="votre-id-projet"

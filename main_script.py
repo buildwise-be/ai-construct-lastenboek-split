@@ -419,7 +419,7 @@ class NonVMSWPipelineGUI(QMainWindow):
             aico_logo_label.setText("AICO Logo")
         
         # Title and subtitle directly in header layout - using exact same text as in 2703 file
-        title_label = QLabel("AI Construct PDF Opdeler - Aanpasbare Prompts")
+        title_label = QLabel("AI Construct PDF Opdeler")
         title_label.setStyleSheet(f"""
             color: {COLORS["light"]};
             font-size: 22px;
@@ -428,7 +428,7 @@ class NonVMSWPipelineGUI(QMainWindow):
         """)
         title_label.setAlignment(Qt.AlignHCenter)
         
-        subtitle_label = QLabel("Converteer PDF naar gecategoriseerde secties met aanpasbare AI-prompts")
+        subtitle_label = QLabel("Deel uw lastenboek op in delen per onderaannemer")
         subtitle_label.setStyleSheet(f"""
             color: {COLORS["light"]};
             font-size: 14px;

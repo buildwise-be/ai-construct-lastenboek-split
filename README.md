@@ -1,4 +1,4 @@
-<h1 align="center">AI Construct PDF Opdeler</h1>
+<h1 align="center" style="color: #0087B7;">AI Construct PDF Opdeler</h1>
 
 <p align="center">
   <img src="docs/images/BWlogo.png" alt="BW Logo" width="100"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="docs/images/aico.png" alt="AICO Logo" width="100"/>

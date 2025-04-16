@@ -1,11 +1,11 @@
-# AI Construct PDF Opdeler
+<h1 align="center">AI Construct PDF Opdeler</h1>
 
 <p align="center">
   <img src="docs/images/BWlogo.png" alt="BW Logo" width="100"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="docs/images/aico.png" alt="AICO Logo" width="100"/>
 </p>
 
 <p align="center">
-  <em>Converteer PDF naar gecategoriseerde secties met aanpasbare AI-prompts</em>
+  <em>Deel uw lastenboek op in delen per onderaannemer</em>
 </p>
 
 <!-- DUTCH -->

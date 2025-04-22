@@ -5,7 +5,7 @@ This guide will help you quickly get started with the AI Construct PDF Splitter 
 ## Installation in 5 Minutes
 
 ### 1. Requirements Check
-- Ensure you have Python 3.7+ installed
+- Ensure you have Python installed (Python 3.13 recommended, any version between 3.7 and 3.13 should work)
 - Have a PDF document ready for processing 
 - Make sure you have an internet connection
 

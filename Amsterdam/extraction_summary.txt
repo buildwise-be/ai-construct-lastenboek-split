@@ -1,0 +1,12 @@
+CATEGORY EXTRACTION SUMMARY
+==========================
+
+Original PDF: C:/Users/gr/Downloads/samengevoegdamsterdamlastenboek.pdf
+Category file: C:/Users/gr/Documents/GitHub/ai-construct-lastenboek-split/example_categories.py
+
+Number of categories processed: 40
+Number of PDFs successfully created: 32
+
+Primary output directory: C:\Users\gr\Documents\GitHub\ai-construct-lastenboek-split\output\pipeline_main_script_run_001\step3_category_pdfs_20250521_120742
+Second output directory: C:/Users/gr/Documents/GitHub/ai-construct-lastenboek-split/Amsterdam
+Copies to second directory: 32

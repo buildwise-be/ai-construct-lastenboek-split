@@ -96,4 +96,10 @@ credentials.json
 Lastenboek/azure_webapp_refactor/
 Lastenboek/requirements.txt
 step2_function.txt
-Lastenboek/08_04non_vmsw_pipeline_finished.py 
+Lastenboek/08_04non_vmsw_pipeline_finished.py
+
+# Demo directory - selective ignoring
+demo/*
+!demo/README.md
+!demo/run_demo.bat
+!demo/run_demo.sh 

@@ -32,6 +32,13 @@ pip install -r requirements.txt
 
 **Python Versie:** Python 3.13 wordt aanbevolen, maar alle versies tussen 3.7 en 3.13 zouden moeten werken.
 
+**Belangrijk Opmerking over Python Omgevingen:** Als u Anaconda of andere Python omgeving managers gebruikt, zorg er dan voor dat u de script uitvoert met de correcte Python interpreter waar de afhankelijkheden zijn geïnstalleerd. U moet mogelijk expliciet de pad naar uw Python interpreter opgeven wanneer u het script uitvoert:
+
+```bash
+# Voorbeeld voor Anaconda omgeving
+C:\path\to\your\conda\env\python.exe main_script.py [argumenten]
+```
+
 Installeer de Google Cloud CLI (zie [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)) en voer de volgende commando's uit voordat u begint:
 
 ```bash
@@ -184,6 +191,13 @@ pip install -r requirements.txt
 
 **Python Version:** Python 3.13 is recommended, but any version between 3.7 and 3.13 should work.
 
+**Important Note on Python Environments:** If you're using Anaconda or other Python environment managers, make sure to run the script with the correct Python interpreter where the dependencies are installed. You may need to explicitly specify the path to your Python interpreter when running the script:
+
+```bash
+# Example for Anaconda environment
+C:\path\to\your\conda\env\python.exe main_script.py [arguments]
+```
+
 Install the Google Cloud CLI (see [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)) and run the following commands before setup:
 
 ```bash
@@ -335,6 +349,13 @@ pip install -r requirements.txt
 ```
 
 **Version Python :** Python 3.13 est recommandé, mais toute version entre 3.7 et 3.13 devrait fonctionner.
+
+**Important Note on Python Environments:** If you're using Anaconda or other Python environment managers, make sure to run the script with the correct Python interpreter where the dependencies are installed. You may need to explicitly specify the path to your Python interpreter when running the script:
+
+```bash
+# Example for Anaconda environment
+C:\path\to\your\conda\env\python.exe main_script.py [arguments]
+```
 
 Installez Google Cloud CLI (voir [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)) et exécutez les commandes suivantes avant la configuration :
 

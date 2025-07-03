@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 # Vertex AI configuration
 GENERATION_CONFIG = {
-    "max_output_tokens": 30000,
+    "max_output_tokens": 8192,
     "temperature": 1,
     "top_p": 0.95,
 }
@@ -127,7 +127,7 @@ def step1_generate_toc(pdf_path, output_base_dir=None, project_id=None):
             pdf_bytes = f.read()
         pdf_b64 = base64.b64encode(pdf_bytes).decode("utf-8")
         multimodal_model = GenerativeModel(
-            "gemini-1.5-pro-001",
+            "gemini-1.5-pro-002",
             generation_config=GENERATION_CONFIG,
             safety_settings=SAFETY_SETTINGS
         )
@@ -302,8 +302,7 @@ def step1_generate_toc(pdf_path, output_base_dir=None, project_id=None):
     logger.info(f"Saved chapters data to {chapters_json_path}")
     return validated_chapters, output_dir
 
-if __name__ == "__main__":
-    import argparse
+def main():
     # Default test values
     DEFAULT_PDF_PATH = "test.pdf"  # Change to a real test file if available
     DEFAULT_OUTPUT_DIR = "output"
@@ -322,10 +321,37 @@ if __name__ == "__main__":
     if not args.output_dir:
         print(f"No output directory provided, using default: {output_dir}")
 
+    # Check if the default PDF exists if no path is provided
+    if pdf_path == DEFAULT_PDF_PATH and not os.path.exists(DEFAULT_PDF_PATH):
+        logger.warning(f"Default PDF '{DEFAULT_PDF_PATH}' not found. Please provide a PDF path or create the file.")
+        # Create a dummy PDF if it doesn't exist and it's the default, to prevent error on run
+        # This is for illustrative purposes; in a real scenario, you'd require the PDF.
+        try:
+            from PyPDF2 import PdfWriter # Import here to keep it local to main
+            writer = PdfWriter()
+            writer.add_blank_page(width=210, height=297) # A4 size in points
+            with open(DEFAULT_PDF_PATH, "wb") as f:
+                writer.write(f)
+            logger.info(f"Created a dummy '{DEFAULT_PDF_PATH}' for testing purposes.")
+        except Exception as e:
+            logger.error(f"Could not create dummy PDF: {e}")
+            return # Exit if dummy PDF creation fails
+
     toc, out_dir = step1_generate_toc(pdf_path, output_dir, args.project_id)
     if args.json_file:
-        with open(args.json_file, 'w', encoding='utf-8') as f:
-            json.dump(toc, f, ensure_ascii=False, indent=2)
-        print(f"TOC JSON saved to {args.json_file}")
+        # If a specific json_file path is given, save the main result there too.
+        # The function step1_generate_toc already saves a chapters.json in its own output_dir.
+        try:
+            with open(args.json_file, 'w', encoding='utf-8') as f:
+                json.dump(toc, f, ensure_ascii=False, indent=2)
+            print(f"TOC JSON also saved to {args.json_file}")
+        except IOError as e:
+            print(f"Error saving TOC JSON to {args.json_file}: {e}")
     else:
-        print(json.dumps(toc, ensure_ascii=False, indent=2)) 
+        # If no specific json_file, print to console as before.
+        print(json.dumps(toc, ensure_ascii=False, indent=2))
+
+if __name__ == "__main__":
+    # Import argparse here, only when script is run directly
+    import argparse
+    main() 

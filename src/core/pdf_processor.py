@@ -86,7 +86,7 @@ class PDFProcessor:
                 pdf_bytes = f.read()
             
             multimodal_model = GenerativeModel(
-                "gemini-1.5-pro-001",
+                "gemini-2.5-pro",
                 generation_config=GENERATION_CONFIG,
                 safety_settings=SAFETY_SETTINGS
             )

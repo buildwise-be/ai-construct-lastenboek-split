@@ -20,7 +20,7 @@ from .components.styled_components import (
 from .workers.processing_worker import (
     Step1Worker, Step2Worker, Step3Worker, CompletePipelineWorker
 )
-from ..config.settings import (
+from config.settings import (
     APP_NAME, APP_SUBTITLE, ASSETS_CONFIG, COLORS, GUI_CONFIG,
     DEFAULT_CATEGORY_FILE, LOGGING_CONFIG
 )

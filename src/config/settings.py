@@ -131,10 +131,10 @@ CLOUD_CONFIG = {
 
 # Model Configuration
 MODEL_CONFIG = {
-    "default_model": "gemini-1.5-pro-002",
-    "multimodal_model": "gemini-1.5-pro-001",
+    "default_model": "gemini-2.5-pro",
+    "multimodal_model": "gemini-2.5-pro",
     "generation_config": {
-        "max_output_tokens": 8192,
+        "max_output_tokens": 60000,
         "temperature": 1,
         "top_p": 0.95,
     },
@@ -240,9 +240,15 @@ chapters = {
     
     "category_matching": """You are a construction categorization expert. Your task is to match construction document chapters and sections to appropriate categories based on their content and titles.
 
-Focus on the main construction activities, materials, or specialties involved. You can assign multiple categories if appropriate.
+DEMOLITION/REMOVAL WORK RULE:
+- For REMOVAL/DEMOLITION work (keywords: "verwijderen", "slopen", "uitbreken", "opbreken", "demonteren", "afbreken"):
+  * ALWAYS include "01. Afbraak en Grondwerken" as the PRIMARY category
+  * ALSO include the relevant trade category (plumbing, electrical, etc.) as SECONDARY category
+  * Example: "Verwijderen van leidingen" → "01. Afbraak en Grondwerken" + "12. Sanitair"
 
-Always provide clear reasoning for your categorization decisions and assign confidence scores based on how certain you are about the match."""
+This ensures demolition contractors see all removal work, while trade contractors see removal work relevant to their specialty.
+
+Focus on the main construction activities, materials, or specialties involved. You can assign multiple categories if appropriate. Always provide clear reasoning for your categorization decisions and assign confidence scores based on how certain you are about the match."""
 }
 
 def validate_config():

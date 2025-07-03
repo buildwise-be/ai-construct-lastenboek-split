@@ -124,7 +124,7 @@ DEFAULT_CATEGORY_FILE = os.path.join(MODULE_DIR, "nonvmswhoofdstukken_pandas.py"
 
 # Vertex AI configuration
 GENERATION_CONFIG = {
-    "max_output_tokens": 8192,
+    "max_output_tokens": 30000,
     "temperature": 1,
     "top_p": 0.95,
 }
@@ -194,7 +194,7 @@ def initialize_vertex_model(system_instruction=None, project_id=None):
             logger.info(f"Reinitialized Vertex AI with project ID: {project_id}")
         
         model = GenerativeModel(
-            "gemini-1.5-pro-002",
+            "gemini-2.5-pro",
             generation_config=GENERATION_CONFIG,
             safety_settings=SAFETY_SETTINGS,
             system_instruction=[system_instruction] if system_instruction else None
@@ -595,8 +595,8 @@ class NonVMSWPipelineGUI(QMainWindow):
         model_label.setStyleSheet("font-weight: bold;")
         
         self.model_selector = QComboBox()
-        self.model_selector.addItem("Gemini 1.5 Pro", "gemini-1.5-pro-002")
-        self.model_selector.addItem("Gemini 2.0 Flash", "gemini-2.0-flash-001")
+        self.model_selector.addItem("Gemini 2.5 Pro", "gemini-2.5-pro")
+        self.model_selector.addItem("Gemini 2.5 Flash", "gemini-2.5-flash")
         self.model_selector.setStyleSheet(f"""
             QComboBox {{
                 border: 1px solid {COLORS['mid_gray']};
@@ -1790,7 +1790,7 @@ def step1_generate_toc(pdf_path, output_base_dir=None):
         
         # Create a multimodal model for direct PDF processing
         multimodal_model = GenerativeModel(
-            "gemini-1.5-pro-001",  # Use Vision-enabled model
+            "gemini-2.5-pro",  # Use Vision-enabled model
             generation_config=GENERATION_CONFIG,
             safety_settings=SAFETY_SETTINGS
         )
@@ -2109,7 +2109,7 @@ def step1_generate_toc(pdf_path, output_base_dir=None):
 
 # ================== STEP 2: CATEGORY MATCHING ==================
 
-def initialize_gemini_model(model_name="gemini-1.5-pro-002", project_id=None):
+def initialize_gemini_model(model_name="gemini-2.5-pro", project_id=None):
     """
     Initialize the Gemini AI model for category matching.
     
@@ -2129,10 +2129,10 @@ def initialize_gemini_model(model_name="gemini-1.5-pro-002", project_id=None):
                 api_endpoint="europe-west1-aiplatform.googleapis.com"
             )
             logger.info(f"Reinitialized Vertex AI with project ID: {project_id}")
-         
-        # Normalize model name in case we get just "gemini-1.5-pro" without version
-        if model_name == "gemini-1.5-pro":
-            model_name = "gemini-1.5-pro-002"
+        
+        # Normalize model name in case we get just "gemini-2.5-pro" without version
+        if model_name == "gemini-2.5-pro":
+            model_name = "gemini-2.5-pro"
         elif model_name == "gemini-pro":
             model_name = "gemini-pro-001"
             
@@ -2147,9 +2147,9 @@ def initialize_gemini_model(model_name="gemini-1.5-pro-002", project_id=None):
     except Exception as e:
         logger.error(f"Failed to initialize Vertex AI model {model_name}: {str(e)}")
         # Fall back to default model if specified model fails
-        if model_name != "gemini-1.5-pro-002":
-            logger.info("Falling back to default gemini-1.5-pro-002 model")
-            return initialize_gemini_model("gemini-1.5-pro-002", project_id)
+        if model_name != "gemini-2.5-pro":
+            logger.info("Falling back to default gemini-2.5-pro model")
+            return initialize_gemini_model("gemini-2.5-pro", project_id)
         raise RuntimeError(f"Failed to initialize Gemini model: {model_name}")
 
 def batch_match_to_multiple_categories(model, items_batch, df):
@@ -2221,6 +2221,13 @@ Confidence: [score between 0-100]
     # Create the prompt for Gemini
     prompt = f"""
 I have multiple chapters/sections from a construction specification document (lastenboek/bestek) and need to match each to ALL relevant categories.
+
+DEMOLITION/REMOVAL WORK RULE:
+- For REMOVAL/DEMOLITION work (keywords: "verwijderen", "slopen", "uitbreken", "opbreken", "demonteren", "afbreken"):
+  * ALWAYS include "01. Afbraak en Grondwerken" as PRIMARY category
+  * ALSO include relevant trade category as SECONDARY (e.g., "12. Sanitair" for plumbing removal)
+  
+This ensures both demolition contractors and trade contractors see relevant work.
 
 The items to analyze are:
 {batch_content}
@@ -2424,6 +2431,13 @@ Confidence: [score between 0-100]
     # Create the prompt for Gemini
     prompt = f"""
 I have a {content_type.lower()} from a construction specification document (lastenboek) and need to match it to ALL relevant categories.
+
+DEMOLITION/REMOVAL WORK RULE:
+- For REMOVAL/DEMOLITION work (keywords: "verwijderen", "slopen", "uitbreken", "opbreken", "demonteren", "afbreken"):
+  * ALWAYS include "01. Afbraak en Grondwerken" as PRIMARY category
+  * ALSO include relevant trade category as SECONDARY (e.g., "12. Sanitair" for plumbing removal)
+  
+This ensures both demolition contractors and trade contractors see relevant work.
 
 The {content_type.lower()} information is:
 {formatted_content}
@@ -3414,12 +3428,12 @@ def run_from_command_line():
     parser.add_argument("-o", "--output-dir", help="Output directory (optional)")
     parser.add_argument("-s", "--second-output-dir", help="Second output directory (optional)")
     parser.add_argument("-t", "--third-output-dir", help="Third output directory (optional)")
-    parser.add_argument("--no-explanations", action="store_true", 
+    parser.add_argument("--no-explanations", action="store_true",
                         help="Run without generating explanations for category matches (higher efficiency)")
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose logging")
-    parser.add_argument("--model", choices=["gemini-1.5-pro-002", "gemini-2.0-flash-001"], 
-                        default="gemini-1.5-pro-002", 
-                        help="Gemini model to use (default: gemini-1.5-pro-002)")
+    parser.add_argument("--model", choices=["gemini-2.5-pro", "gemini-2.5-flash"],
+                        default="gemini-2.5-pro",
+                        help="Gemini model to use (default: gemini-2.5-pro)")
     
     # Add subcommands for individual steps
     subparsers = parser.add_subparsers(dest="command", help="Command to run")

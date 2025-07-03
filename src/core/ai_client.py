@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 # Vertex AI configuration
 GENERATION_CONFIG = {
-    "max_output_tokens": 8192,
+    "max_output_tokens": 30000,
     "temperature": 1,
     "top_p": 0.95,
 }
@@ -83,7 +83,7 @@ class VertexAIClient:
             logger.error(f"Failed to initialize Vertex AI: {str(e)}")
             raise
     
-    def create_model(self, model_name="gemini-1.5-pro-002", system_instruction=None):
+    def create_model(self, model_name="gemini-2.5-pro", system_instruction=None):
         """
         Create a Vertex AI model instance.
         

@@ -264,6 +264,13 @@ class CategoryMatcher:
         prompt = f"""
         You are a construction categorization expert. I have {len(items_batch)} construction document items that need to be categorized.
         
+        DEMOLITION/REMOVAL WORK RULE:
+        - For REMOVAL/DEMOLITION work (keywords: "verwijderen", "slopen", "uitbreken", "opbreken", "demonteren", "afbreken"):
+          * ALWAYS include "01. Afbraak en Grondwerken" as PRIMARY category
+          * ALSO include relevant trade category as SECONDARY (e.g., "12. Sanitair" for plumbing removal)
+        
+        This ensures both demolition contractors and trade contractors see relevant work.
+        
         Available categories:
         {categories_text}
         
@@ -349,6 +356,13 @@ class CategoryMatcher:
         
         prompt = f"""
         You are a construction categorization expert. Please categorize this construction document {item['type']}:
+        
+        DEMOLITION/REMOVAL WORK RULE:
+        - For REMOVAL/DEMOLITION work (keywords: "verwijderen", "slopen", "uitbreken", "opbreken", "demonteren", "afbreken"):
+          * ALWAYS include "01. Afbraak en Grondwerken" as PRIMARY category
+          * ALSO include relevant trade category as SECONDARY (e.g., "12. Sanitair" for plumbing removal)
+        
+        This ensures both demolition contractors and trade contractors see relevant work.
         
         {content_desc}
         

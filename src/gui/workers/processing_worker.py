@@ -95,7 +95,7 @@ class Step1Worker(ProcessingWorker):
             project_id: Google Cloud project ID
         """
         # Import here to avoid circular imports
-        from ...core.pdf_processor import step1_generate_toc
+        from core.pdf_processor import step1_generate_toc
         
         super().__init__(step1_generate_toc, pdf_path, output_base_dir, project_id)
         self.step_name = "Step 1: TOC Generation"
@@ -156,7 +156,7 @@ class Step2Worker(ProcessingWorker):
             include_explanations: Whether to include explanations
         """
         # Import here to avoid circular imports
-        from ...core.category_matcher import step2_match_categories
+        from core.category_matcher import step2_match_categories
         
         super().__init__(step2_match_categories, chapters, toc_output_dir, 
                         category_file, base_dir, model)
@@ -230,7 +230,7 @@ class Step3Worker(ProcessingWorker):
             base_dir: Base output directory
         """
         # Import here to avoid circular imports
-        from ...core.pdf_processor import step3_extract_category_pdfs
+        from core.pdf_processor import step3_extract_category_pdfs
         
         super().__init__(step3_extract_category_pdfs, pdf_path, chapter_results,
                         section_results, category_match_dir, category_file,
@@ -298,12 +298,11 @@ class CompletePipelineWorker(ProcessingWorker):
             project_id: Google Cloud project ID
         """
         # Import here to avoid circular imports
-        from ...core.pdf_processor import step1_generate_toc, step3_extract_category_pdfs
-        from ...core.category_matcher import step2_match_categories
+        from core.pdf_processor import step1_generate_toc
+        from core.category_matcher import step2_match_categories
         
         self.step1_func = step1_generate_toc
         self.step2_func = step2_match_categories
-        self.step3_func = step3_extract_category_pdfs
         
         super().__init__(self._run_complete_pipeline, pdf_path, output_base_dir,
                         category_file, second_output_dir, third_output_dir, project_id)

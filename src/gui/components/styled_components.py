@@ -9,7 +9,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QPushButton, QFrame, QLabel
 
-from ...config.settings import COLORS, GUI_CONFIG
+from config.settings import COLORS, GUI_CONFIG
 
 
 class StyledButton(QPushButton):
@@ -291,7 +291,7 @@ class ProgressSection(QFrame):
         steps_layout = QHBoxLayout()
         self.step_indicators = {}
         
-        from ...config.settings import STEPS_CONFIG
+        from config.settings import STEPS_CONFIG
         
         for step_key, step_config in STEPS_CONFIG.items():
             # Step container

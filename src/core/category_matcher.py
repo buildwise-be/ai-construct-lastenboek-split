@@ -68,9 +68,12 @@ class CategoryMatcher:
         # Load category definitions
         df = self._load_category_definitions(category_file)
         
-        # Initialize model if not provided
+        # Initialize model if not provided or if model is a string (model name)
         if model is None:
             model = self.ai_client.create_model()
+        elif isinstance(model, str):
+            # Model name provided, create model with that name
+            model = self.ai_client.create_model(model_name=model)
         
         # Collect all items to process
         all_items = self._collect_items_for_processing(chapters)
@@ -103,21 +106,50 @@ class CategoryMatcher:
         try:
             import sys
             import importlib.util
+            from pathlib import Path
             
-            spec = importlib.util.spec_from_file_location("categories", category_file)
+            # Validate category file path
+            if not category_file:
+                raise ValueError("Category file path is empty or None")
+                
+            category_path = Path(category_file)
+            if not category_path.exists():
+                raise FileNotFoundError(f"Category file not found: {category_file}")
+            
+            if not category_path.is_file():
+                raise ValueError(f"Category file path is not a file: {category_file}")
+            
+            logger.info(f"Loading category definitions from: {category_file}")
+            
+            spec = importlib.util.spec_from_file_location("categories", str(category_path))
             if spec is None or spec.loader is None:
-                raise ImportError(f"Could not load module from {category_file}")
+                raise ImportError(f"Could not create module spec from {category_file}")
             
             categories_module = importlib.util.module_from_spec(spec)
             sys.modules["categories"] = categories_module
             spec.loader.exec_module(categories_module)
             
+            # Validate that the module has the required df attribute
+            if not hasattr(categories_module, 'df'):
+                raise AttributeError(f"Category file {category_file} does not contain required 'df' attribute")
+            
             df = categories_module.df
-            logger.info(f"Loaded {len(df)} categories from {category_file}")
+            
+            # Validate that df is a pandas DataFrame with data
+            import pandas as pd
+            if not isinstance(df, pd.DataFrame):
+                raise TypeError(f"Category file 'df' is not a pandas DataFrame: {type(df)}")
+            
+            if df.empty:
+                raise ValueError(f"Category file contains empty DataFrame")
+            
+            logger.info(f"Successfully loaded {len(df)} categories from {category_file}")
             return df
+            
         except Exception as e:
-            logger.error(f"Error loading category file: {str(e)}")
-            raise
+            error_msg = f"Error loading category file '{category_file}': {str(e)}"
+            logger.error(error_msg)
+            raise RuntimeError(error_msg) from e
     
     def _collect_items_for_processing(self, chapters):
         """
@@ -176,7 +208,7 @@ class CategoryMatcher:
         Returns:
             dict: Processing results
         """
-        batch_size = 10  # Process 10 items at a time
+        batch_size = 10  # Process 10 items at a time for optimal performance
         results = {}
         
         for i in range(0, len(all_items), batch_size):
@@ -191,8 +223,8 @@ class CategoryMatcher:
                 if i > 0:
                     time.sleep(2)  # 2 second delay between batches
                 
-                # Process the batch
-                batch_results = self._batch_match_to_multiple_categories(model, batch, df, include_explanations)
+                # Process the batch with retry logic
+                batch_results = self._batch_match_to_multiple_categories(model, batch, df, include_explanations, max_retries=3)
                 
                 # Merge results
                 for item_id, result in batch_results.items():
@@ -208,7 +240,7 @@ class CategoryMatcher:
                 for item in batch:
                     try:
                         time.sleep(1)  # Rate limiting for individual requests
-                        individual_result = self._match_single_item(model, item, df, include_explanations)
+                        individual_result = self._match_single_item(model, item, df, include_explanations, max_retries=3)
                         results[item['id']] = individual_result
                         logger.info(f"Successfully processed individual item: {item['id']}")
                     except Exception as individual_error:
@@ -226,15 +258,16 @@ class CategoryMatcher:
         
         return results
     
-    def _batch_match_to_multiple_categories(self, model, items_batch, df, include_explanations=True):
+    def _batch_match_to_multiple_categories(self, model, items_batch, df, include_explanations=True, max_retries=3):
         """
-        Process a batch of items for category matching.
+        Process a batch of items for category matching with retry logic.
         
         Args:
             model: AI model instance
             items_batch (list): Batch of items to process
             df (pandas.DataFrame): Category definitions
             include_explanations (bool): Whether to include explanations
+            max_retries (int): Maximum number of retries for invalid responses
             
         Returns:
             dict: Batch processing results
@@ -303,36 +336,72 @@ class CategoryMatcher:
         ```
         """
         
-        try:
-            response = self.ai_client.process_with_retry(model, prompt, post_process=True)
-            
-            if isinstance(response, dict):
-                # Add metadata to each result
-                for item in items_batch:
-                    if item['id'] in response:
-                        response[item['id']]['type'] = item['type']
-                        response[item['id']]['title'] = item['title']
-                        response[item['id']]['start_page'] = item['start_page']
-                        response[item['id']]['end_page'] = item['end_page']
+        # Retry logic for batch processing
+        for attempt in range(max_retries):
+            try:
+                # Add format emphasis on retries
+                if attempt > 0:
+                    logger.info(f"Batch retry attempt {attempt + 1}/{max_retries}")
+                    # Add extra emphasis on format for retries
+                    retry_emphasis = f"\n\nIMPORTANT: This is retry attempt {attempt + 1}. Please ensure your response is exactly in the specified Python dictionary format."
+                    modified_prompt = prompt + retry_emphasis
+                else:
+                    modified_prompt = prompt
                 
-                return response
-            else:
-                logger.warning("AI response was not a dictionary, falling back to individual processing")
-                raise ValueError("Invalid response format")
+                response = self.ai_client.process_with_retry(model, modified_prompt, post_process=True)
                 
-        except Exception as e:
-            logger.error(f"Error in batch processing: {str(e)}")
-            raise
+                if isinstance(response, dict):
+                    # Validate that response contains expected item IDs
+                    expected_ids = {item['id'] for item in items_batch}
+                    response_ids = set(response.keys())
+                    
+                    if expected_ids.issubset(response_ids):
+                        # Add metadata to each result
+                        for item in items_batch:
+                            if item['id'] in response:
+                                response[item['id']]['type'] = item['type']
+                                response[item['id']]['title'] = item['title']
+                                response[item['id']]['start_page'] = item['start_page']
+                                response[item['id']]['end_page'] = item['end_page']
+                        
+                        if attempt > 0:
+                            logger.info(f"Batch processing succeeded on retry attempt {attempt + 1}")
+                        return response
+                    else:
+                        missing_ids = expected_ids - response_ids
+                        logger.warning(f"Response missing {len(missing_ids)} expected IDs: {list(missing_ids)[:5]}...")
+                        if attempt == max_retries - 1:
+                            raise ValueError(f"Response missing expected item IDs after {max_retries} attempts")
+                        continue
+                else:
+                    logger.warning(f"AI response was not a dictionary (attempt {attempt + 1}/{max_retries})")
+                    logger.warning(f"Response type: {type(response)}")
+                    logger.warning(f"Response content (first 500 chars): {str(response)[:500]}")
+                    if attempt == max_retries - 1:
+                        raise ValueError("Invalid response format after all retries")
+                    continue
+                    
+            except Exception as e:
+                logger.error(f"Error in batch processing attempt {attempt + 1}/{max_retries}: {str(e)}")
+                logger.error(f"Exception type: {type(e).__name__}")
+                logger.error(f"Exception details: {repr(e)}")
+                if attempt == max_retries - 1:
+                    logger.error(f"Batch processing failed after {max_retries} attempts")
+                    raise
+                else:
+                    # Wait a bit before retrying
+                    time.sleep(1 * (attempt + 1))  # Progressive delay
     
-    def _match_single_item(self, model, item, df, include_explanations=True):
+    def _match_single_item(self, model, item, df, include_explanations=True, max_retries=3):
         """
-        Match a single item to categories.
+        Match a single item to categories with retry logic.
         
         Args:
             model: AI model instance
             item (dict): Item to process
             df (pandas.DataFrame): Category definitions
             include_explanations (bool): Whether to include explanations
+            max_retries (int): Maximum number of retries for invalid responses
             
         Returns:
             dict: Matching result
@@ -384,31 +453,70 @@ class CategoryMatcher:
         ```
         """
         
-        try:
-            response = self.ai_client.process_with_retry(model, prompt, post_process=True)
-            
-            if isinstance(response, dict) and 'categories' in response:
-                # Add metadata
-                response['type'] = item['type']
-                response['title'] = item['title']
-                response['start_page'] = item['start_page']
-                response['end_page'] = item['end_page']
-                return response
-            else:
-                logger.warning(f"Invalid response for item {item['id']}, using fallback")
-                return {
-                    'categories': ['99. Overige'],
-                    'explanation': 'Unable to categorize automatically',
-                    'confidence': 0.0,
-                    'type': item['type'],
-                    'title': item['title'],
-                    'start_page': item['start_page'],
-                    'end_page': item['end_page']
-                }
+        # Retry logic for single item processing
+        for attempt in range(max_retries):
+            try:
+                # Add format emphasis on retries
+                if attempt > 0:
+                    logger.info(f"Single item retry attempt {attempt + 1}/{max_retries} for item {item['id']}")
+                    # Add extra emphasis on format for retries
+                    retry_emphasis = f"\n\nIMPORTANT: This is retry attempt {attempt + 1}. Please ensure your response is exactly in the specified Python dictionary format with 'categories' key."
+                    modified_prompt = prompt + retry_emphasis
+                else:
+                    modified_prompt = prompt
                 
-        except Exception as e:
-            logger.error(f"Error matching single item {item['id']}: {str(e)}")
-            raise
+                response = self.ai_client.process_with_retry(model, modified_prompt, post_process=True)
+                
+                if isinstance(response, dict) and 'categories' in response:
+                    # Validate that categories is a list
+                    if isinstance(response.get('categories'), list) and len(response['categories']) > 0:
+                        # Add metadata
+                        response['type'] = item['type']
+                        response['title'] = item['title']
+                        response['start_page'] = item['start_page']
+                        response['end_page'] = item['end_page']
+                        
+                        if attempt > 0:
+                            logger.info(f"Single item processing succeeded on retry attempt {attempt + 1} for item {item['id']}")
+                        return response
+                    else:
+                        logger.warning(f"Invalid categories format in response for item {item['id']} (attempt {attempt + 1}/{max_retries})")
+                        logger.warning(f"Categories value: {response.get('categories')}")
+                        if attempt == max_retries - 1:
+                            break
+                        continue
+                else:
+                    logger.warning(f"Invalid response for item {item['id']} (attempt {attempt + 1}/{max_retries})")
+                    logger.warning(f"Response type: {type(response)}")
+                    logger.warning(f"Response is dict: {isinstance(response, dict)}")
+                    if isinstance(response, dict):
+                        logger.warning(f"Response keys: {list(response.keys())}")
+                        logger.warning(f"Has 'categories' key: {'categories' in response}")
+                    logger.warning(f"Response content (first 500 chars): {str(response)[:500]}")
+                    if attempt == max_retries - 1:
+                        break
+                    continue
+                    
+            except Exception as e:
+                logger.error(f"Error matching single item {item['id']} attempt {attempt + 1}/{max_retries}: {str(e)}")
+                if attempt == max_retries - 1:
+                    logger.error(f"Single item processing failed after {max_retries} attempts for item {item['id']}")
+                    raise
+                else:
+                    # Wait a bit before retrying
+                    time.sleep(1 * (attempt + 1))  # Progressive delay
+        
+        # If we get here, all retries failed - return fallback
+        logger.warning(f"Using fallback for item {item['id']} after {max_retries} failed attempts")
+        return {
+            'categories': ['99. Overige'],
+            'explanation': 'Unable to categorize automatically after retries',
+            'confidence': 0.0,
+            'type': item['type'],
+            'title': item['title'],
+            'start_page': item['start_page'],
+            'end_page': item['end_page']
+        }
     
     def _save_results(self, output_dir, chapter_results, section_results, df):
         """
@@ -512,12 +620,33 @@ def get_global_matcher():
         _global_matcher = CategoryMatcher()
     return _global_matcher
 
-# Backward compatibility functions
+# Backward compatibility functions  
 def step2_match_categories(chapters=None, toc_output_dir=None, category_file=None, 
-                          base_dir=None, model=None):
-    """Match categories (backward compatibility function)."""
-    matcher = get_global_matcher()
-    return matcher.match_categories(chapters, toc_output_dir, category_file, base_dir, model)
+                          base_dir=None, model=None, document_type=None):
+    """
+    Step 2: Match chapters and sections to categories using user-controlled hybrid analysis.
+    
+    Uses user-specified document type or auto-detects document type and uses appropriate strategy:
+    - VMSW documents: Fast number-based mapping  
+    - Non-VMSW documents: AI semantic analysis
+    
+    Args:
+        chapters: Chapters dictionary from Step 1
+        toc_output_dir: Directory containing TOC results from Step 1
+        category_file: Path to category definitions file
+        base_dir: Base output directory
+        model: AI model instance (used only for non-VMSW documents)
+        document_type: User-specified 'vmsw' or 'non_vmsw', None for auto-detection
+        
+    Returns:
+        tuple: (chapter_results, section_results, output_dir)
+    """
+    # Import here to avoid circular imports
+    from .hybrid_matcher import get_global_hybrid_matcher
+    
+    hybrid_matcher = get_global_hybrid_matcher()
+    return hybrid_matcher.match_categories(chapters, toc_output_dir, category_file, 
+                                         base_dir, model, document_type=document_type)
 
 def batch_match_to_multiple_categories(model, items_batch, df):
     """Process batch of items (backward compatibility function)."""
@@ -538,7 +667,7 @@ def match_to_multiple_categories(model, title, content_dict=None, is_section=Fal
         'content': str(content_dict) if content_dict else '',
     }
     
-    result = matcher._match_single_item(matcher.ai_client.model, item, df)
+    result = matcher._match_single_item(matcher.ai_client.model, item, df, max_retries=3)
     return result
 
 def calculate_category_statistics(chapter_results, section_results, df):

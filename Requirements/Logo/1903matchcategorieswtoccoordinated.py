@@ -23,7 +23,7 @@ import logging
 
 # Add the directory containing nonvmswhoofdstukken_pandas.py to the Python path
 # Adjust this path to the actual location of the nonvmswhoofdstukken_pandas.py file
-module_dir = r"C:\Users\gr\localcoding\Local\AICO\Post-Kickoff\Opdeling Lastenboeken\2. Non-VMSW"
+module_dir = r"path/to/your/module/directory"
 if module_dir not in sys.path:
     sys.path.append(module_dir)
     print(f"Added {module_dir} to Python path")
@@ -42,7 +42,7 @@ except ImportError as e:
 load_dotenv()
 
 # Load chapters from JSON file instead of importing from Python module
-json_file_path = r"C:\Users\gr\localcoding\Local\AICO\Post-Kickoff\Opdeling Lastenboeken\2. Non-VMSW\output\20250318_1403tocgeneratornotvmws\1403tocgeneratornotvmws_CoordinatedArchitectlastenboek_analysis_20250318_1.json"
+json_file_path = r"path/to/your/chapters.json"
 
 # Load the chapters data from JSON file
 try:

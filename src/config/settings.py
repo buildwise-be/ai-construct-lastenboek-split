@@ -10,7 +10,7 @@ from pathlib import Path
 
 # Application Information
 APP_NAME = "AI Construct PDF Opdeler"
-APP_SUBTITLE = "Deel uw lastenboek op in delen per onderaannemer"
+APP_SUBTITLE = "VMSW & Non-VMSW Support - Deel uw lastenboek op in delen per onderaannemer"
 APP_VERSION = "2.0.0"
 APP_AUTHOR = "AI Construct"
 
@@ -28,6 +28,7 @@ COLORS = {
     "dark": "#000000",         # Black
     "alternate": "#3f4f87",    # Purple/Navy
     "light": "#FFFFFF",        # White
+    "off_white": "#FAFAFA",    # Subtle off-white for header
     "light_gray": "#F5F5F5",   # Light Gray
     "mid_gray": "#E0E0E0",     # Medium Gray
     "dark_gray": "#808080",    # Dark Gray
@@ -41,8 +42,11 @@ GUI_CONFIG = {
     "default_height": 900,
     "button_min_height": 35,
     "button_min_width": 100,
-    "header_logo_size": (70, 70),
-    "header_frame_size": (80, 80),
+    "bw_logo_size": (70, 70),
+    "bw_logo_frame_size": (80, 80),
+    "aico_logo_size": (120, 35),
+    "aico_logo_frame_size": (130, 40),
+    "header_frame_size": (250, 80),
     "content_max_height": 40,
     "content_min_height": 30,
     "refresh_interval": 100,  # milliseconds
@@ -76,27 +80,23 @@ FILE_CONFIG = {
 # Step Configuration
 STEPS_CONFIG = {
     "step1": {
-        "name": "Generate TOC",
-        "description": "Extract table of contents from PDF",
-        "icon": "📑",
+        "name": "Genereer Inhoudstafel",
+        "description": "Inhoudstafel uit PDF extraheren",
         "color": "primary"
     },
     "step2": {
-        "name": "Match Categories", 
-        "description": "Match chapters and sections to categories using AI",
-        "icon": "🤖",
+        "name": "Match Categorieën", 
+        "description": "Hoofdstukken en secties matchen met categorieën via AI",
         "color": "secondary"
     },
     "step3": {
-        "name": "Extract PDFs",
-        "description": "Split PDF into category-specific documents",
-        "icon": "✂️",
+        "name": "Extraheer PDF's",
+        "description": "PDF opsplitsen in categorie-specifieke documenten",
         "color": "accent"
     },
     "complete": {
-        "name": "Run Complete Pipeline",
-        "description": "Execute all steps sequentially",
-        "icon": "🚀",
+        "name": "Volledige Pipeline",
+        "description": "Alle stappen opeenvolgend uitvoeren",
         "color": "alternate"
     }
 }
@@ -133,6 +133,16 @@ CLOUD_CONFIG = {
 MODEL_CONFIG = {
     "default_model": "gemini-2.5-pro",
     "multimodal_model": "gemini-2.5-pro",
+    "available_models": {
+        "gemini-2.5-pro": {
+            "name": "Gemini 2.5 Pro", 
+            "description": "High-quality model (slower, more expensive)"
+        },
+        "gemini-2.5-flash": {
+            "name": "Gemini 2.5 Flash", 
+            "description": "Fast model (faster, less expensive)"
+        }
+    },
     "generation_config": {
         "max_output_tokens": 60000,
         "temperature": 1,
@@ -150,7 +160,7 @@ MODEL_CONFIG = {
 # Asset Paths
 ASSETS_CONFIG = {
     "bw_logo_path": MODULE_DIR / "Requirements" / "Logo" / "BWlogo.png",
-    "aico_logo_path": MODULE_DIR / "Requirements" / "Logo" / "aico.png",
+    "aico_logo_path": MODULE_DIR / "Requirements" / "aiconew.svg",
     "docs_path": MODULE_DIR / "docs",
     "demo_path": MODULE_DIR / "demo",
 }

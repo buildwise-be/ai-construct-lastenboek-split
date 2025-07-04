@@ -396,19 +396,47 @@ class PDFProcessor:
             import sys
             import importlib.util
             
-            spec = importlib.util.spec_from_file_location("categories", category_file)
+            # Validate category file path
+            if not category_file:
+                raise ValueError("Category file path is empty or None")
+                
+            category_path = Path(category_file)
+            if not category_path.exists():
+                raise FileNotFoundError(f"Category file not found: {category_file}")
+            
+            if not category_path.is_file():
+                raise ValueError(f"Category file path is not a file: {category_file}")
+            
+            logger.info(f"Loading category definitions from: {category_file}")
+            
+            spec = importlib.util.spec_from_file_location("categories", str(category_path))
             if spec is None or spec.loader is None:
-                raise ImportError(f"Could not load module from {category_file}")
+                raise ImportError(f"Could not create module spec from {category_file}")
             
             categories_module = importlib.util.module_from_spec(spec)
             sys.modules["categories"] = categories_module
             spec.loader.exec_module(categories_module)
             
+            # Validate that the module has the required df attribute
+            if not hasattr(categories_module, 'df'):
+                raise AttributeError(f"Category file {category_file} does not contain required 'df' attribute")
+            
             df = categories_module.df
-            logger.info(f"Loaded {len(df)} categories from {category_file}")
+            
+            # Validate that df is a pandas DataFrame with data
+            import pandas as pd
+            if not isinstance(df, pd.DataFrame):
+                raise TypeError(f"Category file 'df' is not a pandas DataFrame: {type(df)}")
+            
+            if df.empty:
+                raise ValueError(f"Category file contains empty DataFrame")
+            
+            logger.info(f"Successfully loaded {len(df)} categories from {category_file}")
+            
         except Exception as e:
-            logger.error(f"Error loading category file: {str(e)}")
-            raise
+            error_msg = f"Error loading category file '{category_file}': {str(e)}"
+            logger.error(error_msg)
+            raise RuntimeError(error_msg) from e
         
         # Load PDF
         try:
@@ -425,28 +453,42 @@ class PDFProcessor:
         # Process chapters
         for chapter_id, chapter_data in chapter_results.items():
             if 'categories' in chapter_data:
+                # Skip items without valid page numbers
+                start_page = chapter_data.get('start_page')
+                end_page = chapter_data.get('end_page')
+                if start_page is None or end_page is None:
+                    logger.warning(f"Skipping chapter {chapter_id}: missing page numbers (start={start_page}, end={end_page})")
+                    continue
+                
                 for category in chapter_data['categories']:
                     if category not in category_pages:
                         category_pages[category] = []
                     category_pages[category].append({
                         'type': 'chapter',
                         'id': chapter_id,
-                        'start': chapter_data.get('start_page', 1),
-                        'end': chapter_data.get('end_page', 1),
+                        'start': start_page,
+                        'end': end_page,
                         'title': chapter_data.get('title', f'Chapter {chapter_id}')
                     })
         
         # Process sections
         for section_id, section_data in section_results.items():
             if 'categories' in section_data:
+                # Skip items without valid page numbers
+                start_page = section_data.get('start_page')
+                end_page = section_data.get('end_page')
+                if start_page is None or end_page is None:
+                    logger.warning(f"Skipping section {section_id}: missing page numbers (start={start_page}, end={end_page})")
+                    continue
+                
                 for category in section_data['categories']:
                     if category not in category_pages:
                         category_pages[category] = []
                     category_pages[category].append({
                         'type': 'section',
                         'id': section_id,
-                        'start': section_data.get('start_page', 1),
-                        'end': section_data.get('end_page', 1),
+                        'start': start_page,
+                        'end': end_page,
                         'title': section_data.get('title', f'Section {section_id}')
                     })
         

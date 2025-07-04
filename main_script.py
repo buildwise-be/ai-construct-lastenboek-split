@@ -402,7 +402,7 @@ class NonVMSWPipelineGUI(QMainWindow):
 
         # Right side for AICO logo (without the white frame)
         aico_logo_label = QLabel()
-        aico_logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Requirements", "Logo", "aico.png")
+        aico_logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Requirements", "aiconew.svg")
         if os.path.exists(aico_logo_path):
             try:
                 aico_logo_pixmap = QPixmap(aico_logo_path)

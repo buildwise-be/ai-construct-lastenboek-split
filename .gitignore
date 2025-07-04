@@ -97,6 +97,7 @@ Lastenboek/azure_webapp_refactor/
 Lastenboek/requirements.txt
 step2_function.txt
 Lastenboek/08_04non_vmsw_pipeline_finished.py
+Old/
 
 # Demo directory - selective ignoring
 demo/*

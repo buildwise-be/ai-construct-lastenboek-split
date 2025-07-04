@@ -1,0 +1,71 @@
+2025-07-03 14:53:23,697 - INFO - Found chapters.json: output/vmsw_pipeline_20250703_140651\pipeline_main_script_run_001\step1_toc\chapters.json
+2025-07-03 14:53:23,698 - INFO - ============================================================
+2025-07-03 14:53:23,698 - INFO - \U0001f4cb TOC DETECTION QUALITY ANALYSIS
+2025-07-03 14:53:23,700 - INFO - ============================================================
+2025-07-03 14:53:23,700 - INFO - \U0001f4ca Overall Statistics:
+2025-07-03 14:53:23,700 - INFO -    Total chapters: 37
+2025-07-03 14:53:23,700 - INFO -    Total sections: 492
+2025-07-03 14:53:23,700 - INFO -    Total pages: 246
+2025-07-03 14:53:23,700 - INFO -    Avg sections per chapter: 13.3
+2025-07-03 14:53:23,700 - INFO -    Avg sections per page: 2.00
+2025-07-03 14:53:23,700 - INFO - 
+\U0001f50d Chapter Section Density Analysis:
+2025-07-03 14:53:23,700 - INFO - 
+\u2705 WELL-DETECTED CHAPTERS (Good Section Detection):
+2025-07-03 14:53:23,700 - INFO -    Chapter 01: AANNEMINGSMODALITEITEN
+2025-07-03 14:53:23,700 - INFO -       8 pages \u2192 30 sections (density: 3.75)
+2025-07-03 14:53:23,700 - INFO -    Chapter 00: ALGEMENE BEPALINGEN
+2025-07-03 14:53:23,700 - INFO -       4 pages \u2192 14 sections (density: 3.50)
+2025-07-03 14:53:23,700 - INFO -    Chapter 37: DAKRANDEN EN KROONLIJSTEN
+2025-07-03 14:53:23,700 - INFO -       2 pages \u2192 7 sections (density: 3.50)
+2025-07-03 14:53:23,700 - INFO -    Chapter 81: BEHANGWERKEN
+2025-07-03 14:53:23,700 - INFO -       2 pages \u2192 6 sections (density: 3.00)
+2025-07-03 14:53:23,700 - INFO -    Chapter 82: BUITENSCHILDERWERKEN
+2025-07-03 14:53:23,700 - INFO -       1 pages \u2192 3 sections (density: 3.00)
+2025-07-03 14:53:23,700 - INFO - 
+\U0001f3af VMSW-CRITICAL CHAPTERS ANALYSIS:
+2025-07-03 14:53:23,700 - INFO -    \u26a0\ufe0f Chapter 11: STUT- & ONDERVANGINGSWERKEN
+2025-07-03 14:53:23,700 - INFO -       Expected: STUT- & ONDERVANGINGSWERKEN (BESCHOEIINGEN)
+2025-07-03 14:53:23,700 - INFO -       Detection: 1 pages \u2192 1 sections
+2025-07-03 14:53:23,700 - INFO -       Found sections: ['11.00']
+2025-07-03 14:53:23,700 - INFO -    \u2705 Chapter 13: SPECIALE FUNDERINGEN
+2025-07-03 14:53:23,700 - INFO -       Expected: SPECIALE FUNDERINGEN (PAALFUNDERING)
+2025-07-03 14:53:23,700 - INFO -       Detection: 3 pages \u2192 4 sections
+2025-07-03 14:53:23,701 - INFO -       Found sections: ['13.00', '13.02', '13.50', '13.51']
+2025-07-03 14:53:23,701 - INFO -    \u2705 Chapter 20: METSELWERK
+2025-07-03 14:53:23,701 - INFO -       Expected: BOUWMATERIALEN (KALKZANDSTEEN)
+2025-07-03 14:53:23,701 - INFO -       Detection: 5 pages \u2192 13 sections
+2025-07-03 14:53:23,701 - INFO -       Found sections: ['20.00', '20.01', '20.10', '20.11', '20.11.10']...
+2025-07-03 14:53:23,701 - INFO -    \u2705 Chapter 27: STRUCTUURELEMENTEN STAAL
+2025-07-03 14:53:23,701 - INFO -       Expected: STRUCTUURELEMENTEN STAAL (STAAL)
+2025-07-03 14:53:23,701 - INFO -       Detection: 7 pages \u2192 8 sections
+2025-07-03 14:53:23,701 - INFO -       Found sections: ['27.00', '27.02', '27.10', '27.11', '27.60']...
+2025-07-03 14:53:23,701 - WARNING -    \u274c Chapter 33: NOT DETECTED
+2025-07-03 14:53:23,701 - WARNING -       Expected: BETON/GEWAPEND BETON (HELLINGSBETON)
+2025-07-03 14:53:23,701 - INFO -    \u2705 Chapter 40: BUITENSCHRIJNWERK
+2025-07-03 14:53:23,701 - INFO -       Expected: DAKLICHTOPENINGEN
+2025-07-03 14:53:23,701 - INFO -       Detection: 14 pages \u2192 23 sections
+2025-07-03 14:53:23,701 - INFO -       Found sections: ['40.00', '40.01', '40.03', '40.03.50', '40.10']...
+2025-07-03 14:53:23,701 - INFO -    \u2705 Chapter 51: BINNENPLAATAFWERKINGEN
+2025-07-03 14:53:23,701 - INFO -       Expected: BINNENPLAATAFWERKINGEN
+2025-07-03 14:53:23,701 - INFO -       Detection: 14 pages \u2192 28 sections
+2025-07-03 14:53:23,701 - INFO -       Found sections: ['51.00', '51.10', '51.11', '51.11.01', '51.18']...
+2025-07-03 14:53:23,701 - INFO -    \u2705 Chapter 52: DEK- EN BEDRIJFSVLOEREN
+2025-07-03 14:53:23,701 - INFO -       Expected: BINNENDEUREN en -RAMEN
+2025-07-03 14:53:23,701 - INFO -       Detection: 5 pages \u2192 10 sections
+2025-07-03 14:53:23,701 - INFO -       Found sections: ['52.00', '52.10', '52.13', '52.20', '52.21']...
+2025-07-03 14:53:23,701 - INFO -    \u2705 Chapter 53: BINNENVLOERAFWERKINGEN
+2025-07-03 14:53:23,701 - INFO -       Expected: VAST BINNENMEUBILAIR
+2025-07-03 14:53:23,701 - INFO -       Detection: 13 pages \u2192 26 sections
+2025-07-03 14:53:23,701 - INFO -       Found sections: ['53.00', '53.10', '53.11', '53.11.20', '53.11.21']...
+2025-07-03 14:53:23,702 - INFO - 
+\U0001f522 SECTION NUMBERING PATTERN ANALYSIS:
+2025-07-03 14:53:23,702 - INFO -    Section depth distribution:
+2025-07-03 14:53:23,702 - INFO -       Level 1 (XX.YY): 318 sections
+2025-07-03 14:53:23,702 - INFO -       Level 2 (XX.YY.ZZ): 174 sections
+2025-07-03 14:53:23,702 - INFO -       Level 3 (XX.YY.ZZ.AA): 0 sections
+2025-07-03 14:53:23,702 - INFO -    Examples by depth:
+2025-07-03 14:53:23,702 - INFO -       Level 1: 00.10, 00.20, 00.21
+2025-07-03 14:53:23,702 - INFO -       Level 2: 01.11.10, 01.11.20, 01.12.10
+2025-07-03 14:53:23,703 - INFO - 
+\u2705 TOC detection analysis completed!

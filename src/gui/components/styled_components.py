@@ -15,14 +15,13 @@ from config.settings import COLORS, GUI_CONFIG
 class StyledButton(QPushButton):
     """Custom styled button with consistent appearance"""
     
-    def __init__(self, text, color_key="primary", icon=None):
+    def __init__(self, text, color_key="primary"):
         """
         Initialize a styled button.
         
         Args:
             text (str): Button text
             color_key (str): Color scheme key from COLORS
-            icon: Optional icon for the button
         """
         super().__init__(text)
         self.setMinimumHeight(GUI_CONFIG["button_min_height"])
@@ -53,9 +52,7 @@ class StyledButton(QPushButton):
             }}
         """)
         
-        # Set icon if provided
-        if icon:
-            self.setIcon(icon)
+
 
 
 class StyledFrame(QFrame):
@@ -83,31 +80,100 @@ class StyledFrame(QFrame):
 class LogoLabel(QLabel):
     """Custom label for displaying logos with consistent styling"""
     
-    def __init__(self, logo_path, logo_name="Logo"):
+    def __init__(self, logo_path, logo_name="Logo", custom_size=None, custom_frame_size=None):
         """
         Initialize a logo label.
         
         Args:
             logo_path (str): Path to the logo image file
             logo_name (str): Alt text for the logo
+            custom_size (tuple, optional): Custom size (width, height) for this logo
+            custom_frame_size (tuple, optional): Custom frame size (width, height) for this logo
         """
         super().__init__()
         
-        logo_size = GUI_CONFIG["header_logo_size"]
-        frame_size = GUI_CONFIG["header_frame_size"]
+        # Use custom sizes if provided, otherwise fall back to defaults
+        if custom_size:
+            logo_size = custom_size
+            if custom_frame_size:
+                frame_size = custom_frame_size
+            else:
+                frame_size = (custom_size[0] + 10, custom_size[1] + 10)  # Add padding
+        else:
+            logo_size = GUI_CONFIG.get("header_logo_size", (70, 70))  # Fallback
+            frame_size = GUI_CONFIG["header_frame_size"]
         
         if logo_path and logo_path.exists():
             try:
-                logo_pixmap = QPixmap(str(logo_path))
-                logo_pixmap = logo_pixmap.scaled(
-                    logo_size[0], logo_size[1], 
-                    Qt.KeepAspectRatio, Qt.SmoothTransformation
-                )
+                # Handle SVG files differently
+                if str(logo_path).lower().endswith('.svg'):
+                    # For SVG files, create a pixmap and render the SVG onto it
+                    try:
+                        from PySide6.QtSvg import QSvgRenderer
+                        from PySide6.QtGui import QPainter
+                        from PySide6.QtCore import QRectF, QSizeF
+                        
+                        svg_renderer = QSvgRenderer(str(logo_path))
+                        
+                        # Get the original SVG size
+                        svg_size = svg_renderer.defaultSize()
+                        
+                        # Calculate scaled size while maintaining aspect ratio
+                        target_width, target_height = logo_size
+                        if svg_size.width() > 0 and svg_size.height() > 0:
+                            aspect_ratio = svg_size.width() / svg_size.height()
+                            
+                            if aspect_ratio > 1:  # Wider than tall
+                                scaled_width = target_width
+                                scaled_height = int(target_width / aspect_ratio)
+                            else:  # Taller than wide
+                                scaled_height = target_height
+                                scaled_width = int(target_height * aspect_ratio)
+                            
+                            # Ensure we don't exceed the target dimensions
+                            if scaled_width > target_width:
+                                scaled_width = target_width
+                                scaled_height = int(target_width / aspect_ratio)
+                            if scaled_height > target_height:
+                                scaled_height = target_height
+                                scaled_width = int(target_height * aspect_ratio)
+                        else:
+                            scaled_width, scaled_height = logo_size
+                        
+                        # Create pixmap with original target size and fill with transparent
+                        logo_pixmap = QPixmap(target_width, target_height)
+                        logo_pixmap.fill(Qt.transparent)
+                        
+                        # Calculate position to center the scaled SVG
+                        x_offset = (target_width - scaled_width) // 2
+                        y_offset = (target_height - scaled_height) // 2
+                        
+                        # Render SVG at calculated size and position
+                        painter = QPainter(logo_pixmap)
+                        painter.setRenderHint(QPainter.Antialiasing)
+                        svg_renderer.render(painter, QRectF(x_offset, y_offset, scaled_width, scaled_height))
+                        painter.end()
+                        
+                    except ImportError:
+                        # Fallback to regular QPixmap if QtSvg is not available
+                        logo_pixmap = QPixmap(str(logo_path))
+                        logo_pixmap = logo_pixmap.scaled(
+                            logo_size[0], logo_size[1], 
+                            Qt.KeepAspectRatio, Qt.SmoothTransformation
+                        )
+                else:
+                    # For regular image files (PNG, JPG, etc.)
+                    logo_pixmap = QPixmap(str(logo_path))
+                    logo_pixmap = logo_pixmap.scaled(
+                        logo_size[0], logo_size[1], 
+                        Qt.KeepAspectRatio, Qt.SmoothTransformation
+                    )
+                
                 self.setPixmap(logo_pixmap)
                 self.setStyleSheet("""
-                    background-color: white; 
-                    border-radius: 5px; 
-                    padding: 3px;
+                    background-color: transparent; 
+                    border: none;
+                    padding: 0px;
                 """)
                 self.setFixedSize(frame_size[0], frame_size[1])
                 self.setAlignment(Qt.AlignCenter)
@@ -164,6 +230,8 @@ class TitleLabel(QLabel):
             font-size: {style["font-size"]};
             font-weight: {style["font-weight"]};
             padding: {style["padding"]};
+            border: none;
+            background-color: transparent;
         """)
         self.setAlignment(Qt.AlignHCenter)
 
@@ -180,11 +248,11 @@ class StatusIndicator(QLabel):
         """
         super().__init__()
         self.status_styles = {
-            "idle": {"color": COLORS["dark_gray"], "text": "●", "tooltip": "Ready"},
-            "running": {"color": COLORS["secondary"], "text": "●", "tooltip": "Processing..."},
-            "success": {"color": "#28a745", "text": "●", "tooltip": "Completed successfully"},
-            "error": {"color": "#dc3545", "text": "●", "tooltip": "Error occurred"},
-            "warning": {"color": COLORS["accent"], "text": "●", "tooltip": "Warning"}
+            "idle": {"color": COLORS["dark_gray"], "text": "●", "tooltip": "Gereed"},
+            "running": {"color": COLORS["secondary"], "text": "●", "tooltip": "Bezig met verwerken..."},
+            "success": {"color": "#28a745", "text": "●", "tooltip": "Succesvol voltooid"},
+            "error": {"color": "#dc3545", "text": "●", "tooltip": "Fout opgetreden"},
+            "warning": {"color": COLORS["accent"], "text": "●", "tooltip": "Waarschuwing"}
         }
         self.set_status(initial_status)
     
@@ -219,36 +287,55 @@ class HeaderFrame(StyledFrame):
             bw_logo_path: Path to BW logo
             aico_logo_path: Path to AICO logo
         """
-        super().__init__("primary")
+        super().__init__("off_white")
+        # Override with same border style as file input fields
+        self.setStyleSheet(f"""
+            QFrame {{
+                background-color: {COLORS["off_white"]};
+                border: 1px solid {COLORS["mid_gray"]};
+                border-radius: 5px;
+                padding: 10px;
+            }}
+        """)
         self._setup_header(title, subtitle, bw_logo_path, aico_logo_path)
     
     def _setup_header(self, title, subtitle, bw_logo_path, aico_logo_path):
         """Setup the header layout and components."""
-        from PySide6.QtWidgets import QGridLayout
+        from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy
         
-        # Use a grid layout for flexible positioning
-        header_layout = QGridLayout(self)
-        header_layout.setContentsMargins(10, 5, 10, 5)
-        header_layout.setSpacing(0)
+        # Use an overlay approach for proper centering
+        # Main horizontal layout
+        main_layout = QHBoxLayout(self)
+        main_layout.setContentsMargins(10, 5, 10, 5)
+        main_layout.setSpacing(0)
         
-        # Left logo
-        bw_logo_label = LogoLabel(bw_logo_path, "BW Logo")
+        # Left logo (70x70 in 80x80 frame)
+        bw_logo_label = LogoLabel(bw_logo_path, "BW Logo", 
+                                 GUI_CONFIG["bw_logo_size"], GUI_CONFIG["bw_logo_frame_size"])
         
-        # Right logo
-        aico_logo_label = LogoLabel(aico_logo_path, "AICO Logo")
+        # Right logo (120x35 in 130x40 frame - minimal vertical padding)
+        aico_logo_label = LogoLabel(aico_logo_path, "AICO Logo", 
+                                   GUI_CONFIG["aico_logo_size"], GUI_CONFIG["aico_logo_frame_size"])
         
-        # Title and subtitle
-        title_label = TitleLabel(title, "large", "light")
-        subtitle_label = TitleLabel(subtitle, "small", "light")
+        # Title and subtitle container - centered independently
+        center_container = QFrame()
+        center_container.setStyleSheet("background-color: transparent; border: none;")
+        center_layout = QVBoxLayout(center_container)
+        center_layout.setContentsMargins(0, 0, 0, 0)
+        center_layout.setSpacing(0)
         
-        # Add components to layout
-        header_layout.addWidget(bw_logo_label, 0, 0, 2, 1, Qt.AlignLeft | Qt.AlignVCenter)
-        header_layout.addWidget(title_label, 0, 1, Qt.AlignCenter)
-        header_layout.addWidget(subtitle_label, 1, 1, Qt.AlignCenter)
-        header_layout.addWidget(aico_logo_label, 0, 2, 2, 1, Qt.AlignRight | Qt.AlignVCenter)
+        title_label = TitleLabel(title, "large", "dark")
+        subtitle_label = TitleLabel(subtitle, "small", "dark")
         
-        # Make the middle column stretch
-        header_layout.setColumnStretch(1, 1)
+        center_layout.addWidget(title_label, alignment=Qt.AlignCenter)
+        center_layout.addWidget(subtitle_label, alignment=Qt.AlignCenter)
+        
+        # Add to main layout with proper spacing
+        main_layout.addWidget(bw_logo_label, alignment=Qt.AlignLeft | Qt.AlignVCenter)
+        main_layout.addStretch(1)  # Push center content to actual center
+        main_layout.addWidget(center_container, alignment=Qt.AlignCenter)
+        main_layout.addStretch(1)  # Balance the left stretch
+        main_layout.addWidget(aico_logo_label, alignment=Qt.AlignRight | Qt.AlignVCenter)
 
 
 class ProgressSection(QFrame):
@@ -305,7 +392,7 @@ class ProgressSection(QFrame):
             status_indicator = StatusIndicator("idle")
             
             # Step label
-            step_label = QLabel(f"{step_config['icon']} {step_config['name']}")
+            step_label = QLabel(step_config['name'])
             step_label.setAlignment(Qt.AlignCenter)
             step_label.setStyleSheet("font-size: 10px; font-weight: bold;")
             

@@ -148,7 +148,12 @@ class VertexAIClient:
                 consecutive_failures = 0
                 
                 if post_process:
-                    return self._post_process_response(response.text)
+                    logger.debug(f"Post-processing enabled, raw response length: {len(response.text)}")
+                    processed_response = self._post_process_response(response.text)
+                    logger.debug(f"Post-processed response type: {type(processed_response)}")
+                    if isinstance(processed_response, dict):
+                        logger.debug(f"Dictionary keys: {list(processed_response.keys())}")
+                    return processed_response
                 
                 return response.text
                 
@@ -182,21 +187,61 @@ class VertexAIClient:
         Returns:
             dict or str: Extracted Python dictionary or original text
         """
+        logger.debug(f"Post-processing response (first 200 chars): {response_text[:200]}")
+        
+        code_block_match = None
+        code_block = None
+        
         try:
             code_block_match = re.search(r'```python\s*(.*?)\s*```', response_text, re.DOTALL)
             if code_block_match:
                 code_block = code_block_match.group(1)
-                # Extract the chapters dictionary
+                logger.debug(f"Found Python code block (first 200 chars): {code_block[:200]}")
+                
+                # Extract the dictionary from various possible variable names
                 local_vars = {}
                 exec(code_block, {}, local_vars)
-                if 'chapters' in local_vars:
-                    return local_vars['chapters']
-                elif 'secties' in local_vars:
-                    return local_vars['secties']
+                
+                logger.debug(f"Executed code block, local_vars keys: {list(local_vars.keys())}")
+                
+                # Check for different possible variable names
+                for var_name in ['results', 'chapters', 'secties', 'response', 'data', 'result']:
+                    if var_name in local_vars:
+                        logger.debug(f"Found variable '{var_name}' of type {type(local_vars[var_name])}")
+                        return local_vars[var_name]
+                
+                # If no named variable found, return the first dictionary found
+                for var_name, value in local_vars.items():
+                    if isinstance(value, dict):
+                        logger.debug(f"Found dictionary variable '{var_name}' of type {type(value)}")
+                        return value
+                
+                # If still no dictionary found, try to evaluate the code block directly as an expression
+                try:
+                    # Sometimes the AI returns just a dictionary without variable assignment
+                    code_block_stripped = code_block.strip()
+                    if code_block_stripped.startswith('{') and code_block_stripped.endswith('}'):
+                        logger.debug("Attempting to evaluate code block as direct dictionary expression")
+                        result = eval(code_block_stripped, {}, {})
+                        if isinstance(result, dict):
+                            logger.debug(f"Successfully evaluated direct dictionary of type {type(result)}")
+                            return result
+                except Exception as eval_error:
+                    logger.debug(f"Failed to evaluate as direct expression: {eval_error}")
+                
+                logger.warning(f"No dictionary found in executed code. Variables: {local_vars}")
+            else:
+                logger.warning("No Python code block found in response")
+                logger.debug(f"Full response text: {response_text}")
+                        
         except Exception as e:
             logger.warning(f"Failed to post-process response: {str(e)}")
+            logger.warning(f"Exception type: {type(e).__name__}")
+            if code_block:
+                logger.warning(f"Failed code block: {code_block}")
         
         # Fall back to returning raw text
+        logger.warning("Falling back to raw text response")
         return response_text
     
     def update_project_id(self, new_project_id):

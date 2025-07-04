@@ -12,9 +12,44 @@ import json
 import logging
 import pandas as pd
 from datetime import datetime
+from pathlib import Path
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Enhanced logging setup
+def setup_logging():
+    """Setup enhanced logging with both console and file output."""
+    # Create logs directory if it doesn't exist
+    logs_dir = Path("logs")
+    logs_dir.mkdir(exist_ok=True)
+    
+    # Create timestamped log file
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_filename = logs_dir / f"vmsw_pipeline_{timestamp}.log"
+    
+    # Setup logging with both console and file handlers
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.StreamHandler(sys.stdout),
+            logging.FileHandler(log_filename, encoding='utf-8')
+        ]
+    )
+    
+    # Create latest log shortcut
+    latest_log = logs_dir / "latest_vmsw.log"
+    try:
+        if latest_log.exists():
+            latest_log.unlink()
+        with open(latest_log, 'w') as f:
+            f.write(str(log_filename))
+    except Exception:
+        pass
+    
+    print(f"📝 VMSW Pipeline logs: {log_filename}")
+    return log_filename
+
+# Setup logging when module is imported
+setup_logging()
 logger = logging.getLogger(__name__)
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -481,3 +516,4 @@ if __name__ == "__main__":
     else:
         print("\n❌ VMSW Pipeline failed!")
         sys.exit(1)
+ 

@@ -43,23 +43,92 @@ class ProcessingWorker(QThread):
         self._is_cancelled = False
     
     def run(self):
-        """Execute the background task."""
+        """Execute the background task with comprehensive error handling."""
         try:
             logger.info("Starting background processing task")
             self.started.emit()
             
-            # Execute the task function
-            self.results = self.task_func(*self.args, **self.kwargs)
+            # Validate inputs before processing
+            if not self.task_func:
+                raise ValueError("No task function provided")
+            
+            # Execute the task function with enhanced error handling
+            try:
+                self.results = self.task_func(*self.args, **self.kwargs)
+            except KeyboardInterrupt:
+                logger.info("Task interrupted by user")
+                self._is_cancelled = True
+                return
+            except MemoryError as e:
+                error_msg = f"Out of memory during processing: {str(e)}"
+                logger.error(error_msg)
+                self.error_message = error_msg
+                self.error.emit(error_msg)
+                return
+            except FileNotFoundError as e:
+                error_msg = f"Required file not found: {str(e)}"
+                logger.error(error_msg)
+                self.error_message = error_msg
+                self.error.emit(error_msg)
+                return
+            except PermissionError as e:
+                error_msg = f"Permission denied: {str(e)}"
+                logger.error(error_msg)
+                self.error_message = error_msg
+                self.error.emit(error_msg)
+                return
+            except TimeoutError as e:
+                error_msg = f"Processing timeout: {str(e)}"
+                logger.error(error_msg)
+                self.error_message = error_msg
+                self.error.emit(error_msg)
+                return
+            except Exception as e:
+                # Log the full exception details
+                import traceback
+                error_details = traceback.format_exc()
+                logger.error(f"Task function failed with exception: {error_details}")
+                raise  # Re-raise to be caught by outer handler
             
             if not self._is_cancelled:
                 logger.info("Background processing task completed successfully")
-                self.finished.emit(self.results or {})
+                # Ensure we always emit a dictionary, even if results is None
+                results_dict = self.results if isinstance(self.results, dict) else {}
+                self.finished.emit(results_dict)
             
         except Exception as e:
-            error_msg = f"Error in background processing: {str(e)}"
-            logger.error(error_msg)
+            # Final catch-all error handler
+            import traceback
+            error_details = traceback.format_exc()
+            error_msg = f"Critical error in background processing: {str(e)}"
+            
+            logger.error(f"{error_msg}\nFull traceback:\n{error_details}")
+            
             self.error_message = error_msg
-            self.error.emit(error_msg)
+            
+            # Ensure the error signal is emitted safely
+            try:
+                self.error.emit(error_msg)
+            except Exception as emit_error:
+                logger.error(f"Failed to emit error signal: {str(emit_error)}")
+        
+        finally:
+            # Cleanup resources if needed
+            try:
+                self._cleanup_resources()
+            except Exception as cleanup_error:
+                logger.error(f"Error during cleanup: {str(cleanup_error)}")
+    
+    def _cleanup_resources(self):
+        """Clean up any resources used by the worker."""
+        # Clear large objects to free memory
+        self.results = None
+        self.args = None
+        self.kwargs = None
+        
+        # Force garbage collection
+        import gc
+        gc.collect()
     
     def cancel(self):
         """Cancel the processing task."""
@@ -98,33 +167,33 @@ class Step1Worker(ProcessingWorker):
         from core.pdf_processor import step1_generate_toc
         
         super().__init__(step1_generate_toc, pdf_path, output_base_dir, project_id)
-        self.step_name = "Step 1: TOC Generation"
+        self.step_name = "Stap 1: Inhoudstafel Generatie"
     
     def run(self):
         """Execute Step 1 with progress reporting."""
         try:
-            self.emit_log(f"Starting {self.step_name}")
-            self.emit_progress(0, "Initializing TOC generation...")
+            self.emit_log(f"Starten {self.step_name}")
+            self.emit_progress(0, "Inhoudstafel generatie initialiseren...")
             self.started.emit()
             
-            self.emit_progress(10, "Loading PDF file...")
-            self.emit_log("Loading and validating PDF file")
+            self.emit_progress(10, "PDF bestand laden...")
+            self.emit_log("PDF bestand laden en valideren")
             
-            self.emit_progress(20, "Initializing AI model...")
-            self.emit_log("Connecting to Vertex AI")
+            self.emit_progress(20, "AI model initialiseren...")
+            self.emit_log("Verbinding maken met Vertex AI")
             
-            self.emit_progress(30, "Processing PDF in batches...")
-            self.emit_log("Starting batch processing of PDF pages")
+            self.emit_progress(30, "PDF verwerken in batches...")
+            self.emit_log("Batch verwerking van PDF pagina's starten")
             
             # Execute the actual task
             results = self.task_func(*self.args, **self.kwargs)
             
             if not self._is_cancelled:
-                self.emit_progress(90, "Saving results...")
-                self.emit_log("Saving TOC results to output directory")
+                self.emit_progress(90, "Resultaten opslaan...")
+                self.emit_log("Inhoudstafel resultaten opslaan naar output directory")
                 
-                self.emit_progress(100, "TOC generation completed!")
-                self.emit_log(f"{self.step_name} completed successfully")
+                self.emit_progress(100, "Inhoudstafel generatie voltooid!")
+                self.emit_log(f"{self.step_name} succesvol voltooid")
                 
                 self.finished.emit({
                     'chapters': results[0] if results else {},
@@ -143,7 +212,8 @@ class Step2Worker(ProcessingWorker):
     
     def __init__(self, chapters: Optional[Dict] = None, toc_output_dir: Optional[str] = None,
                  category_file: Optional[str] = None, base_dir: Optional[str] = None,
-                 model = None, include_explanations: bool = True):
+                 model = None, include_explanations: bool = True, 
+                 document_type: Optional[str] = None):
         """
         Initialize Step 2 worker.
         
@@ -154,46 +224,48 @@ class Step2Worker(ProcessingWorker):
             base_dir: Base output directory
             model: AI model instance
             include_explanations: Whether to include explanations
+            document_type: User-specified document type ('vmsw' or 'non_vmsw')
         """
         # Import here to avoid circular imports
         from core.category_matcher import step2_match_categories
         
         super().__init__(step2_match_categories, chapters, toc_output_dir, 
-                        category_file, base_dir, model)
-        self.step_name = "Step 2: Category Matching"
+                        category_file, base_dir, model, document_type=document_type)
+        self.step_name = "Stap 2: Categorie Matching"
         self.include_explanations = include_explanations
+        self.document_type = document_type
     
     def run(self):
         """Execute Step 2 with progress reporting."""
         try:
-            self.emit_log(f"Starting {self.step_name}")
-            self.emit_progress(0, "Initializing category matching...")
+            self.emit_log(f"Starten {self.step_name}")
+            self.emit_progress(0, "Categorie matching initialiseren...")
             self.started.emit()
             
-            self.emit_progress(10, "Loading chapters data...")
-            self.emit_log("Loading TOC data from Step 1")
+            self.emit_progress(10, "Hoofdstuk data laden...")
+            self.emit_log("Inhoudstafel data laden van Stap 1")
             
-            self.emit_progress(20, "Loading category definitions...")
-            self.emit_log("Loading construction category definitions")
+            self.emit_progress(20, "Categorie definities laden...")
+            self.emit_log("Bouw categorie definities laden")
             
-            self.emit_progress(30, "Initializing AI model...")
-            self.emit_log("Preparing AI model for categorization")
+            self.emit_progress(30, "AI model initialiseren...")
+            self.emit_log("AI model voorbereiden voor categorisering")
             
-            self.emit_progress(40, "Processing items in batches...")
-            self.emit_log("Starting batch processing for category matching")
+            self.emit_progress(40, "Items verwerken in batches...")
+            self.emit_log("Batch verwerking starten voor categorie matching")
             
             # Execute the actual task
             results = self.task_func(*self.args, **self.kwargs)
             
             if not self._is_cancelled:
-                self.emit_progress(85, "Calculating statistics...")
-                self.emit_log("Generating category usage statistics")
+                self.emit_progress(85, "Statistieken berekenen...")
+                self.emit_log("Categorie gebruik statistieken genereren")
                 
-                self.emit_progress(95, "Saving results...")
-                self.emit_log("Saving categorization results")
+                self.emit_progress(95, "Resultaten opslaan...")
+                self.emit_log("Categorisering resultaten opslaan")
                 
-                self.emit_progress(100, "Category matching completed!")
-                self.emit_log(f"{self.step_name} completed successfully")
+                self.emit_progress(100, "Categorie matching voltooid!")
+                self.emit_log(f"{self.step_name} succesvol voltooid")
                 
                 self.finished.emit({
                     'chapter_results': results[0] if results else {},
@@ -235,36 +307,36 @@ class Step3Worker(ProcessingWorker):
         super().__init__(step3_extract_category_pdfs, pdf_path, chapter_results,
                         section_results, category_match_dir, category_file,
                         second_output_dir, third_output_dir, base_dir)
-        self.step_name = "Step 3: PDF Extraction"
+        self.step_name = "Stap 3: PDF Extractie"
     
     def run(self):
         """Execute Step 3 with progress reporting."""
         try:
-            self.emit_log(f"Starting {self.step_name}")
-            self.emit_progress(0, "Initializing PDF extraction...")
+            self.emit_log(f"Starten {self.step_name}")
+            self.emit_progress(0, "PDF extractie initialiseren...")
             self.started.emit()
             
-            self.emit_progress(10, "Loading categorization results...")
-            self.emit_log("Loading results from Step 2")
+            self.emit_progress(10, "Categorisering resultaten laden...")
+            self.emit_log("Resultaten laden van Stap 2")
             
-            self.emit_progress(20, "Loading source PDF...")
-            self.emit_log("Opening source PDF for extraction")
+            self.emit_progress(20, "Bron PDF laden...")
+            self.emit_log("Bron PDF openen voor extractie")
             
-            self.emit_progress(30, "Organizing content by categories...")
-            self.emit_log("Mapping chapters and sections to categories")
+            self.emit_progress(30, "Inhoud organiseren per categorie...")
+            self.emit_log("Hoofdstukken en secties toewijzen aan categorieën")
             
-            self.emit_progress(50, "Creating category-specific PDFs...")
-            self.emit_log("Extracting and creating individual category PDFs")
+            self.emit_progress(50, "Categorie-specifieke PDF's aanmaken...")
+            self.emit_log("Individuele categorie PDF's extraheren en aanmaken")
             
             # Execute the actual task
             results = self.task_func(*self.args, **self.kwargs)
             
             if not self._is_cancelled:
-                self.emit_progress(90, "Generating summary...")
-                self.emit_log("Creating extraction summary")
+                self.emit_progress(90, "Samenvatting genereren...")
+                self.emit_log("Extractie samenvatting aanmaken")
                 
-                self.emit_progress(100, "PDF extraction completed!")
-                self.emit_log(f"{self.step_name} completed successfully")
+                self.emit_progress(100, "PDF extractie voltooid!")
+                self.emit_log(f"{self.step_name} succesvol voltooid")
                 
                 self.finished.emit({
                     'category_counts': results[0] if results else {},
@@ -285,7 +357,9 @@ class CompletePipelineWorker(ProcessingWorker):
                  category_file: Optional[str] = None, 
                  second_output_dir: Optional[str] = None,
                  third_output_dir: Optional[str] = None,
-                 project_id: Optional[str] = None):
+                 project_id: Optional[str] = None,
+                 model: Optional[str] = None,
+                 document_type: Optional[str] = None):
         """
         Initialize complete pipeline worker.
         
@@ -296,52 +370,57 @@ class CompletePipelineWorker(ProcessingWorker):
             second_output_dir: Secondary output directory
             third_output_dir: Tertiary output directory
             project_id: Google Cloud project ID
+            model: AI model name to use
+            document_type: User-specified document type ('vmsw' or 'non_vmsw')
         """
         # Import here to avoid circular imports
-        from core.pdf_processor import step1_generate_toc
+        from core.pdf_processor import step1_generate_toc, step3_extract_category_pdfs
         from core.category_matcher import step2_match_categories
         
         self.step1_func = step1_generate_toc
         self.step2_func = step2_match_categories
+        self.step3_func = step3_extract_category_pdfs
         
         super().__init__(self._run_complete_pipeline, pdf_path, output_base_dir,
-                        category_file, second_output_dir, third_output_dir, project_id)
-        self.step_name = "Complete Pipeline"
+                        category_file, second_output_dir, third_output_dir, project_id, 
+                        model, document_type)
+        self.step_name = "Volledige Pipeline"
     
     def _run_complete_pipeline(self, pdf_path: str, output_base_dir: Optional[str],
                               category_file: Optional[str], second_output_dir: Optional[str],
-                              third_output_dir: Optional[str], project_id: Optional[str]):
+                              third_output_dir: Optional[str], project_id: Optional[str],
+                              model: Optional[str] = None, document_type: Optional[str] = None):
         """Execute the complete pipeline."""
         
         # Step 1: TOC Generation
-        self.emit_progress(5, "Step 1: Starting TOC generation...")
-        self.emit_log("=== STEP 1: TOC GENERATION ===")
+        self.emit_progress(5, "Stap 1: Inhoudstafel genereren...")
+        self.emit_log("=== STAP 1: INHOUDSTAFEL GENEREREN ===")
         
         chapters, step1_output_dir = self.step1_func(pdf_path, output_base_dir, project_id)
         
         if self._is_cancelled:
             return None
         
-        self.emit_progress(35, "Step 1 completed. Starting Step 2...")
-        self.emit_log("Step 1 completed successfully")
+        self.emit_progress(35, "Stap 1 voltooid. Stap 2 starten...")
+        self.emit_log("Stap 1 succesvol voltooid")
         
         # Step 2: Category Matching
-        self.emit_progress(40, "Step 2: Starting category matching...")
-        self.emit_log("=== STEP 2: CATEGORY MATCHING ===")
+        self.emit_progress(40, "Stap 2: Categorieën matchen...")
+        self.emit_log("=== STAP 2: CATEGORIEËN MATCHEN ===")
         
         chapter_results, section_results, step2_output_dir = self.step2_func(
-            chapters, None, category_file, output_base_dir, None
+            chapters, None, category_file, output_base_dir, model, document_type=document_type
         )
         
         if self._is_cancelled:
             return None
         
-        self.emit_progress(70, "Step 2 completed. Starting Step 3...")
-        self.emit_log("Step 2 completed successfully")
+        self.emit_progress(70, "Stap 2 voltooid. Stap 3 starten...")
+        self.emit_log("Stap 2 succesvol voltooid")
         
         # Step 3: PDF Extraction
-        self.emit_progress(75, "Step 3: Starting PDF extraction...")
-        self.emit_log("=== STEP 3: PDF EXTRACTION ===")
+        self.emit_progress(75, "Stap 3: PDF's extraheren...")
+        self.emit_log("=== STAP 3: PDF'S EXTRAHEREN ===")
         
         category_counts, step3_output_dir = self.step3_func(
             pdf_path, chapter_results, section_results, step2_output_dir,
@@ -351,8 +430,8 @@ class CompletePipelineWorker(ProcessingWorker):
         if self._is_cancelled:
             return None
         
-        self.emit_progress(100, "Complete pipeline finished!")
-        self.emit_log("=== PIPELINE COMPLETED SUCCESSFULLY ===")
+        self.emit_progress(100, "Volledige pipeline voltooid!")
+        self.emit_log("=== PIPELINE SUCCESVOL VOLTOOID ===")
         
         return {
             'step1': {'chapters': chapters, 'output_dir': step1_output_dir},
@@ -364,15 +443,15 @@ class CompletePipelineWorker(ProcessingWorker):
     def run(self):
         """Execute complete pipeline with progress reporting."""
         try:
-            self.emit_log(f"Starting {self.step_name}")
-            self.emit_progress(0, "Initializing complete pipeline...")
+            self.emit_log(f"Starten {self.step_name}")
+            self.emit_progress(0, "Volledige pipeline initialiseren...")
             self.started.emit()
             
             # Execute the pipeline
             results = self.task_func(*self.args, **self.kwargs)
             
             if not self._is_cancelled and results:
-                self.emit_log("Complete pipeline finished successfully")
+                self.emit_log("Volledige pipeline succesvol afgerond")
                 self.finished.emit({
                     'results': results,
                     'step': 'complete'

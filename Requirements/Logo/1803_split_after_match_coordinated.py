@@ -131,7 +131,7 @@ def main():
     Main function to parse arguments and run the extraction.
     """
     # Default path to the PDF file
-    default_pdf_path = "C:\\Users\\gr\\localcoding\\Local\\AICO\\Post-Kickoff\\Opdeling Lastenboeken\\2. Non-VMSW\\Anoniem_Lastenboek.pdf"
+    default_pdf_path = "example_document.pdf"
     
     # Get current date for finding the most recent output directory
     current_date = datetime.datetime.now().strftime("%Y%m%d")
@@ -183,4 +183,4 @@ if __name__ == "__main__":
     main()
     
     # Alternatively, uncomment and modify this line to run with hardcoded path:
-    # extract_category_pdfs("C:\\Users\\gr\\localcoding\\Local\\AICO\\Post-Kickoff\\Opdeling Lastenboeken\\2. Non-VMSW\\Anoniem_Lastenboek.pdf") 
+    # extract_category_pdfs("path/to/your/document.pdf") 

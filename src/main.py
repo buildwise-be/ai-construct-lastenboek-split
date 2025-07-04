@@ -23,6 +23,7 @@ import sys
 import logging
 import os
 from pathlib import Path
+from datetime import datetime
 
 # Add src directory to Python path for imports
 src_dir = Path(__file__).parent
@@ -46,38 +47,69 @@ from config.settings import (
 )
 
 def setup_logging():
-    """Setup application logging."""
+    """Setup application logging with both console and file output."""
+    # Create logs directory if it doesn't exist
+    logs_dir = Path("logs")
+    logs_dir.mkdir(exist_ok=True)
+    
+    # Create timestamped log file
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_filename = logs_dir / f"pdf_processor_{timestamp}.log"
+    
+    # Setup logging with both console and file handlers
     logging.basicConfig(
         level=getattr(logging, LOGGING_CONFIG["level"]),
         format=LOGGING_CONFIG["format"],
         handlers=[
             logging.StreamHandler(sys.stdout),
-            logging.FileHandler('pdf_processor.log', encoding='utf-8')
+            logging.FileHandler(log_filename, encoding='utf-8')
         ]
     )
+    
+    # Also create a symlink to latest log file for easy access
+    latest_log = logs_dir / "latest.log"
+    try:
+        if latest_log.exists():
+            latest_log.unlink()
+        # Create symlink (on Windows this requires admin rights, so use copy as fallback)
+        try:
+            latest_log.symlink_to(log_filename.name)
+        except (OSError, NotImplementedError):
+            # Fallback to copying the file path to a text file
+            with open(latest_log, 'w') as f:
+                f.write(str(log_filename))
+    except Exception:
+        pass  # Don't fail if we can't create the symlink
     
     # Set specific loggers to reduce noise
     logging.getLogger('vertexai').setLevel(logging.WARNING)
     logging.getLogger('google').setLevel(logging.WARNING)
+    
+    # Print log file location
+    print(f"📝 Logs are being written to: {log_filename}")
+    print(f"📝 Latest log shortcut: {latest_log}")
+    
+    return log_filename
 
 def check_dependencies():
     """Check if all required dependencies are available."""
-    required_packages = [
-        'pandas', 'PyPDF2', 'python-dotenv', 
-        'google-cloud-aiplatform', 'google-generativeai',
-        'PySide6', 'fitz'  # PyMuPDF
+    required_imports = [
+        ('pandas', 'pandas'),
+        ('PyPDF2', 'PyPDF2'), 
+        ('python-dotenv', 'dotenv'),
+        ('google-cloud-aiplatform', 'google.cloud.aiplatform'),
+        ('google-generativeai', 'google.generativeai'),
+        ('PySide6', 'PySide6'),
+        ('PyMuPDF', 'fitz')
     ]
     
     missing_packages = []
     
-    for package in required_packages:
+    for package_name, import_name in required_imports:
         try:
-            if package == 'fitz':
-                import fitz  # PyMuPDF
-            else:
-                __import__(package.replace('-', '_'))
+            __import__(import_name)
         except ImportError:
-            missing_packages.append(package)
+            missing_packages.append(package_name)
     
     if missing_packages:
         return False, missing_packages
@@ -101,7 +133,7 @@ def main():
     print("=" * 50)
     
     # Setup logging
-    setup_logging()
+    log_filename = setup_logging()
     logger = logging.getLogger(__name__)
     
     # Check dependencies
@@ -142,9 +174,9 @@ def main():
     if icon_path and icon_path.exists():
         app.setWindowIcon(QIcon(str(icon_path)))
     
-    # Apply high DPI settings
-    app.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    app.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    # High DPI settings (Qt 6.x enables high DPI scaling by default)
+    # Note: Qt.AA_EnableHighDpiScaling and Qt.AA_UseHighDpiPixmaps are deprecated in Qt 6
+    # and no longer needed as high DPI scaling is automatic
     
     # Create and show main window
     try:

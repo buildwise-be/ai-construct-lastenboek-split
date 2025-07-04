@@ -1,0 +1,234 @@
+[
+  {
+    "art_nr": "01.10",
+    "omschrijving": "PLAATSBESCHRIJVING"
+  },
+  {
+    "art_nr": "03.",
+    "omschrijving": "AFBRAAKWERKEN"
+  },
+  {
+    "art_nr": "03.01",
+    "omschrijving": "ASBEST"
+  },
+  {
+    "art_nr": "03.02",
+    "omschrijving": "SCHORING"
+  },
+  {
+    "art_nr": "05.10",
+    "omschrijving": "LUCHTDICHTHEIDSMETING"
+  },
+  {
+    "art_nr": "05.20",
+    "omschrijving": "PROEVEN AKOESTIEK"
+  },
+  {
+    "art_nr": "10 + 17 + 90 + 91",
+    "omschrijving": "GRONDWERKEN, RIOLERING, OMGEVINGSAANLEG"
+  },
+  {
+    "art_nr": "10.60",
+    "omschrijving": "DROOGZUIGING"
+  },
+  {
+    "art_nr": "11.",
+    "omschrijving": "BESCHOEIINGEN"
+  },
+  {
+    "art_nr": "13.",
+    "omschrijving": "PAALFUNDERING"
+  },
+  {
+    "art_nr": "17.",
+    "omschrijving": "RIOLERING"
+  },
+  {
+    "art_nr": "20 + 21 + 22",
+    "omschrijving": "BOUWMATERIALEN"
+  },
+  {
+    "art_nr": "20.",
+    "omschrijving": "KALKZANDSTEEN"
+  },
+  {
+    "art_nr": "20.55",
+    "omschrijving": "GIPSBLOKKEN"
+  },
+  {
+    "art_nr": "23.",
+    "omschrijving": "DORPELS"
+  },
+  {
+    "art_nr": "26.26.30.",
+    "omschrijving": "PREDALLEN"
+  },
+  {
+    "art_nr": "26.30.",
+    "omschrijving": "PREFAB BETON"
+  },
+  {
+    "art_nr": "26.30.",
+    "omschrijving": "ARCHITECTONISCH BETON"
+  },
+  {
+    "art_nr": "26.36.10.",
+    "omschrijving": "WELFSELS"
+  },
+  {
+    "art_nr": "27.",
+    "omschrijving": "STAAL"
+  },
+  {
+    "art_nr": "27.70",
+    "omschrijving": "BRANDWEREND SCHILDERWERK"
+  },
+  {
+    "art_nr": "28.",
+    "omschrijving": "HOUTSKELETBOUW"
+  },
+  {
+    "art_nr": "30 + 31 + 32",
+    "omschrijving": "HELLEND DAK"
+  },
+  {
+    "art_nr": "33.40",
+    "omschrijving": "HELLINGSBETON"
+  },
+  {
+    "art_nr": "34 + 35 + 36 + 37 + 38",
+    "omschrijving": "PLAT DAK"
+  },
+  {
+    "art_nr": "35.31",
+    "omschrijving": "GRIND"
+  },
+  {
+    "art_nr": "35.32",
+    "omschrijving": "TERRASTEGELS"
+  },
+  {
+    "art_nr": "35.40",
+    "omschrijving": "GROENDAK"
+  },
+  {
+    "art_nr": "35.50",
+    "omschrijving": "VALBEVEILIGING"
+  },
+  {
+    "art_nr": "36.",
+    "omschrijving": "DAKLICHTOPENINGEN"
+  },
+  {
+    "art_nr": "37.",
+    "omschrijving": "DAKRANDEN EN KROONLIJSTEN"
+  },
+  {
+    "art_nr": "38.",
+    "omschrijving": "DAKWATERAFVOER"
+  },
+  {
+    "art_nr": "40 + 41",
+    "omschrijving": "BUITENSCHRIJNWERK"
+  },
+  {
+    "art_nr": "41.",
+    "omschrijving": "POORTEN"
+  },
+  {
+    "art_nr": "41.",
+    "omschrijving": "ZONWERING"
+  },
+  {
+    "art_nr": "42.",
+    "omschrijving": "GEVELBEKLEDINGEN"
+  },
+  {
+    "art_nr": "43.",
+    "omschrijving": "BUITENBEPLEISTERING"
+  },
+  {
+    "art_nr": "44 + 55",
+    "omschrijving": "BUITENTRAPPEN & BORSTWERINGEN"
+  },
+  {
+    "art_nr": "50.",
+    "omschrijving": "BINNENPLEISTERWERKEN"
+  },
+  {
+    "art_nr": "51.",
+    "omschrijving": "BINNENPLAATAFWERKINGEN"
+  },
+  {
+    "art_nr": "52.",
+    "omschrijving": "DEK- EN BEDRIJFSVLOEREN"
+  },
+  {
+    "art_nr": "53 + 57",
+    "omschrijving": "BINNENVLOERAFWERKINGEN + TABLET- EN WANDBEKLEDINGEN"
+  },
+  {
+    "art_nr": "53.70",
+    "omschrijving": "VLOERMATTEN"
+  },
+  {
+    "art_nr": "54.",
+    "omschrijving": "BINNENDEUREN en -RAMEN"
+  },
+  {
+    "art_nr": "55.",
+    "omschrijving": "HOUTEN BINNENTRAPPEN EN LEUNINGEN"
+  },
+  {
+    "art_nr": "56.",
+    "omschrijving": "VAST BINNENMEUBILAIR"
+  },
+  {
+    "art_nr": "60 + 61 + 62 + 63 + 67",
+    "omschrijving": "SANITAIR"
+  },
+  {
+    "art_nr": "64 + 65 + 66 + 67 + 68 + 69",
+    "omschrijving": "HVAC"
+  },
+  {
+    "art_nr": "67.",
+    "omschrijving": "BRANDBESTRIJDING"
+  },
+  {
+    "art_nr": "68 + 69",
+    "omschrijving": "VENTILATIE"
+  },
+  {
+    "art_nr": "70 + 71 + 72 + 73 + 74 +75 + 77 + 78 + 79",
+    "omschrijving": "ELEKTRICITEIT"
+  },
+  {
+    "art_nr": "76.",
+    "omschrijving": "ELEKTROMECHANICA LIFTEN"
+  },
+  {
+    "art_nr": "78 + 79",
+    "omschrijving": "ZONNEPANELEN & LAADPALEN"
+  },
+  {
+    "art_nr": "80 + 81 + 82",
+    "omschrijving": "BINNENSCHILDERWERKEN"
+  },
+  {
+    "art_nr": "90 + 91 + 92 + 93",
+    "omschrijving": "OMGEVINGSAANLEG"
+  },
+  {
+    "art_nr": "91.",
+    "omschrijving": "BUITENCONSTRUCTIES EN AFSLUITINGEN"
+  },
+  {
+    "art_nr": "92.",
+    "omschrijving": "BUITENMEUBILAIR EN UITRUSTINGSELEMENTEN"
+  },
+  {
+    "art_nr": "93.",
+    "omschrijving": "GROENAANLEG EN -ONDERHOUD"
+  }
+]

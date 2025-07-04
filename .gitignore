@@ -1,89 +1,101 @@
+# =============================================================================
+# OPT-IN GITIGNORE STRATEGY
+# Exclude everything by default, then explicitly include what we want
+# =============================================================================
+
+# Exclude everything by default
+*
+
+# Core Application Files (INCLUDE)
+!src/
+!src/**/*.py
+!src/**/*.json
+!main_script.py
+!vmsw_pipeline.py
+!launch.py
+!toc_generation.py
+!example_categories.py
+
+# Dependencies and Setup (INCLUDE)
+!requirements.txt
+!setup.py
+
+# Documentation (INCLUDE)
+!README.md
+!README_REFACTORED.md
+!documentation/
+!documentation/**/*.md
+!docs/
+!docs/**/*.md
+!docs/**/*.png
+
+# Configuration (INCLUDE)
+!config/
+!config/**/*.py
+!config/**/*.json
+
+# Assets we actually use (INCLUDE)
+!Requirements/aiconew.svg
+!Requirements/Logo/BWlogo.png
+!Requirements/Logo/aiconew.svg
+
+# Demo files (INCLUDE only essential ones)
+!demo/
+!demo/README.md
+!demo/run_demo.bat
+!demo/run_demo.sh
+
+# Utilities (INCLUDE)
+!view_logs.py
+!view_logs.bat
+!check_health.py
+!check_packaging.py
+!test_modular_imports.py
+
+# Essential analysis files (INCLUDE)
+!toc_analysis.txt
+!VMSWcat.json
+
+# Git files (INCLUDE)
+!.gitignore
+!.gitattributes
+
+# =============================================================================
+# EXPLICIT EXCLUSIONS (even if parent directory is included)
+# =============================================================================
+
+# Output directories
+output/
+**/output/
+logs/
+**/logs/
+temp/
+tmp/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
 # Environments
 .env
 .venv
 env/
 venv/
-ENV/
-env.bak/
-venv.bak/
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Distribution / packaging
-*.manifest
-*.spec
-
-# Logs
-*.log
-logs/
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IDEs and editors
+# IDEs
 .idea/
 .vscode/
-*.swp
-*.swo
-*~
+
+# OS files
 .DS_Store
-
-# Credentials
-*.pem
-*.key
-*.p12
-*.json
-*.credentials
-
-# Output directories and files
-output/
-**/output/
-temp/
-tmp/
-*.pdf
-*.xlsx
-*.csv
-
-# Exceptions - keep these files
-!requirements.txt
-!examples/*.pdf
-!examples/*.xlsx
-!examples/*.csv
-
-# Environment-specific directories
-step*_*/
-pipeline_*/
+Thumbs.db
 
 # Sensitive files
 *.pem
@@ -91,16 +103,20 @@ pipeline_*/
 credentials.json
 *api_key.txt
 
-# Specific directories/files to ignore
-2. Non-VMSW/
-Lastenboek/azure_webapp_refactor/
-Lastenboek/requirements.txt
-step2_function.txt
-Lastenboek/08_04non_vmsw_pipeline_finished.py
+# Personal/Experimental directories
 Old/
+Exampletoc/
+Amsterdam/
+lbexamples/
 
-# Demo directory - selective ignoring
-demo/*
-!demo/README.md
-!demo/run_demo.bat
-!demo/run_demo.sh 
+# Large files
+*.pdf
+*.exe
+
+# Temporary and log files
+*.log
+*.tmp
+
+# Environment-specific directories
+step*_*/
+pipeline_*/ 

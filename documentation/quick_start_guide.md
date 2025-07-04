@@ -8,12 +8,12 @@ The application supports two types of construction documents with different setu
 
 | Document Type | Setup Time | Requirements | Best For |
 |---------------|------------|--------------|----------|
-| **🔢 VMSW Documents** | < 1 minute | Python only | Dutch construction docs with XX.YY numbering |
-| **🤖 Non-VMSW Documents** | 5-10 minutes | Python + Google Cloud | Custom/international construction docs |
+| **🔢 VMSW Documents** | < 1 minute | Python only | Dutch construction docs with XX.YY numbering. |
+| **🤖 Non-VMSW Documents** | 5-10 minutes | Python + Google Cloud | Custom/international construction docs. |
 
 ---
 
-## ⚡ Path A: VMSW Documents (Ultra-Fast Setup)
+## ⚡ Path A: VMSW Documents (Faster Setup & Processing)
 
 **Perfect for**: Documents using standard VMSW numbering (00.00, 01.10, 02.40, etc.)
 
@@ -32,7 +32,7 @@ python src/main.py
 2. **⚙️ Document Type**: Select "VMSW Document" from dropdown
 3. **▶️ Run**: Click "Run Complete Pipeline"
 
-**That's it!** Your document will be processed in seconds using built-in VMSW categories.
+**That's it!** Your document will be processed quickly using built-in VMSW categories. The categorization step is nearly instant.
 
 ---
 
@@ -104,15 +104,15 @@ python src/main.py
 ## 📊 What Happens During Processing
 
 ### All Documents (3 Steps)
-1. **📖 TOC Extraction**: Analyzes PDF structure and extracts chapters/sections
+1. **📖 TOC Extraction**: Analyzes PDF structure and extracts chapters/sections. The time this step takes is the same for both document types.
 2. **🎯 Categorization**: 
    - **VMSW**: Direct number mapping (instant)
    - **Non-VMSW**: AI semantic analysis (intelligent)
 3. **📄 PDF Splitting**: Creates separate PDFs for each category
 
 ### Expected Processing Times
-- **VMSW**: 5-30 seconds (depending on document size)
-- **Non-VMSW**: 2-10 minutes (depending on document size and complexity)
+- **VMSW**: Faster overall, due to the near-instant categorization step.
+- **Non-VMSW**: Slower overall, due to AI-based categorization. Total time depends on document size and complexity.
 
 ---
 

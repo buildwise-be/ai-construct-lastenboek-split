@@ -14,10 +14,10 @@
 
 This application now supports **both VMSW and Non-VMSW construction documents** with intelligent processing:
 
-- **🔢 VMSW Documents**: Lightning-fast number-based category matching (0.001s per item)
-- **🤖 Non-VMSW Documents**: AI-powered semantic analysis with Google Gemini
-- **🎯 Smart Detection**: Automatic document type recognition with manual override
-- **⚡ Performance**: 1000x faster processing for VMSW documents
+- **🔢 VMSW Documents**: Uses number-based category matching for high speed and accuracy.
+- **🤖 Non-VMSW Documents**: Employs AI-powered semantic analysis with Google Gemini.
+- **🎯 Smart Detection**: Automatically detects the document type, with a manual override option.
+- **⚡ Performance**: The VMSW categorization step is over 1000x faster than the AI alternative, leading to significantly quicker overall processing for VMSW files.
 
 ---
 
@@ -27,9 +27,9 @@ The AI Construct PDF Opdeler is a powerful tool for processing construction spec
 
 ### 🎯 Key Features
 
-- **Hybrid Intelligence**: Combines number-based VMSW matching with AI semantic analysis
-- **Modern GUI**: Beautiful, user-friendly interface with real-time progress tracking
-- **Document Type Selection**: Choose between VMSW and Non-VMSW processing modes
+- **Hybrid Intelligence**: Seamlessly combines number-based VMSW matching with AI semantic analysis.
+- **Modern GUI**: A user-friendly interface with real-time progress tracking.
+- **Document Type Selection**: Easily choose between VMSW and Non-VMSW processing modes.
 - **Model Selection**: Choose between Gemini 2.5 Pro and Gemini 2.5 Flash
 - **Batch Processing**: Efficient processing with retry logic and error handling
 - **Multi-Output**: Generate PDFs in multiple output directories simultaneously
@@ -37,11 +37,11 @@ The AI Construct PDF Opdeler is a powerful tool for processing construction spec
 
 ### 📋 Processing Pipeline
 
-1. **📖 TOC Generation**: Extracts chapters and sections from PDF documents
+1. **📖 TOC Generation**: Extracts chapters and sections from PDF documents. This step's duration is independent of the document type.
 2. **🎯 Smart Categorization**: 
-   - VMSW: Direct number mapping (e.g., "02.40" → "02. Funderingen en Kelders")
-   - Non-VMSW: AI semantic matching with predefined categories
-3. **📄 Document Splitting**: Creates separate PDFs for each construction category
+   - **VMSW**: Near-instant direct number mapping (e.g., "02.40" → "02. Funderingen en Kelders").
+   - **Non-VMSW**: AI semantic matching with predefined categories.
+3. **📄 Document Splitting**: Creates separate PDFs for each construction category.
 
 ---
 
@@ -65,12 +65,12 @@ If you plan to process Non-VMSW documents, set up Google Cloud:
 
 1. **Install Google Cloud CLI**: https://cloud.google.com/sdk/docs/install
 2. **Authenticate**:
-   ```bash
+```bash
    pip install --upgrade google-genai
    gcloud auth application-default login
    ```
 3. **Set Project ID** (optional):
-   ```bash
+```bash
    # Create .env file
    echo GOOGLE_CLOUD_PROJECT="your-project-id" > .env
    ```
@@ -96,8 +96,8 @@ python src/main.py
 
 | Document Type | When to Use | Requirements | Speed |
 |---------------|-------------|--------------|-------|
-| **VMSW Document** | Documents with VMSW numbering (XX.YY format) | None - uses built-in categories | ⚡ Ultra-fast |
-| **Non-VMSW Document** | Other construction documents | Category file + Google Cloud setup | 🤖 AI-powered |
+| **VMSW Document** | Documents with VMSW numbering (XX.YY format). | None - uses built-in categories. | ⚡ Faster Overall |
+| **Non-VMSW Document** | Other construction documents. | Category file + Google Cloud setup. | 🤖 AI-Powered |
 
 ### Advanced Options
 
@@ -135,10 +135,10 @@ python src/main.py
 **Perfect for**: Dutch construction documents using standard VMSW numbering
 
 **How it works**:
-- Directly maps chapter numbers to categories (e.g., "02" → "02. Funderingen en Kelders")
-- No AI required - blazing fast processing
-- Built-in demolition detection
-- 100% confidence scores
+- Directly maps chapter numbers to categories (e.g., "02" → "02. Funderingen en Kelders").
+- The categorization step is nearly instantaneous and requires no AI.
+- Built-in demolition detection.
+- 100% confidence scores.
 
 **Categories include**:
 - 00. Algemene Bepalingen
@@ -245,7 +245,7 @@ See [Category File Guide](documentation/category_file_guide.md) for details.
 This tool is designed for construction industry professionals working with specification documents. For support, feature requests, or bug reports, please refer to the documentation or contact the development team.
 
 **Performance Highlights**:
-- ⚡ VMSW: 0.001 seconds per item
-- 🤖 Non-VMSW: ~4.7 seconds per item
-- 📊 Typical accuracy: 85-95% depending on document quality
-- 🔄 Automatic retry logic ensures maximum success rates
+- ⚡ VMSW Categorization: ~0.001 seconds per item.
+- 🤖 Non-VMSW Categorization: ~4.7 seconds per item.
+- 📊 Typical AI accuracy: 85-95% depending on document quality.
+- 🔄 Automatic retry logic ensures high success rates for AI processing.

@@ -107,8 +107,8 @@ Excel files are easier for users who prefer spreadsheet interfaces.
 ### Structure
 Create an Excel file with these columns:
 - `summary` (e.g., "01. Foundations")
-- `description` (comma-separated keywords)
-- `expanded_description` (optional)
+   - `description` (comma-separated keywords)
+   - `expanded_description` (optional)
 
 ### Example:
 | summary | description | expanded_description |
@@ -124,7 +124,7 @@ CSV files are simple text files that can be edited with any text editor.
 
 ### Format:
 ```csv
-summary,description,expanded_description
+   summary,description,expanded_description
 "01. Foundations","Foundation, Footings, Slab, Basement",
 "02. Structure","Framing, Beams, Columns, Steel",
 "03. Roofing","Roofing, Shingles, Tiles, Gutters",
@@ -315,7 +315,7 @@ raw_data_dict = {
 ## 🎯 Example: Specialized Category Files
 
 ### Residential Construction
-```python
+   ```python
 raw_data_dict = {
     '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
     '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
@@ -352,7 +352,7 @@ raw_data_dict = {
 
 ### Residential Construction
 ```python
-raw_data_dict = {
+   raw_data_dict = {
     '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
     '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
     '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",

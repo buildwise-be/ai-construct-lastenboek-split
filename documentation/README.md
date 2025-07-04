@@ -6,10 +6,10 @@ Welcome to the comprehensive documentation for the AI Construct PDF Splitter too
 
 Our application now features a **hybrid processing system** that intelligently handles both document types:
 
-- **⚡ VMSW Documents**: Ultra-fast number-based processing (0.001s per item)
-- **🤖 Non-VMSW Documents**: AI-powered semantic analysis with Google Gemini
-- **🎯 Smart Detection**: Automatic document type recognition with manual override
-- **🔧 Modern GUI**: Beautiful interface with real-time progress tracking
+- **⚡ VMSW Documents**: Features an ultra-fast, number-based categorization step.
+- **🤖 Non-VMSW Documents**: Utilizes AI-powered semantic analysis with Google Gemini.
+- **🎯 Smart Detection**: Automatically recognizes document types, with a manual override option.
+- **🔧 Modern GUI**: A beautiful interface with real-time progress tracking.
 
 ## Available Documentation
 
@@ -25,18 +25,18 @@ Our application now features a **hybrid processing system** that intelligently h
 The AI Construct PDF Splitter is a specialized tool designed to process construction specification documents (lastenboeken). It features a **hybrid intelligence system** that automatically detects document types and applies the optimal processing approach:
 
 ### 🔢 VMSW Processing
-- **When**: Documents using standard VMSW numbering (XX.YY format)
-- **Method**: Direct number-to-category mapping
-- **Speed**: Lightning fast (1000x faster than AI processing)
-- **Requirements**: None - uses built-in VMSW categories
-- **Accuracy**: 100% for proper VMSW documents
+- **When**: Documents using standard VMSW numbering (XX.YY format).
+- **Method**: Direct number-to-category mapping for the categorization step.
+- **Speed**: The categorization is nearly instant (over 1000x faster than AI), resulting in a faster overall pipeline.
+- **Requirements**: None - uses built-in VMSW categories.
+- **Accuracy**: 100% for proper VMSW documents.
 
 ### 🤖 Non-VMSW Processing  
-- **When**: Custom construction documents, international formats
-- **Method**: AI semantic analysis with Google Gemini
-- **Speed**: Intelligent (4-5 seconds per item)
-- **Requirements**: Custom category file + Google Cloud setup
-- **Accuracy**: 85-95% depending on document quality
+- **When**: Custom construction documents, international formats.
+- **Method**: AI semantic analysis with Google Gemini.
+- **Speed**: The categorization step takes 4-5 seconds per item.
+- **Requirements**: Custom category file + Google Cloud setup.
+- **Accuracy**: 85-95% depending on document quality.
 
 ## Key Features
 
@@ -66,10 +66,10 @@ The AI Construct PDF Splitter is a specialized tool designed to process construc
 | Feature | VMSW Mode | Non-VMSW Mode |
 |---------|-----------|---------------|
 | **Setup Time** | < 1 minute | 5-10 minutes |
-| **Processing Speed** | ⚡ Ultra-fast | 🤖 Intelligent |
+| **Overall Speed** | ⚡ Faster | 🤖 Standard |
 | **Category File** | ❌ Not needed | ✅ Required |
 | **Google Cloud** | ❌ Not needed | ✅ Required |
-| **Accuracy** | 🎯 100% | 📊 85-95% |
+| **Accuracy** | 🎯 100% (for VMSW) | 📊 85-95% (for AI) |
 | **Cost** | 🆓 Free | 💰 Pay-per-use |
 
 ## For Developers
@@ -99,7 +99,7 @@ Refer to the [Developer Guide](developer_guide.md) for architecture details, ext
 ---
 
 **Performance Highlights**:
-- ⚡ VMSW: 0.001 seconds per item (1000x faster)
-- 🤖 Non-VMSW: ~4.7 seconds per item with 93% avg confidence
-- 🎯 Automatic retry logic ensures maximum success rates
-- 📊 Supports documents with 80+ items efficiently 
+- ⚡ VMSW Categorization: ~0.001 seconds per item.
+- 🤖 Non-VMSW Categorization: ~4.7 seconds per item with 93% avg confidence.
+- 🎯 Automatic retry logic ensures maximum success rates for AI processing.
+- 📊 Efficiently supports documents with 80+ items. 

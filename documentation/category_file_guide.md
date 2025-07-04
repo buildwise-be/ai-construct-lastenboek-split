@@ -1,231 +1,3201 @@
-# Creating and Customizing Category Files
+# Creating and Customizing Category Files (Non-VMSW Documents)
 
-This guide explains how to create and customize category files used by the AI Construct PDF Splitter to classify document sections.
+This guide explains how to create and customize category files for **Non-VMSW document processing**. 
 
-## What is a Category File?
+## 🔢 VMSW vs 🤖 Non-VMSW: When Do You Need This Guide?
+
+| Document Type | Category Files | This Guide Applies |
+|---------------|----------------|-------------------|
+| **🔢 VMSW Documents** | ❌ Not needed - uses built-in categories | ❌ Skip this guide |
+| **🤖 Non-VMSW Documents** | ✅ Required - custom category files | ✅ Use this guide |
+
+### 🔢 VMSW Documents (No Setup Needed)
+If you're processing VMSW documents, you can **skip this entire guide**. VMSW processing uses built-in categories that map directly from chapter numbers:
+
+- `00.` → `00. Algemene Bepalingen`
+- `01.` → `01. Afbraak en Grondwerken`
+- `02.40` → `02. Funderingen en Kelders`
+- And 31 more standard VMSW categories...
+
+Just select "VMSW Document" in the application and you're ready to go!
+
+---
+
+## 🤖 Non-VMSW Documents: Custom Category Files
+
+For Non-VMSW documents (custom construction docs, international formats, non-standard numbering), you need to create or customize category files that define how AI should categorize your document sections.
+
+### What is a Category File?
 
 A category file defines the construction categories that the AI will use to match chapters and sections from your PDF documents. Each category includes:
 
-- A numbered identifier and category name (e.g., "01. Afbraak en Grondwerken")
+- A numbered identifier and category name (e.g., "01. Foundations")
 - A list of keywords or phrases associated with that category
-- Additional metadata used by the application for matching
+- Additional metadata used by the application for AI matching
 
-## Available Formats
+### Available Formats
 
 You can create category files in three formats:
 
-1. **Python Module** (.py file) - The default and most flexible format
+1. **Python Module** (.py file) - Recommended for flexibility and performance
 2. **Excel Spreadsheet** (.xlsx file) - Easier to edit for non-programmers
 3. **CSV File** (.csv file) - Simple text-based format
 
-## Creating a Python Module Category File
+---
+
+## 🐍 Creating a Python Module Category File
 
 This is the recommended format as it provides the most flexibility and performance.
 
+### Quick Start: Use the Example File
+
+The fastest way to get started:
+
+1. **Copy the example**:
+   ```bash
+   cp example_categories.py my_custom_categories.py
+   ```
+
+2. **Edit for your domain** (see customization section below)
+
+3. **Use in application**: Browse to `my_custom_categories.py` in the GUI
+
 ### Basic Structure
 
-A Python module category file needs the following components:
+A Python module category file needs:
 
 1. A `raw_data_dict` dictionary containing categories and their keywords
 2. Processing code to convert the raw dictionary into the required DataFrame structure
 3. Export variables used by the application
 
-### Step-by-Step Instructions
+### Step-by-Step Customization
 
-1. **Start by copying the example file**:
-   ```bash
-   cp example_categories.py my_custom_categories.py
-   ```
+1. **Open your category file** in a text editor
 
 2. **Edit the raw_data_dict**:
-   Open the file in your preferred editor and modify the `raw_data_dict` dictionary:
-
    ```python
    raw_data_dict = {
-       '01. Category Name': "['Keyword1', 'Keyword2', 'Related phrase']",
-       '02. Another Category': "['Keyword3', 'Keyword4']",
+       '01. Foundations': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+       '02. Structure': "['Framing', 'Beams', 'Columns', 'Steel', 'Concrete']",
+       '03. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing']",
        # Add more categories as needed
    }
    ```
-
-   Each key is a numbered category, and each value is a string representation of a list containing keywords.
 
 3. **Key formatting considerations**:
    - Category numbers should be padded with zeros (e.g., "01." instead of "1.")
    - Keep consistent spacing between the number, period, and category name
    - Category names should be concise but descriptive
 
-4. **Keyword considerations**:
+4. **Keyword strategy**:
    - Include both singular and plural forms when relevant
    - Consider variations in capitalization
    - Include synonyms and related terms
    - Include domain-specific terminology
 
-5. **Testing your category file**:
-   You can test your file by running it directly:
+5. **Test your file**:
    ```bash
    python my_custom_categories.py
    ```
-   This will print out the contents in various formats to verify correctness.
 
-## Creating an Excel Category File
+---
 
-Excel files may be easier to edit for users who prefer spreadsheet interfaces.
+## 📊 Creating an Excel Category File
 
-1. **Create a new Excel file** with the following columns:
-   - `summary` (e.g., "01. Category Name")
-   - `description` (comma-separated keywords)
-   - `expanded_description` (optional)
+Excel files are easier for users who prefer spreadsheet interfaces.
 
-2. **Fill in your categories and keywords**:
-   - Each row represents one category
-   - In the `description` column, separate keywords with commas
-   - Save the file with a .xlsx extension
+### Structure
+Create an Excel file with these columns:
+- `summary` (e.g., "01. Foundations")
+- `description` (comma-separated keywords)
+- `expanded_description` (optional)
 
-## Creating a CSV Category File
+### Example:
+| summary | description | expanded_description |
+|---------|-------------|---------------------|
+| 01. Foundations | Foundation, Footings, Slab, Basement | Foundation, Footings, Slab, Basement, 01. Foundations |
+| 02. Structure | Framing, Beams, Columns, Steel | Framing, Beams, Columns, Steel, 02. Structure |
 
-CSV files are simple text files that can be edited with any text editor or spreadsheet program.
+---
 
-1. **Create a new CSV file** with the header row:
-   ```
-   summary,description,expanded_description
-   ```
+## 📄 Creating a CSV Category File
 
-2. **Add one row per category**:
-   ```
-   "01. Category Name","Keyword1, Keyword2, Related phrase",
-   "02. Another Category","Keyword3, Keyword4",
-   ```
+CSV files are simple text files that can be edited with any text editor.
 
-3. **Save with .csv extension**
+### Format:
+```csv
+summary,description,expanded_description
+"01. Foundations","Foundation, Footings, Slab, Basement",
+"02. Structure","Framing, Beams, Columns, Steel",
+"03. Roofing","Roofing, Shingles, Tiles, Gutters",
+```
 
-## Importing Your Custom Category File
+---
 
-To use your custom category file:
+## 🎯 Example: Specialized Category Files
 
-1. **Via the User Interface**:
-   - Launch the application
-   - Click "Browse" next to "Category File"
-   - Select your custom category file
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
 
-2. **Via Command Line**:
-   ```bash
-   python main_script.py <pdf_path> -c <path_to_your_custom_category_file> [other options]
-   ```
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
 
-## Tips for Effective Categories
+---
 
-1. **Be comprehensive**: Include all possible categories that might appear in your documents.
+## 🎯 Example: Specialized Category Files
 
-2. **Be specific**: Use precise keywords that clearly distinguish between categories.
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
 
-3. **Consider hierarchy**: Your numbering system can reflect hierarchical relationships.
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
 
-4. **Consistent naming**: Maintain a consistent naming convention for all categories.
+---
 
-5. **Test and refine**: After running the tool, review the category matches and adjust your category file based on the results.
+## 🎯 Example: Specialized Category Files
 
-## Example: Creating a Specialized Category File
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
 
-Let's walk through creating a specialized category file for residential construction:
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
 
-1. **Identify key categories** specific to residential construction
+---
 
-2. **Create a new Python file** called `residential_categories.py`:
-   ```python
-   #!/usr/bin/env python
-   # -*- coding: utf-8 -*-
+## 🎯 Example: Specialized Category Files
 
-   import os
-   os.environ['PYTHONHASHSEED'] = '1'  # Use a fixed seed value
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
 
-   """
-   Residential Construction Categories
-   """
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
 
-   import pandas as pd
-   import ast
+---
 
-   # Raw data dictionary with numbered categories and their keywords
-   raw_data_dict = {
-       '01. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
-       '02. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
-       '03. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
-       '04. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
-       '05. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
-       '06. Plumbing': "['Plumbing', 'Pipes', 'Water heater', 'Fixtures', 'Drains']",
-       '07. Electrical': "['Electrical', 'Wiring', 'Outlets', 'Switches', 'Panel', 'Lighting']",
-       '08. HVAC': "['HVAC', 'Heating', 'Cooling', 'Ventilation', 'Ductwork', 'Thermostat']",
-       '09. Insulation': "['Insulation', 'Vapor barrier', 'Sound insulation', 'Thermal barrier']",
-       '10. Drywall': "['Drywall', 'Gypsum', 'Sheetrock', 'Taping', 'Mudding', 'Texturing']",
-       '11. Interior Finishing': "['Interior trim', 'Baseboards', 'Crown molding', 'Casings']",
-       '12. Flooring': "['Flooring', 'Hardwood', 'Tile', 'Carpet', 'Vinyl', 'Laminate']",
-       '13. Cabinetry': "['Cabinets', 'Kitchen cabinets', 'Vanities', 'Built-ins']",
-       '14. Countertops': "['Countertops', 'Granite', 'Quartz', 'Marble', 'Laminate counters']",
-       '15. Painting': "['Painting', 'Primer', 'Paint', 'Stain', 'Finishes']",
-       '16. Appliances': "['Appliances', 'Refrigerator', 'Range', 'Dishwasher', 'Microwave']",
-       '17. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
-       '18. Driveway and Walkways': "['Driveway', 'Walkway', 'Paths', 'Concrete', 'Pavers']",
-       '19. Deck and Patio': "['Deck', 'Patio', 'Porch', 'Outdoor living']",
-       '20. Final Inspection': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
-   }
+## 🎯 Example: Specialized Category Files
 
-   # Continue with the standard processing code...
-   data = []
-   
-   for category, keywords_str in raw_data_dict.items():
-       try:
-           if isinstance(keywords_str, str) and keywords_str.startswith('[') and keywords_str.endswith(']'):
-               keywords = ast.literal_eval(keywords_str)
-           else:
-               keywords = []
-       except:
-           keywords = []
-       
-       keywords_filtered = [k for k in keywords if isinstance(k, str) and k.strip()]
-       description = ', '.join(keywords_filtered)
-       
-       if description:
-           expanded_description = f"{description}, {category}"
-       else:
-           expanded_description = category
-       
-       data.append({
-           'summary': category,
-           'description': description,
-           'expanded_description': expanded_description
-       })
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
 
-   df = pd.DataFrame(data)
-   df_indexed = df.set_index('summary')
-   nonvmswchapters = dict(zip(df['summary'], df['description']))
-   nonvmswchapters_expanded = dict(zip(df['summary'], df['expanded_description']))
-   ```
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
 
-3. **Use your new category file** with the application to test its effectiveness.
+---
 
-## Troubleshooting
+## 🎯 Example: Specialized Category Files
 
-### Common Issues
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
 
-1. **"Invalid category file" error**:
-   - Ensure your file follows the exact required structure
-   - Check for syntax errors in Python files
-   - Verify column names in Excel/CSV files
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
 
-2. **Poor matching results**:
-   - Add more keywords to your categories
-   - Make keywords more specific
-   - Check for overlapping terms between categories
+---
 
-3. **Cannot import category file**:
-   - Verify file permissions
-   - Check file path
-   - Ensure correct file format (.py, .xlsx, or .csv)
+## 🎯 Example: Specialized Category Files
 
-### Getting Help
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
 
-If you continue to have issues with your category file, you can:
-- Compare your file with the example_categories.py file
-- Check the application logs for specific error messages
-- Consult the full documentation for additional information 
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab', 'Basement', 'Crawl space']",
+    '03. Framing': "['Framing', 'Studs', 'Joists', 'Rafters', 'Trusses', 'Beams']",
+    '04. Roofing': "['Roofing', 'Shingles', 'Tiles', 'Gutters', 'Flashing', 'Eaves']",
+    '05. Exterior': "['Siding', 'Stucco', 'Brick', 'Stone', 'Exterior finishes']",
+    '06. Windows and Doors': "['Windows', 'Doors', 'Entry', 'Sliding door', 'Garage door']",
+    '07. Mechanical': "['Plumbing', 'HVAC', 'Electrical', 'Heating', 'Cooling']",
+    '08. Interior': "['Drywall', 'Flooring', 'Cabinets', 'Countertops', 'Painting']",
+    '09. Landscaping': "['Landscaping', 'Grading', 'Lawn', 'Plants', 'Irrigation']",
+    '10. Final': "['Final inspection', 'Punch list', 'Walk-through', 'Completion']"
+}
+```
+
+### Commercial Construction
+```python
+raw_data_dict = {
+    '01. Site Work': "['Site preparation', 'Earthwork', 'Utilities', 'Paving']",
+    '02. Concrete': "['Concrete', 'Reinforcement', 'Formwork', 'Foundation']",
+    '03. Masonry': "['Masonry', 'Brick', 'Block', 'Stone', 'Mortar']",
+    '04. Metals': "['Structural steel', 'Metal fabrication', 'Reinforcement']",
+    '05. Wood & Plastics': "['Rough carpentry', 'Finish carpentry', 'Millwork']",
+    '06. Thermal & Moisture': "['Insulation', 'Roofing', 'Siding', 'Waterproofing']",
+    '07. Openings': "['Doors', 'Windows', 'Storefronts', 'Glazing']",
+    '08. Finishes': "['Flooring', 'Wall finishes', 'Ceiling', 'Painting']",
+    '09. Mechanical': "['HVAC', 'Plumbing', 'Fire protection']",
+    '10. Electrical': "['Electrical', 'Lighting', 'Communications', 'Security']"
+}
+```
+
+---
+
+## 🎯 Example: Specialized Category Files
+
+### Residential Construction
+```python
+raw_data_dict = {
+    '01. Site Preparation': "['Excavation', 'Grading', 'Site clearance', 'Utilities']",
+    '02. Foundation': "['Foundation', 'Footings', 'Slab

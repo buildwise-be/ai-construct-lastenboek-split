@@ -1,4 +1,9 @@
 @echo off
+rem ============================================================================
+rem Demo Script Runner
+rem ============================================================================
+rem This script runs the demo, assuming necessary dependencies are installed.
+
 echo Running AI Construct PDF Opdeler Demo...
 echo.
 echo This will launch the GUI where you can:
@@ -9,7 +14,9 @@ echo 4. Set output as the output directory
 echo 5. Run Step 3 (Split)
 echo.
 
-C:\Users\gr\AppData\Local\anaconda3\envs\playground\python.exe demo_script.py
+rem Use a generic python command, assuming it's in the system PATH
+rem This is more portable than a hardcoded absolute path.
+python demo_script.py
 
 echo.
 if %ERRORLEVEL% EQU 0 (

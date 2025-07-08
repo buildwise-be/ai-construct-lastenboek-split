@@ -380,7 +380,7 @@ class CategoryMatcher:
                     if attempt == max_retries - 1:
                         raise ValueError("Invalid response format after all retries")
                     continue
-                    
+                
             except Exception as e:
                 logger.error(f"Error in batch processing attempt {attempt + 1}/{max_retries}: {str(e)}")
                 logger.error(f"Exception type: {type(e).__name__}")
@@ -620,7 +620,7 @@ def get_global_matcher():
         _global_matcher = CategoryMatcher()
     return _global_matcher
 
-# Backward compatibility functions  
+# Backward compatibility functions
 def step2_match_categories(chapters=None, toc_output_dir=None, category_file=None, 
                           base_dir=None, model=None, document_type=None):
     """

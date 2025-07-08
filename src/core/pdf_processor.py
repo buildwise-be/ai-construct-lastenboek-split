@@ -10,6 +10,7 @@ import json
 import base64
 import time
 import logging
+from pathlib import Path
 from PyPDF2 import PdfReader, PdfWriter
 import fitz  # PyMuPDF
 from vertexai.generative_models import GenerativeModel, Part

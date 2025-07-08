@@ -267,7 +267,7 @@ class MainWindow(QMainWindow):
         # Header with toggle button
         log_header_layout = QHBoxLayout()
         
-        self.log_toggle_button = StyledButton("📄 Toon Details & Logs", "secondary")
+        self.log_toggle_button = StyledButton("Toon gedetailleerde logs", "secondary")
         self.log_toggle_button.clicked.connect(self._toggle_log_visibility)
         self.log_toggle_button.setStyleSheet(f"""
             QPushButton {{

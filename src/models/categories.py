@@ -3,6 +3,7 @@
 
 # Set fixed hash seed to avoid randomization issues
 import os
+from pathlib import Path
 os.environ['PYTHONHASHSEED'] = '1'  # Use a fixed seed value
 
 """

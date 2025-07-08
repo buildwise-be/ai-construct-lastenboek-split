@@ -101,7 +101,7 @@ class LogoLabel(QLabel):
                 frame_size = (custom_size[0] + 10, custom_size[1] + 10)  # Add padding
         else:
             logo_size = GUI_CONFIG.get("header_logo_size", (70, 70))  # Fallback
-            frame_size = GUI_CONFIG["header_frame_size"]
+        frame_size = GUI_CONFIG["header_frame_size"]
         
         if logo_path and logo_path.exists():
             try:

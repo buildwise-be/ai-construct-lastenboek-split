@@ -12,6 +12,12 @@
 
 ---
 
+## 🌐 Language / Taal / Langue
+
+📖 **English** | 🇳🇱 **[Nederlands](README.nl.md)** | 🇫🇷 **[Français](README.fr.md)**
+
+---
+
 ## 🚀 What's New: Hybrid Processing System
 
 This application supports **both VMSW and Non-VMSW construction documents** with intelligent processing:

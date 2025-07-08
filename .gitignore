@@ -1,0 +1,122 @@
+# =============================================================================
+# OPT-IN GITIGNORE STRATEGY
+# Exclude everything by default, then explicitly include what we want
+# =============================================================================
+
+# Exclude everything by default
+*
+
+# Core Application Files (INCLUDE)
+!src/
+!src/**/*.py
+!src/**/*.json
+!main_script.py
+!vmsw_pipeline.py
+!launch.py
+!toc_generation.py
+!example_categories.py
+
+# Dependencies and Setup (INCLUDE)
+!requirements.txt
+!setup.py
+
+# Documentation (INCLUDE)
+!README.md
+!README_REFACTORED.md
+!documentation/
+!documentation/**/*.md
+!docs/
+!docs/**/*.md
+!docs/**/*.png
+
+# Configuration (INCLUDE)
+!config/
+!config/**/*.py
+!config/**/*.json
+
+# Assets we actually use (INCLUDE)
+!Requirements/aiconew.svg
+!Requirements/Logo/BWlogo.png
+!Requirements/Logo/aiconew.svg
+
+# Demo files (INCLUDE only essential ones)
+!demo/
+!demo/README.md
+!demo/run_demo.bat
+!demo/run_demo.sh
+
+# Utilities (INCLUDE)
+!view_logs.py
+!view_logs.bat
+!check_health.py
+!check_packaging.py
+!test_modular_imports.py
+
+# Essential analysis files (INCLUDE)
+!toc_analysis.txt
+!VMSWcat.json
+
+# Git files (INCLUDE)
+!.gitignore
+!.gitattributes
+
+# =============================================================================
+# EXPLICIT EXCLUSIONS (even if parent directory is included)
+# =============================================================================
+
+# Output directories
+output/
+**/output/
+logs/
+**/logs/
+temp/
+tmp/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# IDEs
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Sensitive files
+*.pem
+*.key
+credentials.json
+*api_key.txt
+
+# Personal/Experimental directories
+Old/
+Exampletoc/
+Amsterdam/
+lbexamples/
+
+# Large files
+*.pdf
+*.exe
+
+# Temporary and log files
+*.log
+*.tmp
+
+# Environment-specific directories
+step*_*/
+pipeline_*/ 

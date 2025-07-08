@@ -1,0 +1,7 @@
+pandas
+python-dotenv
+PyPDF2
+google-cloud-aiplatform
+google-generativeai
+PyMuPDF
+PySide6 

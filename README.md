@@ -205,6 +205,158 @@ python src/main.py
 
 ---
 
+## 🔧 Customizing VMSW Categories
+
+The application provides flexible options for customizing how VMSW documents are grouped into contractor categories.
+
+### Default VMSW Grouping
+
+By default, VMSW documents use a **two-level mapping system**:
+
+1. **Direct Chapter Mapping** (`src/core/vmsw_matcher.py`): Maps VMSW chapters (00-42) to broad construction categories
+2. **Detailed Article Mapping** (`VMSWcat.json`): Maps specific VMSW articles to specialized groupings
+
+### Customization Options
+
+#### Option 1: Modify Chapter Groupings (Simple)
+
+Edit the `vmsw_mapping` dictionary in `src/core/vmsw_matcher.py`:
+
+```python
+self.vmsw_mapping = {
+    "00": "33. Advies en Studies",
+    "01": "01. Afbraak en Grondwerken", 
+    "02": "02. Funderingen en Kelders",
+    # Add your custom mappings:
+    "15": "15. HVAC",  # Default
+    "15": "15. Klimatisering",  # Custom name
+    # Group multiple chapters together:
+    "64": "15. HVAC",  # Merge with existing HVAC
+    "65": "15. HVAC",
+    "66": "15. HVAC",
+}
+```
+
+#### Option 2: Create Contractor-Specific Groupings
+
+Modify `VMSWcat.json` to create contractor-specific categories:
+
+```json
+[
+  {
+    "art_nr": "20 + 21 + 22",
+    "omschrijving": "METSELWERKEN - Aannemer A"
+  },
+  {
+    "art_nr": "30 + 31 + 32", 
+    "omschrijving": "DAKWERKEN - Aannemer B"
+  },
+  {
+    "art_nr": "64 + 65 + 66 + 67 + 68 + 69",
+    "omschrijving": "HVAC - Aannemer C"
+  }
+]
+```
+
+#### Option 3: Fine-Grained Article Mapping
+
+Create very specific groupings for detailed work packages:
+
+```json
+[
+  {
+    "art_nr": "26.30",
+    "omschrijving": "PREFAB BETON - Leverancier X"
+  },
+  {
+    "art_nr": "35.31",
+    "omschrijving": "GRIND - Leverancier Y" 
+  },
+  {
+    "art_nr": "53.70",
+    "omschrijving": "VLOERMATTEN - Specialist Z"
+  }
+]
+```
+
+### Common Grouping Strategies
+
+#### By Trade/Specialty
+```json
+{
+  "art_nr": "10 + 17 + 90 + 91",
+  "omschrijving": "GRONDWERKEN EN RIOLERING"
+},
+{
+  "art_nr": "64 + 65 + 66 + 67 + 68 + 69", 
+  "omschrijving": "HVAC TOTAALPAKKET"
+},
+{
+  "art_nr": "70 + 71 + 72 + 73 + 74 + 75 + 77 + 78 + 79",
+  "omschrijving": "ELEKTRICITEIT TOTAAL"
+}
+```
+
+#### By Project Phase
+```json
+{
+  "art_nr": "03 + 10 + 11 + 13",
+  "omschrijving": "FASE 1 - RUWBOUW"
+},
+{
+  "art_nr": "40 + 41 + 42 + 43",
+  "omschrijving": "FASE 2 - GEVEL"
+},
+{
+  "art_nr": "50 + 51 + 52 + 53",
+  "omschrijving": "FASE 3 - AFWERKING"
+}
+```
+
+#### By Contractor Size
+```json
+{
+  "art_nr": "20.55",
+  "omschrijving": "KLEIN WERK - GIPSBLOKKEN"
+},
+{
+  "art_nr": "34 + 35 + 36 + 37 + 38",
+  "omschrijving": "GROOT WERK - PLAT DAK COMPLEET"
+}
+```
+
+### Implementation Steps
+
+1. **Backup Original Files**:
+   ```bash
+   cp src/core/vmsw_matcher.py src/core/vmsw_matcher.py.backup
+   cp VMSWcat.json VMSWcat.json.backup
+   ```
+
+2. **Edit Configuration**:
+   - For broad changes: Modify `src/core/vmsw_matcher.py`
+   - For detailed mapping: Edit `VMSWcat.json`
+
+3. **Test Your Changes**:
+   ```bash
+   python src/main.py
+   # Process a test document to verify groupings
+   ```
+
+4. **Validate Results**:
+   - Check the output PDFs match your intended groupings
+   - Review `category_summary.json` for mapping statistics
+
+### Tips for Custom Groupings
+
+- **Keep It Simple**: Start with broad contractor categories, refine later
+- **Use Consistent Naming**: Follow "XX. CATEGORY NAME" format for sorting
+- **Document Changes**: Keep notes on your customizations for team members
+- **Test Thoroughly**: Process sample documents to validate groupings
+- **Backup Configurations**: Save working configurations for different projects
+
+---
+
 ## 🔧 Configuration
 
 ### Environment Variables

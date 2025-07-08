@@ -1,8 +1,10 @@
 # AI Construct PDF Opdeler
 
-<p align="center">
-  <img src="docs/images/BWlogo.png" alt="BW Logo" width="100"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="docs/images/aico.png" alt="AICO Logo" width="100"/>
-</p>
+<div align="center">
+  <img src="docs/images/BWlogo.png" alt="Buildwise Logo" height="80"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="docs/images/aico.png" alt="AI Construct Logo" height="80"/>
+</div>
 
 <p align="center">
   <em>VMSW & Non-VMSW Support - Deel uw lastenboek op in delen per onderaannemer</em>

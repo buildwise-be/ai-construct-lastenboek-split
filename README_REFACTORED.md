@@ -1,5 +1,17 @@
 # AI Construct PDF Opdeler - Refactored Version
 
+<div align="center">
+  <img src="docs/images/BWlogo.png" alt="Buildwise Logo" height="80"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="docs/images/aico.png" alt="AI Construct Logo" height="80"/>
+</div>
+
+<p align="center">
+  <em>Completely refactored version with modern architecture and responsive GUI</em>
+</p>
+
+---
+
 ## 🚀 Overview
 
 This is a completely refactored version of the AI Construct PDF Opdeler application. The monolithic script has been restructured into a modular, maintainable, and user-friendly application with a responsive GUI.
@@ -52,7 +64,7 @@ lastenboekexperimenten/
 └── README_REFACTORED.md          # This documentation
 ```
 
-## �️ Installation
+## 🔧 Installation
 
 ### Quick Setup
 

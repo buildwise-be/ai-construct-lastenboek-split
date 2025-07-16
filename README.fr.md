@@ -2,7 +2,7 @@
 
 <div align="center" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0;">
   <img src="Requirements/Logo/BWlogo.png" alt="Logo Buildwise" height="70" width="70" style="display: block;"/>
-  <img src="Requirements/Logo/aiconew.svg" alt="Logo AI Construct" height="70" width="240" style="display: block;"/>
+  <img src="Requirements/Logo/aiconew.svg" alt="Logo AI Construct" height="70" width="240" style="display: block; margin-top: -8px;"/>
 </div>
 
 <p align="center">

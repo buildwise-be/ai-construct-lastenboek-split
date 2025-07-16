@@ -94,6 +94,8 @@ De AI Construct PDF Opdeler is een krachtige tool voor het verwerken van bouwspe
    pip install --upgrade google-genai
    gcloud auth application-default login
    ```
+   
+   **🔒 Privacy & GDPR Compliance**: Door de Vertex AI integratie worden alle documentgegevens GDPR-conform verwerkt binnen Google Cloud's Europese datacenters, waardoor volledige gegevensbescherming wordt gegarandeerd.
 
 3. **Valideer installatie:**
    ```bash
@@ -208,6 +210,7 @@ python src/main.py
 **Vereisten**:
 - Aangepast categoriebestand (Python, Excel of CSV)
 - Google Cloud project met Vertex AI ingeschakeld
+- **🔒 GDPR-conforme gegevensverwerking** via Vertex AI Europese infrastructuur
 
 ---
 

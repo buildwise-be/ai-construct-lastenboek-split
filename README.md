@@ -94,6 +94,8 @@ The AI Construct PDF Opdeler is a powerful tool for processing construction spec
    pip install --upgrade google-genai
    gcloud auth application-default login
    ```
+   
+   **🔒 Privacy & GDPR Compliance**: Through Vertex AI integration, all document data is processed in a GDPR-compliant manner within Google Cloud's European data centers, ensuring full data protection compliance.
 
 3. **Validate installation:**
    ```bash
@@ -208,6 +210,7 @@ python src/main.py
 **Requirements**:
 - Custom category file (Python, Excel, or CSV)
 - Google Cloud project with Vertex AI enabled
+- **🔒 GDPR-compliant data processing** through Vertex AI European infrastructure
 
 ---
 

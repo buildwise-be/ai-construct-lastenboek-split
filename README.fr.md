@@ -94,6 +94,8 @@ L'AI Construct PDF Diviseur est un outil puissant pour traiter les documents de 
    pip install --upgrade google-genai
    gcloud auth application-default login
    ```
+   
+   **🔒 Confidentialité & Conformité GDPR** : Grâce à l'intégration Vertex AI, toutes les données de documents sont traitées de manière conforme au GDPR dans les centres de données européens de Google Cloud, garantissant une protection complète des données.
 
 3. **Validez l'installation :**
    ```bash
@@ -208,6 +210,7 @@ python src/main.py
 **Exigences** :
 - Fichier de catégories personnalisé (Python, Excel ou CSV)
 - Projet Google Cloud avec Vertex AI activé
+- **🔒 Traitement des données conforme au GDPR** via l'infrastructure européenne Vertex AI
 
 ---
 

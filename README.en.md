@@ -1,8 +1,8 @@
 # AI Construct PDF Opdeler
 
-<div align="center" style="display: flex; align-items: flex-end; justify-content: center; gap: 20px; margin: 20px 0;">
+<div align="center" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0;">
   <img src="Requirements/Logo/BWlogo.png" alt="Buildwise Logo" height="70" width="70"/>
-  <img src="Requirements/Logo/aiconew.svg" alt="AI Construct Logo" height="70" width="240" style="align-self: flex-start;"/>
+  <img src="Requirements/Logo/aiconew.svg" alt="AI Construct Logo" height="75" width="257"/>
 </div>
 
 <p align="center">

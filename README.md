@@ -505,9 +505,39 @@ python main_script.py document.pdf step3 --no-gui
 
 ---
 
-## 🤝 Contributing
+## 🚀 Quick Start Guide
 
-This project uses a modern, modular architecture designed for maintainability and extensibility. The codebase follows clean architecture principles with clear separation of concerns.
+### Step 1: Install Python Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Step 2: Install Google Cloud CLI
+1. **Download and install** Google Cloud CLI from: https://cloud.google.com/sdk/docs/install
+2. **Authenticate** with your Google account:
+   ```bash
+   gcloud auth application-default login
+   ```
+3. **Set your project ID** (create a Google Cloud project if needed):
+   ```bash
+   gcloud config set project YOUR-PROJECT-ID
+   ```
+
+### Step 3: Enable Required APIs
+```bash
+gcloud services enable aiplatform.googleapis.com
+```
+
+### Step 4: Launch the Application
+```bash
+python src/main.py
+```
+
+### Step 5: Process Your Document
+1. **Select PDF**: Choose your construction document
+2. **Choose Document Type**: Select "VMSW Document" or "Non-VMSW Document"
+3. **Configure Settings**: Set output directory and (for Non-VMSW) category file
+4. **Run Pipeline**: Click "Run Complete Pipeline"
 
 ---
 

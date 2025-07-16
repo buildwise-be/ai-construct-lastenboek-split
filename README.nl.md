@@ -434,9 +434,39 @@ python main_script.py document.pdf step3 --no-gui
 
 ---
 
-## 🤝 Bijdragen
+## 🚀 Snelle Startgids
 
-Dit project gebruikt een moderne, modulaire architectuur ontworpen voor onderhoudbaarheid en uitbreidbaarheid. De codebase volgt clean architecture principes met duidelijke scheiding van verantwoordelijkheden.
+### Stap 1: Installeer Python Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Stap 2: Installeer Google Cloud CLI
+1. **Download en installeer** Google Cloud CLI van: https://cloud.google.com/sdk/docs/install
+2. **Authenticeer** met uw Google account:
+   ```bash
+   gcloud auth application-default login
+   ```
+3. **Stel uw project ID in** (maak een Google Cloud project aan indien nodig):
+   ```bash
+   gcloud config set project UW-PROJECT-ID
+   ```
+
+### Stap 3: Schakel Vereiste APIs In
+```bash
+gcloud services enable aiplatform.googleapis.com
+```
+
+### Stap 4: Start de Applicatie
+```bash
+python src/main.py
+```
+
+### Stap 5: Verwerk Uw Document
+1. **Selecteer PDF**: Kies uw bouwdocument
+2. **Kies Documenttype**: Selecteer "VMSW Document" of "Non-VMSW Document"
+3. **Configureer Instellingen**: Stel uitvoermap in en (voor Non-VMSW) categoriebestand
+4. **Voer Pipeline Uit**: Klik op "Run Complete Pipeline"
 
 ---
 

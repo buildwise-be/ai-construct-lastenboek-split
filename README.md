@@ -515,6 +515,7 @@ This project is licensed under the terms specified in the LICENSE file.
 ---
 
 <div align="center">
-  <p><strong>Developed by Buildwise with AI Construct</strong></p>
+  <p><strong>Developed in the AI Construct COOCK+ project</strong></p>
+  <p><em>Met de steun van VLAIO</em></p>
   <p><em>Professional construction document processing for the modern era</em></p>
 </div>

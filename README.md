@@ -1,9 +1,9 @@
 # AI Construct PDF Opdeler
 
 <div align="center">
-  <img src="Requirements/Logo/BWlogo.png" alt="Buildwise Logo" height="80"/>
+  <img src="Requirements/Logo/BWlogo.png" alt="Buildwise Logo" height="70" width="70"/>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="Requirements/Logo/aiconew.svg" alt="AI Construct Logo" height="80"/>
+  <img src="Requirements/Logo/aiconew.svg" alt="AI Construct Logo" height="35" width="120"/>
 </div>
 
 <p align="center">

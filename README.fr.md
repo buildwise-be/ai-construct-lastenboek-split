@@ -1,9 +1,9 @@
 # AI Construct PDF Diviseur
 
 <div align="center">
-  <img src="Requirements/Logo/BWlogo.png" alt="Logo Buildwise" height="80"/>
+  <img src="Requirements/Logo/BWlogo.png" alt="Logo Buildwise" height="70" width="70"/>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="Requirements/Logo/aiconew.svg" alt="Logo AI Construct" height="80"/>
+  <img src="Requirements/Logo/aiconew.svg" alt="Logo AI Construct" height="35" width="120"/>
 </div>
 
 <p align="center">

@@ -14,7 +14,7 @@
 
 ## 🌐 Taal / Language / Langue
 
-📖 **[English](README.md)** | 🇳🇱 **Nederlandse** | 🇫🇷 **[Français](README.fr.md)**
+📖 **[English](README.md)** | 🇳🇱 **Nederlands** | 🇫🇷 **[Français](README.fr.md)**
 
 ---
 

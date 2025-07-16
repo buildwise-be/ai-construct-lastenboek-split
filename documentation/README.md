@@ -70,7 +70,9 @@ The AI Construct PDF Splitter is a specialized tool designed to process construc
 | **Category File** | ❌ Not needed | ✅ Required |
 | **Google Cloud** | ✅ Required (content extraction) | ✅ Required (content extraction + categorization) |
 | **Accuracy** | 🎯 High (number-based matching) | 📊 85-95% (AI-based) |
-| **Cost** | 💰 Pay-per-use (content extraction) | 💰 Pay-per-use (content extraction + categorization) |
+| **Cost** | 💰 AI model usage costs (Vertex AI) | 💰 AI model usage costs (Vertex AI + Gemini) |
+
+> **Note**: The application itself is free and open-source. Costs are only for Google Cloud AI model usage (Vertex AI/Gemini) when processing documents.
 
 ## For Developers
 

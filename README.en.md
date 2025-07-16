@@ -58,6 +58,8 @@ The AI Construct PDF Opdeler is a tool for processing construction specification
 - **Internet Connection**: Required for all documents (table of contents extraction uses AI)
 - **Google Cloud Account**: Required for all documents (table of contents extraction + Non-VMSW categorization)
 
+> **💡 Costs**: The application is free. Costs are only for AI model usage (Vertex AI/Gemini) when processing documents.
+
 ### Quick Setup
 
 1. **Run the setup script:**

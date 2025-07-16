@@ -58,6 +58,8 @@ L'AI Construct PDF Diviseur est un outil pour traiter les documents de spécific
 - **Connexion Internet** : Requise pour tous les documents (extraction table des matières utilise l'IA)
 - **Compte Google Cloud** : Requis pour tous les documents (extraction table des matières + catégorisation non-VMSW)
 
+> **💡 Coûts** : L'application est gratuite. Les coûts sont uniquement pour l'utilisation des modèles IA (Vertex AI/Gemini) lors du traitement des documents.
+
 ### Installation Rapide
 
 1. **Exécutez le script d'installation :**

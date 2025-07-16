@@ -12,14 +12,16 @@ Our application features a **dual-mode processing system**:
 - **Method**: Direct number-to-category mapping.
 - **Requirements**: Google Cloud setup (for content extraction).
 - **Accuracy**: High reliability for proper VMSW documents.
-- **Cost**: Pay-per-use (Google Cloud for content extraction).
+- **Cost**: AI model usage costs (Vertex AI for content extraction).
 
 ### 🤖 Non-VMSW Mode (AI-Powered)
 - **Categorization Speed**: ~4.7 seconds per item.
 - **Method**: Google Gemini semantic analysis.
 - **Requirements**: Custom category file + Google Cloud setup.
 - **Accuracy**: 85-95% depending on document quality.
-- **Cost**: Pay-per-use (Google Cloud for content extraction + categorization).
+- **Cost**: AI model usage costs (Vertex AI + Gemini for content extraction + categorization).
+
+> **Note**: The application itself is free and open-source. Costs are only for Google Cloud AI model usage (Vertex AI/Gemini) when processing documents.
 
 ## Table of Contents
 1. [System Requirements](#system-requirements)

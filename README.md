@@ -58,6 +58,8 @@ De AI Construct PDF Opdeler is een tool voor het verwerken van bouwspecificatied
 - **Internetverbinding**: Vereist voor alle documenten (inhoudsopgave extractie gebruikt AI)
 - **Google Cloud Account**: Vereist voor alle documenten (inhoudsopgave extractie + Non-VMSW categorisatie)
 
+> **💡 Kosten**: De applicatie is gratis. Kosten zijn alleen voor AI-model gebruik (Vertex AI/Gemini) bij documentverwerking.
+
 ### Snelle Installatie
 
 1. **Voer het installatiescript uit:**

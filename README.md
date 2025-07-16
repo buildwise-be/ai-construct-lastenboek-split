@@ -83,7 +83,7 @@ De AI Construct PDF Opdeler is een tool voor het verwerken van bouwspecificatied
    pip install -r requirements.txt
    ```
 
-2. **Google Cloud Installatie (alleen Non-VMSW):**
+2. **Google Cloud Installatie:**
    ```bash
    # Installeer Google Cloud CLI: https://cloud.google.com/sdk/docs/install
    pip install --upgrade google-genai

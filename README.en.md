@@ -83,7 +83,7 @@ The AI Construct PDF Opdeler is a tool for processing construction specification
    pip install -r requirements.txt
    ```
 
-2. **Google Cloud Setup (Non-VMSW Only):**
+2. **Google Cloud Setup:**
    ```bash
    # Install Google Cloud CLI: https://cloud.google.com/sdk/docs/install
    pip install --upgrade google-genai

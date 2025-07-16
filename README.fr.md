@@ -83,7 +83,7 @@ L'AI Construct PDF Diviseur est un outil pour traiter les documents de spécific
    pip install -r requirements.txt
    ```
 
-2. **Configuration Google Cloud (non-VMSW uniquement) :**
+2. **Configuration Google Cloud :**
    ```bash
    # Installez Google Cloud CLI : https://cloud.google.com/sdk/docs/install
    pip install --upgrade google-genai

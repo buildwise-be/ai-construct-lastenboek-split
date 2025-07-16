@@ -27,9 +27,9 @@ The AI Construct PDF Splitter is a specialized tool designed to process construc
 ### 🔢 VMSW Processing
 - **When**: Documents using standard VMSW numbering (XX.YY format).
 - **Method**: Direct number-to-category mapping for the categorization step.
-- **Speed**: The categorization is nearly instant (over 1000x faster than AI), resulting in a faster overall pipeline.
-- **Requirements**: None - uses built-in VMSW categories.
-- **Accuracy**: 100% for proper VMSW documents.
+- **Speed**: The categorization is nearly instant (significantly faster than AI), resulting in a faster overall pipeline.
+- **Requirements**: Google Cloud setup (for content extraction).
+- **Accuracy**: High reliability for proper VMSW documents.
 
 ### 🤖 Non-VMSW Processing  
 - **When**: Custom construction documents, international formats.
@@ -65,12 +65,12 @@ The AI Construct PDF Splitter is a specialized tool designed to process construc
 
 | Feature | VMSW Mode | Non-VMSW Mode |
 |---------|-----------|---------------|
-| **Setup Time** | < 1 minute | 5-10 minutes |
+| **Setup Time** | 2-5 minutes | 5-15 minutes |
 | **Overall Speed** | ⚡ Faster | 🤖 Standard |
 | **Category File** | ❌ Not needed | ✅ Required |
-| **Google Cloud** | ❌ Not needed | ✅ Required |
-| **Accuracy** | 🎯 100% (for VMSW) | 📊 85-95% (for AI) |
-| **Cost** | 🆓 Free | 💰 Pay-per-use |
+| **Google Cloud** | ✅ Required (content extraction) | ✅ Required (content extraction + categorization) |
+| **Accuracy** | 🎯 High (number-based matching) | 📊 85-95% (AI-based) |
+| **Cost** | 💰 Pay-per-use (content extraction) | 💰 Pay-per-use (content extraction + categorization) |
 
 ## For Developers
 
@@ -101,5 +101,5 @@ Refer to the [Developer Guide](developer_guide.md) for architecture details, ext
 **Performance Highlights**:
 - ⚡ VMSW Categorization: ~0.001 seconds per item.
 - 🤖 Non-VMSW Categorization: ~4.7 seconds per item with 93% avg confidence.
-- 🎯 Automatic retry logic ensures maximum success rates for AI processing.
-- 📊 Efficiently supports documents with 80+ items. 
+- 🎯 Automatic retry logic improves success rates for AI processing.
+- 📊 Supports documents with 80+ items. 

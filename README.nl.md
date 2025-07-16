@@ -60,8 +60,8 @@ De AI Construct PDF Opdeler is een krachtige tool voor het verwerken van bouwspe
 ### Vereisten
 
 - **Python**: 3.7 - 3.13 (3.13 aanbevolen)
-- **Internetverbinding**: Alleen vereist voor Non-VMSW AI-verwerking (VMSW documenten werken offline)
-- **Google Cloud Account**: Voor Non-VMSW AI-verwerking
+- **Internetverbinding**: Vereist voor alle documenten (TOC generatie gebruikt AI)
+- **Google Cloud Account**: Vereist voor alle documenten (TOC generatie + Non-VMSW categorisatie)
 
 ### Snelle Installatie
 
@@ -121,10 +121,10 @@ python src/main.py
 
 ### Documenttype Gids
 
-| Documenttype | Wanneer Gebruiken | Vereisten | Snelheid |
-|--------------|-------------------|-----------|----------|
-| **VMSW Document** | Documenten met VMSW-nummering (XX.YY formaat) | Geen - gebruikt ingebouwde categorieën | ⚡ Ultra Snel |
-| **Non-VMSW Document** | Andere bouwdocumenten | Categoriebestand + Google Cloud installatie | 🤖 AI-Aangedreven |
+| Documenttype | Wanneer Gebruiken | Vereisten | Categorisatie Snelheid |
+|--------------|-------------------|-----------|------------------------|
+| **VMSW Document** | Documenten met VMSW-nummering (XX.YY formaat) | Google Cloud (TOC) + ingebouwde categorieën | ⚡ Snelle categorisatie |
+| **Non-VMSW Document** | Andere bouwdocumenten | Google Cloud (TOC) + Categoriebestand | 🤖 AI categorisatie |
 
 ### Geavanceerde Opties
 

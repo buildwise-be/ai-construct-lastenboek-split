@@ -60,8 +60,8 @@ The AI Construct PDF Opdeler is a powerful tool for processing construction spec
 ### Prerequisites
 
 - **Python**: 3.7 - 3.13 (3.13 recommended)
-- **Internet Connection**: Required for Non-VMSW AI processing only (VMSW documents work offline)
-- **Google Cloud Account**: For Non-VMSW AI processing
+- **Internet Connection**: Required for all documents (TOC generation uses AI)
+- **Google Cloud Account**: Required for all documents (TOC generation + Non-VMSW categorization)
 
 ### Quick Setup
 
@@ -121,10 +121,10 @@ python src/main.py
 
 ### Document Type Guide
 
-| Document Type | When to Use | Requirements | Speed |
-|---------------|-------------|--------------|-------|
-| **VMSW Document** | Documents with VMSW numbering (XX.YY format) | None - uses built-in categories | ⚡ Ultra Fast |
-| **Non-VMSW Document** | Other construction documents | Category file + Google Cloud setup | 🤖 AI-Powered |
+| Document Type | When to Use | Requirements | Categorization Speed |
+|---------------|-------------|--------------|---------------------|
+| **VMSW Document** | Documents with VMSW numbering (XX.YY format) | Google Cloud (TOC) + built-in categories | ⚡ Fast categorization |
+| **Non-VMSW Document** | Other construction documents | Google Cloud (TOC) + Category file | 🤖 AI categorization |
 
 ### Advanced Options
 

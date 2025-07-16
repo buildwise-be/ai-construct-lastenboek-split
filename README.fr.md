@@ -60,8 +60,8 @@ L'AI Construct PDF Diviseur est un outil puissant pour traiter les documents de 
 ### Prérequis
 
 - **Python** : 3.7 - 3.13 (3.13 recommandé)
-- **Connexion Internet** : Requise uniquement pour le traitement IA non-VMSW (documents VMSW fonctionnent hors ligne)
-- **Compte Google Cloud** : Pour le traitement IA non-VMSW
+- **Connexion Internet** : Requise pour tous les documents (génération TOC utilise l'IA)
+- **Compte Google Cloud** : Requis pour tous les documents (génération TOC + catégorisation non-VMSW)
 
 ### Installation Rapide
 
@@ -121,10 +121,10 @@ python src/main.py
 
 ### Guide des Types de Documents
 
-| Type de Document | Quand Utiliser | Exigences | Vitesse |
-|------------------|----------------|-----------|---------|
-| **Document VMSW** | Documents avec numérotation VMSW (format XX.YY) | Aucune - utilise les catégories intégrées | ⚡ Ultra Rapide |
-| **Document non-VMSW** | Autres documents de construction | Fichier de catégories + configuration Google Cloud | 🤖 Alimenté par IA |
+| Type de Document | Quand Utiliser | Exigences | Vitesse de Catégorisation |
+|------------------|----------------|-----------|---------------------------|
+| **Document VMSW** | Documents avec numérotation VMSW (format XX.YY) | Google Cloud (TOC) + catégories intégrées | ⚡ Catégorisation rapide |
+| **Document non-VMSW** | Autres documents de construction | Google Cloud (TOC) + Fichier de catégories | 🤖 Catégorisation IA |
 
 ### Options Avancées
 

@@ -60,7 +60,7 @@ The AI Construct PDF Opdeler is a powerful tool for processing construction spec
 ### Prerequisites
 
 - **Python**: 3.7 - 3.13 (3.13 recommended)
-- **Internet Connection**: Required for AI processing (Non-VMSW documents)
+- **Internet Connection**: Required for Non-VMSW AI processing only (VMSW documents work offline)
 - **Google Cloud Account**: For Non-VMSW AI processing
 
 ### Quick Setup

@@ -60,7 +60,7 @@ L'AI Construct PDF Diviseur est un outil puissant pour traiter les documents de 
 ### Prérequis
 
 - **Python** : 3.7 - 3.13 (3.13 recommandé)
-- **Connexion Internet** : Requise pour le traitement IA (documents non-VMSW)
+- **Connexion Internet** : Requise uniquement pour le traitement IA non-VMSW (documents VMSW fonctionnent hors ligne)
 - **Compte Google Cloud** : Pour le traitement IA non-VMSW
 
 ### Installation Rapide

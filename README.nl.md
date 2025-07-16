@@ -60,7 +60,7 @@ De AI Construct PDF Opdeler is een krachtige tool voor het verwerken van bouwspe
 ### Vereisten
 
 - **Python**: 3.7 - 3.13 (3.13 aanbevolen)
-- **Internetverbinding**: Vereist voor AI-verwerking (Non-VMSW documenten)
+- **Internetverbinding**: Alleen vereist voor Non-VMSW AI-verwerking (VMSW documenten werken offline)
 - **Google Cloud Account**: Voor Non-VMSW AI-verwerking
 
 ### Snelle Installatie

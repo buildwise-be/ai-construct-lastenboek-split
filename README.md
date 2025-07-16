@@ -6,7 +6,7 @@
 </div>
 
 <p align="center">
-  <em>Moderne GUI-toepassing voor het opdelen van bouwdocumenten per aannemerscategorie</em>
+  <em>GUI-toepassing voor het opdelen van bouwdocumenten per aannemerscategorie</em>
 </p>
 
 ---
@@ -17,40 +17,36 @@
 
 ---
 
-## 🚀 Nieuw: Hybride Verwerkingssysteem
+## Hybride Verwerkingssysteem
 
-Deze applicatie ondersteunt **zowel VMSW als Non-VMSW bouwdocumenten** met intelligente verwerking:
+Deze applicatie ondersteunt zowel VMSW als Non-VMSW bouwdocumenten:
 
-- **🔢 VMSW Documenten**: Gebruikt nummer-gebaseerde categoriematching voor hoge snelheid en nauwkeurigheid
-- **🤖 Non-VMSW Documenten**: Gebruikt AI-aangedreven semantische analyse met Google Gemini
-- **🎯 Slimme Detectie**: Detecteert automatisch documenttype met handmatige overschrijvingsoptie
-- **⚡ Prestaties**: VMSW categorisatie is aanzienlijk sneller dan AI-verwerking
-- **🖥️ Moderne GUI**: Responsieve interface met real-time voortgangsweergave
+- **VMSW Documenten**: Gebruikt nummer-gebaseerde categoriematching
+- **Non-VMSW Documenten**: Gebruikt AI semantische analyse met Google Gemini
+- **Automatische Detectie**: Detecteert documenttype met handmatige overschrijvingsoptie
+- **Prestaties**: VMSW categorisatie is sneller dan AI-verwerking
 
 ---
 
 ## Overzicht
 
-De AI Construct PDF Opdeler is een krachtige tool voor het verwerken van bouwspecificatiedocumenten (lastenboeken). Het analyseert documenten intelligent, extraheert structuur, categoriseert inhoud en splitst documenten op in aannemer-specifieke PDF's.
+De AI Construct PDF Opdeler is een tool voor het verwerken van bouwspecificatiedocumenten (lastenboeken). Het analyseert documenten, extraheert structuur, categoriseert inhoud en splitst documenten op in aannemer-specifieke PDF's.
 
-### 🎯 Belangrijkste Functies
+### Belangrijkste Functies
 
-- **Hybride Intelligentie**: Combineert nummer-gebaseerde VMSW matching met AI semantische analyse
-- **Responsieve GUI**: Geen bevriezing meer tijdens lange operaties
-- **Real-time Voortgang**: Live voortgangsbalken en statusupdates
+- **Hybride Verwerking**: Combineert nummer-gebaseerde VMSW matching met AI semantische analyse
 - **Documenttype Selectie**: Kies tussen VMSW en Non-VMSW verwerkingsmodi
 - **Model Selectie**: Kies tussen Gemini 2.5 Pro en Gemini 2.5 Flash
-- **Annuleerondersteuning**: Stop operaties halverwege het proces
 - **Multi-Output**: Genereer PDF's in meerdere uitvoermappen tegelijkertijd
-- **Professionele Logging**: Auto-scrollende log met tijdstempels en debugging utilities
+- **Logging**: Gedetailleerde logging met tijdstempels
 
-### 📋 Verwerkingspijplijn
+### Verwerkingspijplijn
 
-1. **📖 TOC Generatie**: Extraheert hoofdstukken en secties uit PDF-documenten
-2. **🎯 Slimme Categorisatie**: 
-   - **VMSW**: Snelle directe nummermapping (bijv. "02.40" → "02. Funderingen en Kelders")
+1. **Inhoudsopgave Extractie**: Extraheert hoofdstukken en secties uit PDF-documenten
+2. **Categorisatie**: 
+   - **VMSW**: Directe nummermapping (bijv. "02.40" → "02. Funderingen en Kelders")
    - **Non-VMSW**: AI semantische matching met voorgedefinieerde categorieën
-3. **📄 Document Splitsing**: Creëert aparte PDF's voor elke bouwcategorie
+3. **Document Splitsing**: Creëert aparte PDF's voor elke bouwcategorie
 
 ---
 
@@ -59,8 +55,8 @@ De AI Construct PDF Opdeler is een krachtige tool voor het verwerken van bouwspe
 ### Vereisten
 
 - **Python**: 3.7 - 3.13 (3.13 aanbevolen)
-- **Internetverbinding**: Vereist voor alle documenten (TOC generatie gebruikt AI)
-- **Google Cloud Account**: Vereist voor alle documenten (TOC generatie + Non-VMSW categorisatie)
+- **Internetverbinding**: Vereist voor alle documenten (inhoudsopgave extractie gebruikt AI)
+- **Google Cloud Account**: Vereist voor alle documenten (inhoudsopgave extractie + Non-VMSW categorisatie)
 
 ### Snelle Installatie
 
@@ -109,36 +105,35 @@ python src/main.py
 
 ---
 
-## 🖥️ Gebruik van de Applicatie
+## Gebruik van de Applicatie
 
 ### Snelle Start
 
-1. **📁 Selecteer PDF**: Kies uw bouwdocument
-2. **⚙️ Documenttype**: Selecteer "VMSW Document" of "Non-VMSW Document"
-3. **📂 Uitvoermap**: Kies waar resultaten opgeslagen worden
-4. **▶️ Verwerken**: Klik op "Volledige Pijplijn Uitvoeren"
+1. **Selecteer PDF**: Kies uw bouwdocument
+2. **Documenttype**: Selecteer "VMSW Document" of "Non-VMSW Document"
+3. **Uitvoermap**: Kies waar resultaten opgeslagen worden
+4. **Verwerken**: Klik op "Volledige Pijplijn Uitvoeren"
 
 ### Documenttype Gids
 
 | Documenttype | Wanneer Gebruiken | Vereisten | Categorisatie Snelheid |
 |--------------|-------------------|-----------|------------------------|
-| **VMSW Document** | Documenten met VMSW-nummering (XX.YY formaat) | Google Cloud (TOC) + ingebouwde categorieën | ⚡ Snelle categorisatie |
-| **Non-VMSW Document** | Andere bouwdocumenten | Google Cloud (TOC) + Categoriebestand | 🤖 AI categorisatie |
+| **VMSW Document** | Documenten met VMSW-nummering (XX.YY formaat) | Google Cloud + ingebouwde categorieën | Snelle categorisatie |
+| **Non-VMSW Document** | Andere bouwdocumenten | Google Cloud + Categoriebestand | AI categorisatie |
 
 ### Geavanceerde Opties
 
-- **🎛️ Model Selectie**: Kies Gemini 2.5 Pro (nauwkeurigheid) of Flash (snelheid)
-- **📁 Meerdere Outputs**: Stel tot 3 verschillende uitvoermappen in
-- **🔧 Individuele Stappen**: Voer TOC, Categorisatie of PDF-splitsing afzonderlijk uit
-- **📊 Real-time Logging**: Bekijk gedetailleerde verwerkingslogs en debugging info
-- **⏹️ Annulering**: Stop verwerking op elk moment
+- **Model Selectie**: Kies Gemini 2.5 Pro (nauwkeurigheid) of Flash (snelheid)
+- **Meerdere Outputs**: Stel tot 3 verschillende uitvoermappen in
+- **Individuele Stappen**: Voer inhoudsopgave extractie, categorisatie of PDF-splitsing afzonderlijk uit
+- **Logging**: Bekijk gedetailleerde verwerkingslogs
 
 ---
 
-## 📁 Project Architectuur
+## Project Architectuur
 
 ```
-├── src/                          # Moderne modulaire architectuur
+├── src/                          # Modulaire architectuur
 │   ├── main.py                   # Applicatie-ingangspunt
 │   ├── config/                   # Configuratiebeheer
 │   │   ├── __init__.py
@@ -146,9 +141,9 @@ python src/main.py
 │   ├── core/                     # Kernverwerkingslogica
 │   │   ├── __init__.py
 │   │   ├── ai_client.py          # Vertex AI-integratie
-│   │   ├── pdf_processor.py      # TOC-generatie & PDF-splitsing
+│   │   ├── pdf_processor.py      # Inhoudsopgave extractie & PDF-splitsing
 │   │   ├── category_matcher.py   # AI-categoriematching
-│   │   ├── hybrid_matcher.py     # Slimme documenttypeafhandeling
+│   │   ├── hybrid_matcher.py     # Documenttypeafhandeling
 │   │   ├── vmsw_matcher.py       # VMSW nummer-gebaseerde matching
 │   │   └── file_utils.py         # Bestandsoperaties
 │   ├── gui/                      # Gebruikersinterface componenten
@@ -178,11 +173,11 @@ python src/main.py
 
 ---
 
-## 🎯 VMSW vs Non-VMSW Verwerking
+## VMSW vs Non-VMSW Verwerking
 
 ### VMSW Documenten
 
-**Perfect voor**: Nederlandse bouwdocumenten met standaard VMSW-nummering
+**Geschikt voor**: Nederlandse bouwdocumenten met standaard VMSW-nummering
 
 **Hoe het werkt**:
 - Wijst hoofdstuknummers direct toe aan categorieën (bijv. "02" → "02. Funderingen en Kelders")
@@ -198,13 +193,13 @@ python src/main.py
 
 ### Non-VMSW Documenten
 
-**Perfect voor**: Aangepaste bouwdocumenten, internationale formaten
+**Geschikt voor**: Aangepaste bouwdocumenten, internationale formaten
 
 **Hoe het werkt**:
 - AI analyseert inhoud semantisch
 - Matcht tegen aangepaste categoriedefinities
 - Biedt betrouwbaarheidsscores en uitleg (resultaten kunnen variëren)
-- Intelligente retry-logica voor optimale resultaten
+- Retry-logica voor betere resultaten
 
 **Vereisten**:
 - Aangepast categoriebestand (Python, Excel of CSV)
@@ -213,13 +208,13 @@ python src/main.py
 
 ---
 
-## 🔧 VMSW Categorieën Aanpassen
+## VMSW Categorieën Aanpassen
 
-De applicatie biedt flexibele opties voor het aanpassen van hoe VMSW-documenten worden gegroepeerd in aannemerscategorieën.
+De applicatie biedt opties voor het aanpassen van hoe VMSW-documenten worden gegroepeerd in aannemerscategorieën.
 
 ### Standaard VMSW Groepering
 
-Standaard gebruiken VMSW-documenten een **tweeniveaus mappingsysteem**:
+Standaard gebruiken VMSW-documenten een tweeniveaus mappingsysteem:
 
 1. **Directe Hoofdstuk Mapping** (`src/core/vmsw_matcher.py`): Wijst VMSW-hoofdstukken (00-42) toe aan brede bouwcategorieën
 2. **Gedetailleerde Artikel Mapping** (`VMSWcat.json`): Wijst specifieke VMSW-artikelen toe aan gespecialiseerde groeperingen
@@ -294,7 +289,7 @@ Wijzig `VMSWcat.json` om aannemer-specifieke categorieën te creëren:
 
 ---
 
-## 🔧 Configuratie
+## Configuratie
 
 ### Omgevingsvariabelen
 
@@ -319,7 +314,7 @@ Plaats uw categoriedefinitiebestanden in de projectroot:
 
 ---
 
-## 📊 Uitvoerstructuur
+## Uitvoerstructuur
 
 Elke verwerkingsrun creëert een map met tijdstempel:
 
@@ -327,9 +322,9 @@ Elke verwerkingsrun creëert een map met tijdstempel:
 output/
 └── pdf_processor_step3_category_pdfs_YYYYMMDD_HHMMSS/
     ├── step1_toc/              # Inhoudsopgave extractie
-    │   ├── chapters.json
-    │   ├── sections.json
-    │   └── toc.csv
+│   ├── chapters.json
+│   ├── sections.json
+│   └── inhoudsopgave.csv
     ├── step2_category_matching/ # Categorisatieresultaten
     │   ├── category_matches.json
     │   ├── category_statistics.json
@@ -342,7 +337,7 @@ output/
 
 ---
 
-## 🔍 Validatie & Probleemoplossing
+## Validatie & Probleemoplossing
 
 ### Voer Validatiecontrole Uit
 ```bash
@@ -413,9 +408,9 @@ python main_script.py document.pdf step3 --no-gui
 ### Kernmodules
 
 - **`ai_client.py`**: Behandelt alle Vertex AI-interacties met retry-logica
-- **`pdf_processor.py`**: PDF-verwerking, TOC-extractie en splitsing
+- **`pdf_processor.py`**: PDF-verwerking, inhoudsopgave extractie en splitsing
 - **`category_matcher.py`**: AI-aangedreven categoriematching met batch-verwerking
-- **`hybrid_matcher.py`**: Slimme documenttypedetectie en routing
+- **`hybrid_matcher.py`**: Documenttypedetectie en routing
 - **`vmsw_matcher.py`**: Hoge snelheid VMSW nummer-gebaseerde matching
 - **`file_utils.py`**: Bestandsoperaties en mapbeheer
 
@@ -433,7 +428,7 @@ python main_script.py document.pdf step3 --no-gui
 
 ---
 
-## 🚀 Snelle Startgids
+## Snelle Startgids
 
 ### Stap 1: Installeer Python Dependencies
 ```bash
@@ -478,5 +473,5 @@ Dit project is gelicentieerd onder de voorwaarden gespecificeerd in het LICENSE 
 <div align="center">
   <p><strong>Ontwikkeld in het AI Construct COOCK+ project</strong></p>
   <p><em>Met de steun van VLAIO</em></p>
-  <p><em>Professionele bouwdocumentverwerking voor het moderne tijdperk</em></p>
+  <p><em>Bouwdocumentverwerking voor de praktijk</em></p>
 </div> 

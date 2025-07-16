@@ -17,40 +17,36 @@
 
 ---
 
-## 🚀 What's New: Hybrid Processing System
+## Hybrid Processing System
 
-This application supports **both VMSW and Non-VMSW construction documents** with intelligent processing:
+This application supports both VMSW and Non-VMSW construction documents:
 
-- **🔢 VMSW Documents**: Uses number-based category matching for high speed and accuracy
-- **🤖 Non-VMSW Documents**: Employs AI-powered semantic analysis with Google Gemini
-- **🎯 Smart Detection**: Automatically detects document type with manual override option
-- **⚡ Performance**: VMSW categorization is significantly faster than AI processing
-- **🖥️ Modern GUI**: Responsive interface with real-time progress tracking
+- **VMSW Documents**: Uses number-based category matching
+- **Non-VMSW Documents**: Uses AI semantic analysis with Google Gemini
+- **Automatic Detection**: Detects document type with manual override option
+- **Performance**: VMSW categorization is faster than AI processing
 
 ---
 
 ## Overview
 
-The AI Construct PDF Opdeler is a powerful tool for processing construction specification documents (lastenboeken). It intelligently analyzes documents, extracts structure, categorizes content, and splits documents into contractor-specific PDFs.
+The AI Construct PDF Opdeler is a tool for processing construction specification documents (lastenboeken). It analyzes documents, extracts structure, categorizes content, and splits documents into contractor-specific PDFs.
 
-### 🎯 Key Features
+### Key Features
 
-- **Hybrid Intelligence**: Combines number-based VMSW matching with AI semantic analysis
-- **Responsive GUI**: No more freezing during long operations
-- **Real-time Progress**: Live progress bars and status updates  
+- **Hybrid Processing**: Combines number-based VMSW matching with AI semantic analysis
 - **Document Type Selection**: Choose between VMSW and Non-VMSW processing modes
 - **Model Selection**: Choose between Gemini 2.5 Pro and Gemini 2.5 Flash
-- **Cancellation Support**: Stop operations mid-process
 - **Multi-Output**: Generate PDFs in multiple output directories simultaneously
-- **Professional Logging**: Auto-scrolling log with timestamps and debugging utilities
+- **Logging**: Detailed logging with timestamps
 
-### 📋 Processing Pipeline
+### Processing Pipeline
 
-1. **📖 TOC Generation**: Extracts chapters and sections from PDF documents
-2. **🎯 Smart Categorization**: 
-   - **VMSW**: Fast direct number mapping (e.g., "02.40" → "02. Funderingen en Kelders")
+1. **Table of Contents Extraction**: Extracts chapters and sections from PDF documents
+2. **Categorization**: 
+   - **VMSW**: Direct number mapping (e.g., "02.40" → "02. Funderingen en Kelders")
    - **Non-VMSW**: AI semantic matching with predefined categories
-3. **📄 Document Splitting**: Creates separate PDFs for each construction category
+3. **Document Splitting**: Creates separate PDFs for each construction category
 
 ---
 
@@ -59,8 +55,8 @@ The AI Construct PDF Opdeler is a powerful tool for processing construction spec
 ### Prerequisites
 
 - **Python**: 3.7 - 3.13 (3.13 recommended)
-- **Internet Connection**: Required for all documents (TOC generation uses AI)
-- **Google Cloud Account**: Required for all documents (TOC generation + Non-VMSW categorization)
+- **Internet Connection**: Required for all documents (table of contents extraction uses AI)
+- **Google Cloud Account**: Required for all documents (table of contents extraction + Non-VMSW categorization)
 
 ### Quick Setup
 
@@ -109,33 +105,32 @@ python src/main.py
 
 ---
 
-## 🖥️ Using the Application
+## Using the Application
 
 ### Quick Start
 
-1. **📁 Select PDF**: Choose your construction document
-2. **⚙️ Document Type**: Select "VMSW Document" or "Non-VMSW Document"  
-3. **📂 Output Directory**: Choose where to save results
-4. **▶️ Process**: Click "Run Complete Pipeline"
+1. **Select PDF**: Choose your construction document
+2. **Document Type**: Select "VMSW Document" or "Non-VMSW Document"  
+3. **Output Directory**: Choose where to save results
+4. **Process**: Click "Run Complete Pipeline"
 
 ### Document Type Guide
 
 | Document Type | When to Use | Requirements | Categorization Speed |
 |---------------|-------------|--------------|---------------------|
-| **VMSW Document** | Documents with VMSW numbering (XX.YY format) | Google Cloud (TOC) + built-in categories | ⚡ Fast categorization |
-| **Non-VMSW Document** | Other construction documents | Google Cloud (TOC) + Category file | 🤖 AI categorization |
+| **VMSW Document** | Documents with VMSW numbering (XX.YY format) | Google Cloud + built-in categories | Fast categorization |
+| **Non-VMSW Document** | Other construction documents | Google Cloud + Category file | AI categorization |
 
 ### Advanced Options
 
-- **🎛️ Model Selection**: Choose Gemini 2.5 Pro (accuracy) or Flash (speed)
-- **📁 Multiple Outputs**: Set up to 3 different output directories
-- **🔧 Individual Steps**: Run TOC, Categorization, or PDF splitting separately
-- **📊 Real-time Logging**: View detailed processing logs and debugging info
-- **⏹️ Cancellation**: Stop processing at any time
+- **Model Selection**: Choose Gemini 2.5 Pro (accuracy) or Flash (speed)
+- **Multiple Outputs**: Set up to 3 different output directories
+- **Individual Steps**: Run table of contents extraction, categorization, or PDF splitting separately
+- **Logging**: View detailed processing logs
 
 ---
 
-## 📁 Project Architecture
+## Project Architecture
 
 ```
 ├── src/                          # Modern modular architecture
@@ -146,7 +141,7 @@ python src/main.py
 │   ├── core/                     # Core processing logic
 │   │   ├── __init__.py
 │   │   ├── ai_client.py          # Vertex AI integration
-│   │   ├── pdf_processor.py      # TOC generation & PDF splitting
+│   │   ├── pdf_processor.py      # Table of contents extraction & PDF splitting
 │   │   ├── category_matcher.py   # AI category matching
 │   │   ├── hybrid_matcher.py     # Smart document type handling
 │   │   ├── vmsw_matcher.py       # VMSW number-based matching
@@ -178,11 +173,11 @@ python src/main.py
 
 ---
 
-## 🎯 VMSW vs Non-VMSW Processing
+## VMSW vs Non-VMSW Processing
 
 ### VMSW Documents
 
-**Perfect for**: Dutch construction documents using standard VMSW numbering
+**Suitable for**: Dutch construction documents using standard VMSW numbering
 
 **How it works**:
 - Directly maps chapter numbers to categories (e.g., "02" → "02. Funderingen en Kelders")
@@ -198,13 +193,13 @@ python src/main.py
 
 ### Non-VMSW Documents
 
-**Perfect for**: Custom construction documents, international formats
+**Suitable for**: Custom construction documents, international formats
 
 **How it works**:
 - AI analyzes content semantically
 - Matches against custom category definitions
 - Provides confidence scores and explanations (results may vary)
-- Intelligent retry logic for optimal results
+- Retry logic for better results
 
 **Requirements**:
 - Custom category file (Python, Excel, or CSV)
@@ -213,13 +208,13 @@ python src/main.py
 
 ---
 
-## 🔧 Customizing VMSW Categories
+## Customizing VMSW Categories
 
-The application provides flexible options for customizing how VMSW documents are grouped into contractor categories.
+The application provides options for customizing how VMSW documents are grouped into contractor categories.
 
 ### Default VMSW Grouping
 
-By default, VMSW documents use a **two-level mapping system**:
+By default, VMSW documents use a two-level mapping system:
 
 1. **Direct Chapter Mapping** (`src/core/vmsw_matcher.py`): Maps VMSW chapters (00-42) to broad construction categories
 2. **Detailed Article Mapping** (`VMSWcat.json`): Maps specific VMSW articles to specialized groupings
@@ -365,7 +360,7 @@ Create very specific groupings for detailed work packages:
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -390,7 +385,7 @@ Place your category definition files in the project root:
 
 ---
 
-## 📊 Output Structure
+## Output Structure
 
 Each processing run creates a timestamped directory:
 
@@ -398,9 +393,9 @@ Each processing run creates a timestamped directory:
 output/
 └── pdf_processor_step3_category_pdfs_YYYYMMDD_HHMMSS/
     ├── step1_toc/              # Table of contents extraction
-    │   ├── chapters.json
-    │   ├── sections.json
-    │   └── toc.csv
+│   ├── chapters.json
+│   ├── sections.json
+│   └── table_of_contents.csv
     ├── step2_category_matching/ # Categorization results
     │   ├── category_matches.json
     │   ├── category_statistics.json
@@ -413,7 +408,7 @@ output/
 
 ---
 
-## 🔍 Validation & Troubleshooting
+## Validation & Troubleshooting
 
 ### Run Validation Check
 ```bash
@@ -484,7 +479,7 @@ python main_script.py document.pdf step3 --no-gui
 ### Core Modules
 
 - **`ai_client.py`**: Handles all Vertex AI interactions with retry logic
-- **`pdf_processor.py`**: PDF processing, TOC extraction, and splitting
+- **`pdf_processor.py`**: PDF processing, table of contents extraction, and splitting
 - **`category_matcher.py`**: AI-powered category matching with batch processing
 - **`hybrid_matcher.py`**: Smart document type detection and routing
 - **`vmsw_matcher.py`**: High-speed VMSW number-based matching
@@ -504,7 +499,7 @@ python main_script.py document.pdf step3 --no-gui
 
 ---
 
-## 🚀 Quick Start Guide
+## Quick Start Guide
 
 ### Step 1: Install Python Dependencies
 ```bash
@@ -540,7 +535,7 @@ python src/main.py
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the terms specified in the LICENSE file.
 

@@ -17,40 +17,36 @@
 
 ---
 
-## 🚀 Nouveauté : Système de Traitement Hybride
+## Système de Traitement Hybride
 
-Cette application prend en charge **les documents de construction VMSW et non-VMSW** avec un traitement intelligent :
+Cette application prend en charge les documents de construction VMSW et non-VMSW :
 
-- **🔢 Documents VMSW** : Utilise la correspondance de catégories basée sur les numéros pour une vitesse et une précision élevées
-- **🤖 Documents non-VMSW** : Utilise l'analyse sémantique alimentée par l'IA avec Google Gemini
-- **🎯 Détection Intelligente** : Détecte automatiquement le type de document avec option de remplacement manuel
-- **⚡ Performance** : La catégorisation VMSW est considérablement plus rapide que le traitement IA
-- **🖥️ GUI Moderne** : Interface réactive avec suivi des progrès en temps réel
+- **Documents VMSW** : Utilise la correspondance de catégories basée sur les numéros
+- **Documents non-VMSW** : Utilise l'analyse sémantique IA avec Google Gemini
+- **Détection Automatique** : Détecte automatiquement le type de document avec option de remplacement manuel
+- **Performance** : La catégorisation VMSW est plus rapide que le traitement IA
 
 ---
 
 ## Aperçu
 
-L'AI Construct PDF Diviseur est un outil puissant pour traiter les documents de spécifications de construction (cahiers des charges). Il analyse intelligemment les documents, extrait la structure, catégorise le contenu et divise les documents en PDF spécifiques aux entrepreneurs.
+L'AI Construct PDF Diviseur est un outil pour traiter les documents de spécifications de construction (cahiers des charges). Il analyse les documents, extrait la structure, catégorise le contenu et divise les documents en PDF spécifiques aux entrepreneurs.
 
-### 🎯 Fonctionnalités Principales
+### Fonctionnalités Principales
 
-- **Intelligence Hybride** : Combine la correspondance VMSW basée sur les numéros avec l'analyse sémantique IA
-- **GUI Réactive** : Plus de gel pendant les longues opérations
-- **Progrès en Temps Réel** : Barres de progression en direct et mises à jour de statut
+- **Traitement Hybride** : Combine la correspondance VMSW basée sur les numéros avec l'analyse sémantique IA
 - **Sélection du Type de Document** : Choisissez entre les modes de traitement VMSW et non-VMSW
 - **Sélection de Modèle** : Choisissez entre Gemini 2.5 Pro et Gemini 2.5 Flash
-- **Support d'Annulation** : Arrêtez les opérations en cours de processus
 - **Multi-Sortie** : Générez des PDF dans plusieurs dossiers de sortie simultanément
-- **Journalisation Professionnelle** : Journal à défilement automatique avec horodatage et utilitaires de débogage
+- **Journalisation** : Journalisation détaillée avec horodatage
 
-### 📋 Pipeline de Traitement
+### Pipeline de Traitement
 
-1. **📖 Génération TOC** : Extrait les chapitres et sections des documents PDF
-2. **🎯 Catégorisation Intelligente** : 
-   - **VMSW** : Mappage direct rapide des numéros (ex. "02.40" → "02. Fondations et Caves")
+1. **Extraction Table des Matières** : Extrait les chapitres et sections des documents PDF
+2. **Catégorisation** : 
+   - **VMSW** : Mappage direct des numéros (ex. "02.40" → "02. Fondations et Caves")
    - **Non-VMSW** : Correspondance sémantique IA avec catégories prédéfinies
-3. **📄 Division de Document** : Crée des PDF séparés pour chaque catégorie de construction
+3. **Division de Document** : Crée des PDF séparés pour chaque catégorie de construction
 
 ---
 
@@ -59,8 +55,8 @@ L'AI Construct PDF Diviseur est un outil puissant pour traiter les documents de 
 ### Prérequis
 
 - **Python** : 3.7 - 3.13 (3.13 recommandé)
-- **Connexion Internet** : Requise pour tous les documents (génération TOC utilise l'IA)
-- **Compte Google Cloud** : Requis pour tous les documents (génération TOC + catégorisation non-VMSW)
+- **Connexion Internet** : Requise pour tous les documents (extraction table des matières utilise l'IA)
+- **Compte Google Cloud** : Requis pour tous les documents (extraction table des matières + catégorisation non-VMSW)
 
 ### Installation Rapide
 
@@ -109,33 +105,32 @@ python src/main.py
 
 ---
 
-## 🖥️ Utilisation de l'Application
+## Utilisation de l'Application
 
 ### Démarrage Rapide
 
-1. **📁 Sélectionnez PDF** : Choisissez votre document de construction
-2. **⚙️ Type de Document** : Sélectionnez "Document VMSW" ou "Document non-VMSW"
-3. **📂 Dossier de Sortie** : Choisissez où sauvegarder les résultats
-4. **▶️ Traiter** : Cliquez sur "Exécuter le Pipeline Complet"
+1. **Sélectionnez PDF** : Choisissez votre document de construction
+2. **Type de Document** : Sélectionnez "Document VMSW" ou "Document non-VMSW"
+3. **Dossier de Sortie** : Choisissez où sauvegarder les résultats
+4. **Traiter** : Cliquez sur "Exécuter le Pipeline Complet"
 
 ### Guide des Types de Documents
 
 | Type de Document | Quand Utiliser | Exigences | Vitesse de Catégorisation |
 |------------------|----------------|-----------|---------------------------|
-| **Document VMSW** | Documents avec numérotation VMSW (format XX.YY) | Google Cloud (TOC) + catégories intégrées | ⚡ Catégorisation rapide |
-| **Document non-VMSW** | Autres documents de construction | Google Cloud (TOC) + Fichier de catégories | 🤖 Catégorisation IA |
+| **Document VMSW** | Documents avec numérotation VMSW (format XX.YY) | Google Cloud + catégories intégrées | Catégorisation rapide |
+| **Document non-VMSW** | Autres documents de construction | Google Cloud + Fichier de catégories | Catégorisation IA |
 
 ### Options Avancées
 
-- **🎛️ Sélection de Modèle** : Choisissez Gemini 2.5 Pro (précision) ou Flash (vitesse)
-- **📁 Sorties Multiples** : Configurez jusqu'à 3 dossiers de sortie différents
-- **🔧 Étapes Individuelles** : Exécutez TOC, Catégorisation ou division PDF séparément
-- **📊 Journalisation Temps Réel** : Consultez les journaux de traitement détaillés et les infos de débogage
-- **⏹️ Annulation** : Arrêtez le traitement à tout moment
+- **Sélection de Modèle** : Choisissez Gemini 2.5 Pro (précision) ou Flash (vitesse)
+- **Sorties Multiples** : Configurez jusqu'à 3 dossiers de sortie différents
+- **Étapes Individuelles** : Exécutez extraction table des matières, catégorisation ou division PDF séparément
+- **Journalisation** : Consultez les journaux de traitement détaillés
 
 ---
 
-## 📁 Architecture du Projet
+## Architecture du Projet
 
 ```
 ├── src/                          # Architecture modulaire moderne
@@ -146,7 +141,7 @@ python src/main.py
 │   ├── core/                     # Logique de traitement principal
 │   │   ├── __init__.py
 │   │   ├── ai_client.py          # Intégration Vertex AI
-│   │   ├── pdf_processor.py      # Génération TOC & division PDF
+│   │   ├── pdf_processor.py      # Extraction table des matières & division PDF
 │   │   ├── category_matcher.py   # Correspondance de catégories IA
 │   │   ├── hybrid_matcher.py     # Gestion intelligente du type de document
 │   │   ├── vmsw_matcher.py       # Correspondance VMSW basée sur les numéros
@@ -178,11 +173,11 @@ python src/main.py
 
 ---
 
-## 🎯 Traitement VMSW vs non-VMSW
+## Traitement VMSW vs non-VMSW
 
 ### Documents VMSW
 
-**Parfait pour** : Documents de construction néerlandais avec numérotation VMSW standard
+**Adapté pour** : Documents de construction néerlandais avec numérotation VMSW standard
 
 **Comment ça fonctionne** :
 - Mappe directement les numéros de chapitres aux catégories (ex. "02" → "02. Fondations et Caves")
@@ -198,13 +193,13 @@ python src/main.py
 
 ### Documents non-VMSW
 
-**Parfait pour** : Documents de construction personnalisés, formats internationaux
+**Adapté pour** : Documents de construction personnalisés, formats internationaux
 
 **Comment ça fonctionne** :
 - L'IA analyse le contenu sémantiquement
 - Correspond aux définitions de catégories personnalisées
 - Fournit des scores de confiance et des explications (les résultats peuvent varier)
-- Logique de nouvelle tentative intelligente pour des résultats optimaux
+- Logique de nouvelle tentative pour de meilleurs résultats
 
 **Exigences** :
 - Fichier de catégories personnalisé (Python, Excel ou CSV)
@@ -213,13 +208,13 @@ python src/main.py
 
 ---
 
-## 🔧 Personnalisation des Catégories VMSW
+## Personnalisation des Catégories VMSW
 
-L'application offre des options flexibles pour personnaliser comment les documents VMSW sont groupés en catégories d'entrepreneurs.
+L'application offre des options pour personnaliser comment les documents VMSW sont groupés en catégories d'entrepreneurs.
 
 ### Groupement VMSW par Défaut
 
-Par défaut, les documents VMSW utilisent un **système de mappage à deux niveaux** :
+Par défaut, les documents VMSW utilisent un système de mappage à deux niveaux :
 
 1. **Mappage Direct des Chapitres** (`src/core/vmsw_matcher.py`) : Mappe les chapitres VMSW (00-42) aux catégories de construction larges
 2. **Mappage Détaillé des Articles** (`VMSWcat.json`) : Mappe les articles VMSW spécifiques aux groupements spécialisés
@@ -294,7 +289,7 @@ Modifiez `VMSWcat.json` pour créer des catégories spécifiques aux entrepreneu
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ### Variables d'Environnement
 
@@ -319,7 +314,7 @@ Placez vos fichiers de définition de catégories dans la racine du projet :
 
 ---
 
-## 📊 Structure de Sortie
+## Structure de Sortie
 
 Chaque exécution de traitement crée un dossier horodaté :
 
@@ -327,9 +322,9 @@ Chaque exécution de traitement crée un dossier horodaté :
 output/
 └── pdf_processor_step3_category_pdfs_YYYYMMDD_HHMMSS/
     ├── step1_toc/              # Extraction de table des matières
-    │   ├── chapters.json
-    │   ├── sections.json
-    │   └── toc.csv
+│   ├── chapters.json
+│   ├── sections.json
+│   └── table_des_matieres.csv
     ├── step2_category_matching/ # Résultats de catégorisation
     │   ├── category_matches.json
     │   ├── category_statistics.json
@@ -342,7 +337,7 @@ output/
 
 ---
 
-## 🔍 Validation et Dépannage
+## Validation et Dépannage
 
 ### Exécuter la Vérification de Validation
 ```bash
@@ -413,7 +408,7 @@ python main_script.py document.pdf step3 --no-gui
 ### Modules Principaux
 
 - **`ai_client.py`** : Gère toutes les interactions Vertex AI avec logique de nouvelle tentative
-- **`pdf_processor.py`** : Traitement PDF, extraction TOC et division
+- **`pdf_processor.py`** : Traitement PDF, extraction table des matières et division
 - **`category_matcher.py`** : Correspondance de catégories alimentée par IA avec traitement par lots
 - **`hybrid_matcher.py`** : Détection intelligente du type de document et routage
 - **`vmsw_matcher.py`** : Correspondance VMSW basée sur les numéros haute vitesse
@@ -433,7 +428,7 @@ python main_script.py document.pdf step3 --no-gui
 
 ---
 
-## 🚀 Guide de Démarrage Rapide
+## Guide de Démarrage Rapide
 
 ### Étape 1: Installer les Dépendances Python
 ```bash
@@ -469,7 +464,7 @@ python src/main.py
 
 ---
 
-## 📄 Licence
+## Licence
 
 Ce projet est sous licence selon les termes spécifiés dans le fichier LICENSE.
 

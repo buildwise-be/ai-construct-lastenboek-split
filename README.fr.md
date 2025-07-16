@@ -1,8 +1,8 @@
 # AI Construct PDF Diviseur
 
-<div align="center" style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-  <img src="Requirements/Logo/BWlogo.png" alt="Logo Buildwise" height="70" width="70" style="vertical-align: middle;"/>
-  <img src="Requirements/Logo/aiconew.svg" alt="Logo AI Construct" height="70" width="240" style="vertical-align: middle;"/>
+<div align="center" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0;">
+  <img src="Requirements/Logo/BWlogo.png" alt="Logo Buildwise" height="70" width="70" style="display: block;"/>
+  <img src="Requirements/Logo/aiconew.svg" alt="Logo AI Construct" height="70" width="240" style="display: block;"/>
 </div>
 
 <p align="center">

@@ -13,7 +13,7 @@
 
 ## 🌐 Taal / Language / Langue
 
-📖 **[English](README.md)** | 🇳🇱 **Nederlands** | 🇫🇷 **[Français](README.fr.md)**
+📖 **[English](README.en.md)** | 🇳🇱 **[Nederlands](README.md)** | 🇫🇷 **[Français](README.fr.md)**
 
 ---
 

@@ -6,102 +6,102 @@
 </div>
 
 <p align="center">
-  <em>Modern GUI application for splitting construction documents by contractor categories</em>
+  <em>Moderne GUI-toepassing voor het opdelen van bouwdocumenten per aannemerscategorie</em>
 </p>
 
 ---
 
-## 🌐 Language / Taal / Langue
+## 🌐 Taal / Language / Langue
 
-📖 **[English](README.md)** | 🇳🇱 **Nederlands** | 🇫🇷 **[Français](README.fr.md)**
-
----
-
-## 🚀 What's New: Hybrid Processing System
-
-This application supports **both VMSW and Non-VMSW construction documents** with intelligent processing:
-
-- **🔢 VMSW Documents**: Uses number-based category matching for high speed and accuracy
-- **🤖 Non-VMSW Documents**: Employs AI-powered semantic analysis with Google Gemini
-- **🎯 Smart Detection**: Automatically detects document type with manual override option
-- **⚡ Performance**: VMSW categorization is significantly faster than AI processing
-- **🖥️ Modern GUI**: Responsive interface with real-time progress tracking
+📖 **[English](README.en.md)** | 🇳🇱 **Nederlands** | 🇫🇷 **[Français](README.fr.md)**
 
 ---
 
-## Overview
+## 🚀 Nieuw: Hybride Verwerkingssysteem
 
-The AI Construct PDF Opdeler is a powerful tool for processing construction specification documents (lastenboeken). It intelligently analyzes documents, extracts structure, categorizes content, and splits documents into contractor-specific PDFs.
+Deze applicatie ondersteunt **zowel VMSW als Non-VMSW bouwdocumenten** met intelligente verwerking:
 
-### 🎯 Key Features
-
-- **Hybrid Intelligence**: Combines number-based VMSW matching with AI semantic analysis
-- **Responsive GUI**: No more freezing during long operations
-- **Real-time Progress**: Live progress bars and status updates  
-- **Document Type Selection**: Choose between VMSW and Non-VMSW processing modes
-- **Model Selection**: Choose between Gemini 2.5 Pro and Gemini 2.5 Flash
-- **Cancellation Support**: Stop operations mid-process
-- **Multi-Output**: Generate PDFs in multiple output directories simultaneously
-- **Professional Logging**: Auto-scrolling log with timestamps and debugging utilities
-
-### 📋 Processing Pipeline
-
-1. **📖 TOC Generation**: Extracts chapters and sections from PDF documents
-2. **🎯 Smart Categorization**: 
-   - **VMSW**: Fast direct number mapping (e.g., "02.40" → "02. Funderingen en Kelders")
-   - **Non-VMSW**: AI semantic matching with predefined categories
-3. **📄 Document Splitting**: Creates separate PDFs for each construction category
+- **🔢 VMSW Documenten**: Gebruikt nummer-gebaseerde categoriematching voor hoge snelheid en nauwkeurigheid
+- **🤖 Non-VMSW Documenten**: Gebruikt AI-aangedreven semantische analyse met Google Gemini
+- **🎯 Slimme Detectie**: Detecteert automatisch documenttype met handmatige overschrijvingsoptie
+- **⚡ Prestaties**: VMSW categorisatie is aanzienlijk sneller dan AI-verwerking
+- **🖥️ Moderne GUI**: Responsieve interface met real-time voortgangsweergave
 
 ---
 
-## 📦 Installation
+## Overzicht
 
-### Prerequisites
+De AI Construct PDF Opdeler is een krachtige tool voor het verwerken van bouwspecificatiedocumenten (lastenboeken). Het analyseert documenten intelligent, extraheert structuur, categoriseert inhoud en splitst documenten op in aannemer-specifieke PDF's.
 
-- **Python**: 3.7 - 3.13 (3.13 recommended)
-- **Internet Connection**: Required for all documents (TOC generation uses AI)
-- **Google Cloud Account**: Required for all documents (TOC generation + Non-VMSW categorization)
+### 🎯 Belangrijkste Functies
 
-### Quick Setup
+- **Hybride Intelligentie**: Combineert nummer-gebaseerde VMSW matching met AI semantische analyse
+- **Responsieve GUI**: Geen bevriezing meer tijdens lange operaties
+- **Real-time Voortgang**: Live voortgangsbalken en statusupdates
+- **Documenttype Selectie**: Kies tussen VMSW en Non-VMSW verwerkingsmodi
+- **Model Selectie**: Kies tussen Gemini 2.5 Pro en Gemini 2.5 Flash
+- **Annuleerondersteuning**: Stop operaties halverwege het proces
+- **Multi-Output**: Genereer PDF's in meerdere uitvoermappen tegelijkertijd
+- **Professionele Logging**: Auto-scrollende log met tijdstempels en debugging utilities
 
-1. **Run the setup script:**
+### 📋 Verwerkingspijplijn
+
+1. **📖 TOC Generatie**: Extraheert hoofdstukken en secties uit PDF-documenten
+2. **🎯 Slimme Categorisatie**: 
+   - **VMSW**: Snelle directe nummermapping (bijv. "02.40" → "02. Funderingen en Kelders")
+   - **Non-VMSW**: AI semantische matching met voorgedefinieerde categorieën
+3. **📄 Document Splitsing**: Creëert aparte PDF's voor elke bouwcategorie
+
+---
+
+## 📦 Installatie
+
+### Vereisten
+
+- **Python**: 3.7 - 3.13 (3.13 aanbevolen)
+- **Internetverbinding**: Vereist voor alle documenten (TOC generatie gebruikt AI)
+- **Google Cloud Account**: Vereist voor alle documenten (TOC generatie + Non-VMSW categorisatie)
+
+### Snelle Installatie
+
+1. **Voer het installatiescript uit:**
    ```bash
    python setup.py
    ```
-   This will:
-   - Check Python version compatibility
-   - Install all dependencies
-   - Create necessary directories
-   - Run validation checks
+   Dit zal:
+   - Python versiecompatibiliteit controleren
+   - Alle afhankelijkheden installeren
+   - Benodigde mappen aanmaken
+   - Validatiecontroles uitvoeren
 
-2. **Configure environment (optional):**
+2. **Configureer omgeving (optioneel):**
    ```bash
    cp .env.example .env
-   # Edit .env with your Google Cloud Project ID
+   # Bewerk .env met uw Google Cloud Project ID
    ```
 
-### Manual Installation
+### Handmatige Installatie
 
-1. **Install dependencies:**
+1. **Installeer afhankelijkheden:**
    ```bash
    pip install -r requirements.txt
    ```
 
-2. **Google Cloud Setup (Non-VMSW Only):**
+2. **Google Cloud Installatie (alleen Non-VMSW):**
    ```bash
-   # Install Google Cloud CLI: https://cloud.google.com/sdk/docs/install
+   # Installeer Google Cloud CLI: https://cloud.google.com/sdk/docs/install
    pip install --upgrade google-genai
    gcloud auth application-default login
    ```
    
-   **🔒 Privacy & GDPR**: The Vertex AI integration processes document data in a GDPR-compliant manner within Google Cloud's European data centers.
+   **🔒 Privacy & GDPR**: De Vertex AI integratie verwerkt documentgegevens GDPR-conform binnen Google Cloud's Europese datacenters.
 
-3. **Validate installation:**
+3. **Valideer installatie:**
    ```bash
    python src/utils/validation.py
    ```
 
-### Launch Application
+### Start Applicatie
 
 ```bash
 python src/main.py
@@ -109,145 +109,145 @@ python src/main.py
 
 ---
 
-## 🖥️ Using the Application
+## 🖥️ Gebruik van de Applicatie
 
-### Quick Start
+### Snelle Start
 
-1. **📁 Select PDF**: Choose your construction document
-2. **⚙️ Document Type**: Select "VMSW Document" or "Non-VMSW Document"  
-3. **📂 Output Directory**: Choose where to save results
-4. **▶️ Process**: Click "Run Complete Pipeline"
+1. **📁 Selecteer PDF**: Kies uw bouwdocument
+2. **⚙️ Documenttype**: Selecteer "VMSW Document" of "Non-VMSW Document"
+3. **📂 Uitvoermap**: Kies waar resultaten opgeslagen worden
+4. **▶️ Verwerken**: Klik op "Volledige Pijplijn Uitvoeren"
 
-### Document Type Guide
+### Documenttype Gids
 
-| Document Type | When to Use | Requirements | Categorization Speed |
-|---------------|-------------|--------------|---------------------|
-| **VMSW Document** | Documents with VMSW numbering (XX.YY format) | Google Cloud (TOC) + built-in categories | ⚡ Fast categorization |
-| **Non-VMSW Document** | Other construction documents | Google Cloud (TOC) + Category file | 🤖 AI categorization |
+| Documenttype | Wanneer Gebruiken | Vereisten | Categorisatie Snelheid |
+|--------------|-------------------|-----------|------------------------|
+| **VMSW Document** | Documenten met VMSW-nummering (XX.YY formaat) | Google Cloud (TOC) + ingebouwde categorieën | ⚡ Snelle categorisatie |
+| **Non-VMSW Document** | Andere bouwdocumenten | Google Cloud (TOC) + Categoriebestand | 🤖 AI categorisatie |
 
-### Advanced Options
+### Geavanceerde Opties
 
-- **🎛️ Model Selection**: Choose Gemini 2.5 Pro (accuracy) or Flash (speed)
-- **📁 Multiple Outputs**: Set up to 3 different output directories
-- **🔧 Individual Steps**: Run TOC, Categorization, or PDF splitting separately
-- **📊 Real-time Logging**: View detailed processing logs and debugging info
-- **⏹️ Cancellation**: Stop processing at any time
+- **🎛️ Model Selectie**: Kies Gemini 2.5 Pro (nauwkeurigheid) of Flash (snelheid)
+- **📁 Meerdere Outputs**: Stel tot 3 verschillende uitvoermappen in
+- **🔧 Individuele Stappen**: Voer TOC, Categorisatie of PDF-splitsing afzonderlijk uit
+- **📊 Real-time Logging**: Bekijk gedetailleerde verwerkingslogs en debugging info
+- **⏹️ Annulering**: Stop verwerking op elk moment
 
 ---
 
-## 📁 Project Architecture
+## 📁 Project Architectuur
 
 ```
-├── src/                          # Modern modular architecture
-│   ├── main.py                   # Application entry point
-│   ├── config/                   # Configuration management
+├── src/                          # Moderne modulaire architectuur
+│   ├── main.py                   # Applicatie-ingangspunt
+│   ├── config/                   # Configuratiebeheer
 │   │   ├── __init__.py
-│   │   └── settings.py           # Centralized settings
-│   ├── core/                     # Core processing logic
+│   │   └── settings.py           # Gecentraliseerde instellingen
+│   ├── core/                     # Kernverwerkingslogica
 │   │   ├── __init__.py
-│   │   ├── ai_client.py          # Vertex AI integration
-│   │   ├── pdf_processor.py      # TOC generation & PDF splitting
-│   │   ├── category_matcher.py   # AI category matching
-│   │   ├── hybrid_matcher.py     # Smart document type handling
-│   │   ├── vmsw_matcher.py       # VMSW number-based matching
-│   │   └── file_utils.py         # File operations
-│   ├── gui/                      # User interface components
+│   │   ├── ai_client.py          # Vertex AI-integratie
+│   │   ├── pdf_processor.py      # TOC-generatie & PDF-splitsing
+│   │   ├── category_matcher.py   # AI-categoriematching
+│   │   ├── hybrid_matcher.py     # Slimme documenttypeafhandeling
+│   │   ├── vmsw_matcher.py       # VMSW nummer-gebaseerde matching
+│   │   └── file_utils.py         # Bestandsoperaties
+│   ├── gui/                      # Gebruikersinterface componenten
 │   │   ├── __init__.py
-│   │   ├── main_window.py        # Main application window
-│   │   ├── components/           # Reusable UI components
+│   │   ├── main_window.py        # Hoofdapplicatievenster
+│   │   ├── components/           # Herbruikbare UI-componenten
 │   │   │   ├── __init__.py
 │   │   │   └── styled_components.py
-│   │   └── workers/              # Background processing
+│   │   └── workers/              # Achtergrondverwerking
 │   │       ├── __init__.py
 │   │       └── processing_worker.py
-│   ├── models/                   # Data models and categories
+│   ├── models/                   # Datamodellen en categorieën
 │   │   ├── __init__.py
-│   │   └── categories.py         # Category definitions
-│   └── utils/                    # Utility modules
+│   │   └── categories.py         # Categoriedefinities
+│   └── utils/                    # Hulpprogramma modules
 │       ├── __init__.py
-│       ├── validation.py         # Setup validation
-│       └── migration.py          # Migration utilities
-├── launch.py                     # Simple launcher script
-├── setup.py                      # Installation script
-├── example_categories.py         # Category template
-├── VMSWcat.json                  # VMSW categories configuration
-├── requirements.txt              # Python dependencies
-├── .env.example                  # Environment configuration template
-└── documentation/                # Comprehensive documentation
+│       ├── validation.py         # Installatie validatie
+│       └── migration.py          # Migratie utilities
+├── launch.py                     # Eenvoudig startscript
+├── setup.py                      # Installatiescript
+├── example_categories.py         # Categoriesjabloon
+├── VMSWcat.json                  # VMSW categorieën configuratie
+├── requirements.txt              # Python afhankelijkheden
+├── .env.example                  # Omgevingsconfiguratie sjabloon
+└── documentation/                # Uitgebreide documentatie
 ```
 
 ---
 
-## 🎯 VMSW vs Non-VMSW Processing
+## 🎯 VMSW vs Non-VMSW Verwerking
 
-### VMSW Documents
+### VMSW Documenten
 
-**Perfect for**: Dutch construction documents using standard VMSW numbering
+**Perfect voor**: Nederlandse bouwdocumenten met standaard VMSW-nummering
 
-**How it works**:
-- Directly maps chapter numbers to categories (e.g., "02" → "02. Funderingen en Kelders")
-- The categorization step is fast and requires no AI
-- Built-in demolition detection
-- High reliability through standardized numbering
+**Hoe het werkt**:
+- Wijst hoofdstuknummers direct toe aan categorieën (bijv. "02" → "02. Funderingen en Kelders")
+- De categorisatiestap is snel en vereist geen AI
+- Ingebouwde sloopdetectie
+- Hoge betrouwbaarheid door gestandaardiseerde nummering
 
-**Categories include**:
+**Categorieën omvatten**:
 - 00. Algemene Bepalingen
-- 01. Afbraak en Grondwerken  
+- 01. Afbraak en Grondwerken
 - 02. Funderingen en Kelders
-- And 31 more standard VMSW categories...
+- En 31 meer standaard VMSW-categorieën...
 
-### Non-VMSW Documents
+### Non-VMSW Documenten
 
-**Perfect for**: Custom construction documents, international formats
+**Perfect voor**: Aangepaste bouwdocumenten, internationale formaten
 
-**How it works**:
-- AI analyzes content semantically
-- Matches against custom category definitions
-- Provides confidence scores and explanations (results may vary)
-- Intelligent retry logic for optimal results
+**Hoe het werkt**:
+- AI analyseert inhoud semantisch
+- Matcht tegen aangepaste categoriedefinities
+- Biedt betrouwbaarheidsscores en uitleg (resultaten kunnen variëren)
+- Intelligente retry-logica voor optimale resultaten
 
-**Requirements**:
-- Custom category file (Python, Excel, or CSV)
-- Google Cloud project with Vertex AI enabled
-- **🔒 GDPR-compliant data processing** through Vertex AI (European infrastructure)
+**Vereisten**:
+- Aangepast categoriebestand (Python, Excel of CSV)
+- Google Cloud project met Vertex AI ingeschakeld
+- **🔒 GDPR-conforme gegevensverwerking** via Vertex AI (Europese infrastructuur)
 
 ---
 
-## 🔧 Customizing VMSW Categories
+## 🔧 VMSW Categorieën Aanpassen
 
-The application provides flexible options for customizing how VMSW documents are grouped into contractor categories.
+De applicatie biedt flexibele opties voor het aanpassen van hoe VMSW-documenten worden gegroepeerd in aannemerscategorieën.
 
-### Default VMSW Grouping
+### Standaard VMSW Groepering
 
-By default, VMSW documents use a **two-level mapping system**:
+Standaard gebruiken VMSW-documenten een **tweeniveaus mappingsysteem**:
 
-1. **Direct Chapter Mapping** (`src/core/vmsw_matcher.py`): Maps VMSW chapters (00-42) to broad construction categories
-2. **Detailed Article Mapping** (`VMSWcat.json`): Maps specific VMSW articles to specialized groupings
+1. **Directe Hoofdstuk Mapping** (`src/core/vmsw_matcher.py`): Wijst VMSW-hoofdstukken (00-42) toe aan brede bouwcategorieën
+2. **Gedetailleerde Artikel Mapping** (`VMSWcat.json`): Wijst specifieke VMSW-artikelen toe aan gespecialiseerde groeperingen
 
-### Customization Options
+### Aanpassingsopties
 
-#### Option 1: Modify Chapter Groupings (Simple)
+#### Optie 1: Wijzig Hoofdstuk Groeperingen (Eenvoudig)
 
-Edit the `vmsw_mapping` dictionary in `src/core/vmsw_matcher.py`:
+Bewerk het `vmsw_mapping` woordenboek in `src/core/vmsw_matcher.py`:
 
 ```python
 self.vmsw_mapping = {
     "00": "33. Advies en Studies",
     "01": "01. Afbraak en Grondwerken", 
     "02": "02. Funderingen en Kelders",
-    # Add your custom mappings:
-    "15": "15. HVAC",  # Default
-    "15": "15. Klimatisering",  # Custom name
-    # Group multiple chapters together:
-    "64": "15. HVAC",  # Merge with existing HVAC
+    # Voeg uw aangepaste mappings toe:
+    "15": "15. HVAC",  # Standaard
+    "15": "15. Klimatisering",  # Aangepaste naam
+    # Groepeer meerdere hoofdstukken samen:
+    "64": "15. HVAC",  # Voeg samen met bestaande HVAC
     "65": "15. HVAC",
     "66": "15. HVAC",
 }
 ```
 
-#### Option 2: Create Contractor-Specific Groupings
+#### Optie 2: Creëer Aannemer-Specifieke Groeperingen
 
-Modify `VMSWcat.json` to create contractor-specific categories:
+Wijzig `VMSWcat.json` om aannemer-specifieke categorieën te creëren:
 
 ```json
 [
@@ -266,30 +266,9 @@ Modify `VMSWcat.json` to create contractor-specific categories:
 ]
 ```
 
-#### Option 3: Fine-Grained Article Mapping
+### Gemeenschappelijke Groeperingsstrategieën
 
-Create very specific groupings for detailed work packages:
-
-```json
-[
-  {
-    "art_nr": "26.30",
-    "omschrijving": "PREFAB BETON - Leverancier X"
-  },
-  {
-    "art_nr": "35.31",
-    "omschrijving": "GRIND - Leverancier Y" 
-  },
-  {
-    "art_nr": "53.70",
-    "omschrijving": "VLOERMATTEN - Specialist Z"
-  }
-]
-```
-
-### Common Grouping Strategies
-
-#### By Trade/Specialty
+#### Op Vak/Specialiteit
 ```json
 {
   "art_nr": "10 + 17 + 90 + 91",
@@ -298,22 +277,14 @@ Create very specific groupings for detailed work packages:
 {
   "art_nr": "64 + 65 + 66 + 67 + 68 + 69", 
   "omschrijving": "HVAC TOTAALPAKKET"
-},
-{
-  "art_nr": "70 + 71 + 72 + 73 + 74 + 75 + 77 + 78 + 79",
-  "omschrijving": "ELEKTRICITEIT TOTAAL"
 }
 ```
 
-#### By Project Phase
+#### Op Projectfase
 ```json
 {
   "art_nr": "03 + 10 + 11 + 13",
   "omschrijving": "FASE 1 - RUWBOUW"
-},
-{
-  "art_nr": "40 + 41 + 42 + 43",
-  "omschrijving": "FASE 2 - GEVEL"
 },
 {
   "art_nr": "50 + 51 + 52 + 53",
@@ -321,91 +292,49 @@ Create very specific groupings for detailed work packages:
 }
 ```
 
-#### By Contractor Size
-```json
-{
-  "art_nr": "20.55",
-  "omschrijving": "KLEIN WERK - GIPSBLOKKEN"
-},
-{
-  "art_nr": "34 + 35 + 36 + 37 + 38",
-  "omschrijving": "GROOT WERK - PLAT DAK COMPLEET"
-}
-```
-
-### Implementation Steps
-
-1. **Backup Original Files**:
-   ```bash
-   cp src/core/vmsw_matcher.py src/core/vmsw_matcher.py.backup
-   cp VMSWcat.json VMSWcat.json.backup
-   ```
-
-2. **Edit Configuration**:
-   - For broad changes: Modify `src/core/vmsw_matcher.py`
-   - For detailed mapping: Edit `VMSWcat.json`
-
-3. **Test Your Changes**:
-   ```bash
-   python src/main.py
-   # Process a test document to verify groupings
-   ```
-
-4. **Validate Results**:
-   - Check the output PDFs match your intended groupings
-   - Review `category_summary.json` for mapping statistics
-
-### Tips for Custom Groupings
-
-- **Keep It Simple**: Start with broad contractor categories, refine later
-- **Use Consistent Naming**: Follow "XX. CATEGORY NAME" format for sorting
-- **Document Changes**: Keep notes on your customizations for team members
-- **Test Thoroughly**: Process sample documents to validate groupings
-- **Backup Configurations**: Save working configurations for different projects
-
 ---
 
-## 🔧 Configuration
+## 🔧 Configuratie
 
-### Environment Variables
+### Omgevingsvariabelen
 
-Create a `.env` file from `.env.example`:
+Creëer een `.env` bestand van `.env.example`:
 
 ```env
-# Required for AI processing
-GOOGLE_CLOUD_PROJECT_ID=your-project-id
+# Vereist voor AI-verwerking
+GOOGLE_CLOUD_PROJECT_ID=uw-project-id
 
-# Optional settings
+# Optionele instellingen
 VERTEX_AI_REGION=europe-west1
 VERTEX_AI_MODEL=gemini-2.5-flash
 DEFAULT_OUTPUT_DIR=output
 LOG_LEVEL=INFO
 ```
 
-### Category Files
+### Categoriebestanden
 
-Place your category definition files in the project root:
-- `example_categories.py` (default template)
-- Custom category files can be selected in the GUI
+Plaats uw categoriedefinitiebestanden in de projectroot:
+- `example_categories.py` (standaard sjabloon)
+- Aangepaste categoriebestanden kunnen in de GUI geselecteerd worden
 
 ---
 
-## 📊 Output Structure
+## 📊 Uitvoerstructuur
 
-Each processing run creates a timestamped directory:
+Elke verwerkingsrun creëert een map met tijdstempel:
 
 ```
 output/
 └── pdf_processor_step3_category_pdfs_YYYYMMDD_HHMMSS/
-    ├── step1_toc/              # Table of contents extraction
+    ├── step1_toc/              # Inhoudsopgave extractie
     │   ├── chapters.json
     │   ├── sections.json
     │   └── toc.csv
-    ├── step2_category_matching/ # Categorization results
+    ├── step2_category_matching/ # Categorisatieresultaten
     │   ├── category_matches.json
     │   ├── category_statistics.json
     │   └── matching_details.csv
-    └── step3_category_pdfs/     # Final categorized PDFs
+    └── step3_category_pdfs/     # Finale gecategoriseerde PDF's
         ├── 01_Afbraak_en_Grondwerken.pdf
         ├── 02_Funderingen_en_Kelders.pdf
         └── category_summary.json
@@ -413,65 +342,65 @@ output/
 
 ---
 
-## 🔍 Validation & Troubleshooting
+## 🔍 Validatie & Probleemoplossing
 
-### Run Validation Check
+### Voer Validatiecontrole Uit
 ```bash
 python src/utils/validation.py
 ```
 
-This checks:
-- Python version compatibility
-- All dependencies installed
-- File structure integrity
-- Module imports working
-- Configuration validity
+Dit controleert:
+- Python versiecompatibiliteit
+- Alle afhankelijkheden geïnstalleerd
+- Bestandsstructuur integriteit
+- Module imports werkend
+- Configuratie geldigheid
 
-### Common Issues
+### Veelvoorkomende Problemen
 
-**Import Errors:**
+**Import Fouten:**
 ```bash
 pip install -r requirements.txt
 ```
 
-**Missing Files:**
+**Ontbrekende Bestanden:**
 ```bash
 python setup.py
 ```
 
-**Configuration Issues:**
-- Check your `.env` file
-- Verify Google Cloud Project ID
-- Ensure category files exist
+**Configuratieproblemen:**
+- Controleer uw `.env` bestand
+- Verifieer Google Cloud Project ID
+- Zorg ervoor dat categoriebestanden bestaan
 
 ---
 
-## 🛠️ Advanced Usage
+## 🛠️ Geavanceerd Gebruik
 
-### Starting the Application
+### Applicatie Starten
 
-**Option 1: Using the launcher**
+**Optie 1: Gebruik de launcher**
 ```bash
 python launch.py
 ```
 
-**Option 2: Direct execution**
+**Optie 2: Directe uitvoering**
 ```bash
 python src/main.py
 ```
 
-**Option 3: With validation**
+**Optie 3: Met validatie**
 ```bash
 python launch.py --validate
 ```
 
-### Command Line Interface
+### Commandoregel Interface
 
 ```bash
-# Complete pipeline
+# Volledige pijplijn
 python main_script.py document.pdf --document-type vmsw
 
-# Individual steps
+# Individuele stappen
 python main_script.py document.pdf step1 --no-gui
 python main_script.py document.pdf step2 --document-type non-vmsw -c categories.py
 python main_script.py document.pdf step3 --no-gui
@@ -479,75 +408,75 @@ python main_script.py document.pdf step3 --no-gui
 
 ---
 
-## 📚 Module Overview
+## 📚 Module Overzicht
 
-### Core Modules
+### Kernmodules
 
-- **`ai_client.py`**: Handles all Vertex AI interactions with retry logic
-- **`pdf_processor.py`**: PDF processing, TOC extraction, and splitting
-- **`category_matcher.py`**: AI-powered category matching with batch processing
-- **`hybrid_matcher.py`**: Smart document type detection and routing
-- **`vmsw_matcher.py`**: High-speed VMSW number-based matching
-- **`file_utils.py`**: File operations and directory management
+- **`ai_client.py`**: Behandelt alle Vertex AI-interacties met retry-logica
+- **`pdf_processor.py`**: PDF-verwerking, TOC-extractie en splitsing
+- **`category_matcher.py`**: AI-aangedreven categoriematching met batch-verwerking
+- **`hybrid_matcher.py`**: Slimme documenttypedetectie en routing
+- **`vmsw_matcher.py`**: Hoge snelheid VMSW nummer-gebaseerde matching
+- **`file_utils.py`**: Bestandsoperaties en mapbeheer
 
-### GUI Components
+### GUI Componenten
 
-- **`main_window.py`**: Main application window with responsive design
-- **`styled_components.py`**: Reusable UI components with consistent styling
-- **`processing_worker.py`**: Background QThread workers for non-blocking operations
+- **`main_window.py`**: Hoofdapplicatievenster met responsief ontwerp
+- **`styled_components.py`**: Herbruikbare UI-componenten met consistente styling
+- **`processing_worker.py`**: Achtergrond QThread workers voor niet-blokkerende operaties
 
-### Configuration & Models
+### Configuratie & Modellen
 
-- **`settings.py`**: Centralized configuration management
-- **`categories.py`**: Category definitions and utilities
-- **`validation.py`**: Setup validation and health checks
+- **`settings.py`**: Gecentraliseerd configuratiebeheer
+- **`categories.py`**: Categoriedefinities en utilities
+- **`validation.py`**: Installatie validatie en gezondheidscontroles
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 Snelle Startgids
 
-### Step 1: Install Python Dependencies
+### Stap 1: Installeer Python Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### Step 2: Install Google Cloud CLI
-1. **Download and install** Google Cloud CLI from: https://cloud.google.com/sdk/docs/install
-2. **Authenticate** with your Google account:
+### Stap 2: Installeer Google Cloud CLI
+1. **Download en installeer** Google Cloud CLI van: https://cloud.google.com/sdk/docs/install
+2. **Authenticeer** met uw Google account:
    ```bash
    gcloud auth application-default login
    ```
-3. **Set your project ID** (create a Google Cloud project if needed):
+3. **Stel uw project ID in** (maak een Google Cloud project aan indien nodig):
    ```bash
-   gcloud config set project YOUR-PROJECT-ID
+   gcloud config set project UW-PROJECT-ID
    ```
 
-### Step 3: Enable Required APIs
+### Stap 3: Schakel Vereiste APIs In
 ```bash
 gcloud services enable aiplatform.googleapis.com
 ```
 
-### Step 4: Launch the Application
+### Stap 4: Start de Applicatie
 ```bash
 python src/main.py
 ```
 
-### Step 5: Process Your Document
-1. **Select PDF**: Choose your construction document
-2. **Choose Document Type**: Select "VMSW Document" or "Non-VMSW Document"
-3. **Configure Settings**: Set output directory and (for Non-VMSW) category file
-4. **Run Pipeline**: Click "Run Complete Pipeline"
+### Stap 5: Verwerk Uw Document
+1. **Selecteer PDF**: Kies uw bouwdocument
+2. **Kies Documenttype**: Selecteer "VMSW Document" of "Non-VMSW Document"
+3. **Configureer Instellingen**: Stel uitvoermap in en (voor Non-VMSW) categoriebestand
+4. **Voer Pipeline Uit**: Klik op "Run Complete Pipeline"
 
 ---
 
-## 📄 License
+## 📄 Licentie
 
-This project is licensed under the terms specified in the LICENSE file.
+Dit project is gelicentieerd onder de voorwaarden gespecificeerd in het LICENSE bestand.
 
 ---
 
 <div align="center">
-  <p><strong>Developed in the AI Construct COOCK+ project</strong></p>
+  <p><strong>Ontwikkeld in het AI Construct COOCK+ project</strong></p>
   <p><em>Met de steun van VLAIO</em></p>
-  <p><em>Professional construction document processing for the modern era</em></p>
-</div>
+  <p><em>Professionele bouwdocumentverwerking voor het moderne tijdperk</em></p>
+</div> 

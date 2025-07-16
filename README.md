@@ -3,7 +3,7 @@
 <div align="center">
   <img src="Requirements/Logo/BWlogo.png" alt="Buildwise Logo" height="80"/>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="Requirements/Logo/aico.png" alt="AI Construct Logo" height="80"/>
+  <img src="Requirements/Logo/aiconew.svg" alt="AI Construct Logo" height="80"/>
 </div>
 
 <p align="center">

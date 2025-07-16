@@ -3,7 +3,7 @@
 <div align="center">
   <img src="Requirements/Logo/BWlogo.png" alt="Buildwise Logo" height="70" width="70"/>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="Requirements/Logo/aiconew.svg" alt="AI Construct Logo" height="35" width="120"/>
+  <img src="Requirements/Logo/aiconew.svg" alt="AI Construct Logo" height="70" width="240"/>
 </div>
 
 <p align="center">
@@ -25,7 +25,7 @@ Deze applicatie ondersteunt **zowel VMSW als Non-VMSW bouwdocumenten** met intel
 - **🔢 VMSW Documenten**: Gebruikt nummer-gebaseerde categoriematching voor hoge snelheid en nauwkeurigheid
 - **🤖 Non-VMSW Documenten**: Gebruikt AI-aangedreven semantische analyse met Google Gemini
 - **🎯 Slimme Detectie**: Detecteert automatisch documenttype met handmatige overschrijvingsoptie
-- **⚡ Prestaties**: VMSW categorisatie is 1000x sneller dan AI-verwerking
+- **⚡ Prestaties**: VMSW categorisatie is aanzienlijk sneller dan AI-verwerking
 - **🖥️ Moderne GUI**: Responsieve interface met real-time voortgangsweergave
 
 ---
@@ -49,7 +49,7 @@ De AI Construct PDF Opdeler is een krachtige tool voor het verwerken van bouwspe
 
 1. **📖 TOC Generatie**: Extraheert hoofdstukken en secties uit PDF-documenten
 2. **🎯 Slimme Categorisatie**: 
-   - **VMSW**: Bijna-instantane directe nummermapping (bijv. "02.40" → "02. Funderingen en Kelders")
+   - **VMSW**: Snelle directe nummermapping (bijv. "02.40" → "02. Funderingen en Kelders")
    - **Non-VMSW**: AI semantische matching met voorgedefinieerde categorieën
 3. **📄 Document Splitsing**: Creëert aparte PDF's voor elke bouwcategorie
 
@@ -95,7 +95,7 @@ De AI Construct PDF Opdeler is een krachtige tool voor het verwerken van bouwspe
    gcloud auth application-default login
    ```
    
-   **🔒 Privacy & GDPR Compliance**: Door de Vertex AI integratie worden alle documentgegevens GDPR-conform verwerkt binnen Google Cloud's Europese datacenters, waardoor volledige gegevensbescherming wordt gegarandeerd.
+   **🔒 Privacy & GDPR**: De Vertex AI integratie verwerkt documentgegevens GDPR-conform binnen Google Cloud's Europese datacenters.
 
 3. **Valideer installatie:**
    ```bash
@@ -187,9 +187,9 @@ python src/main.py
 
 **Hoe het werkt**:
 - Wijst hoofdstuknummers direct toe aan categorieën (bijv. "02" → "02. Funderingen en Kelders")
-- De categorisatiestap is bijna instantaan en vereist geen AI
+- De categorisatiestap is snel en vereist geen AI
 - Ingebouwde sloopdetectie
-- 100% betrouwbaarheidsscores
+- Hoge betrouwbaarheid door gestandaardiseerde nummering
 
 **Categorieën omvatten**:
 - 00. Algemene Bepalingen
@@ -204,13 +204,13 @@ python src/main.py
 **Hoe het werkt**:
 - AI analyseert inhoud semantisch
 - Matcht tegen aangepaste categoriedefinities
-- Biedt betrouwbaarheidsscores en uitleg
-- Intelligente retry-logica voor beste resultaten
+- Biedt betrouwbaarheidsscores en uitleg (resultaten kunnen variëren)
+- Intelligente retry-logica voor optimale resultaten
 
 **Vereisten**:
 - Aangepast categoriebestand (Python, Excel of CSV)
 - Google Cloud project met Vertex AI ingeschakeld
-- **🔒 GDPR-conforme gegevensverwerking** via Vertex AI Europese infrastructuur
+- **🔒 GDPR-conforme gegevensverwerking** via Vertex AI (Europese infrastructuur)
 
 ---
 

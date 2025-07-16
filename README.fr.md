@@ -3,7 +3,7 @@
 <div align="center">
   <img src="Requirements/Logo/BWlogo.png" alt="Logo Buildwise" height="70" width="70"/>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="Requirements/Logo/aiconew.svg" alt="Logo AI Construct" height="35" width="120"/>
+  <img src="Requirements/Logo/aiconew.svg" alt="Logo AI Construct" height="70" width="240"/>
 </div>
 
 <p align="center">
@@ -25,7 +25,7 @@ Cette application prend en charge **les documents de construction VMSW et non-VM
 - **🔢 Documents VMSW** : Utilise la correspondance de catégories basée sur les numéros pour une vitesse et une précision élevées
 - **🤖 Documents non-VMSW** : Utilise l'analyse sémantique alimentée par l'IA avec Google Gemini
 - **🎯 Détection Intelligente** : Détecte automatiquement le type de document avec option de remplacement manuel
-- **⚡ Performance** : La catégorisation VMSW est 1000x plus rapide que le traitement IA
+- **⚡ Performance** : La catégorisation VMSW est considérablement plus rapide que le traitement IA
 - **🖥️ GUI Moderne** : Interface réactive avec suivi des progrès en temps réel
 
 ---
@@ -49,7 +49,7 @@ L'AI Construct PDF Diviseur est un outil puissant pour traiter les documents de 
 
 1. **📖 Génération TOC** : Extrait les chapitres et sections des documents PDF
 2. **🎯 Catégorisation Intelligente** : 
-   - **VMSW** : Mappage direct quasi-instantané des numéros (ex. "02.40" → "02. Fondations et Caves")
+   - **VMSW** : Mappage direct rapide des numéros (ex. "02.40" → "02. Fondations et Caves")
    - **Non-VMSW** : Correspondance sémantique IA avec catégories prédéfinies
 3. **📄 Division de Document** : Crée des PDF séparés pour chaque catégorie de construction
 
@@ -95,7 +95,7 @@ L'AI Construct PDF Diviseur est un outil puissant pour traiter les documents de 
    gcloud auth application-default login
    ```
    
-   **🔒 Confidentialité & Conformité GDPR** : Grâce à l'intégration Vertex AI, toutes les données de documents sont traitées de manière conforme au GDPR dans les centres de données européens de Google Cloud, garantissant une protection complète des données.
+   **🔒 Confidentialité & GDPR** : L'intégration Vertex AI traite les données de documents de manière conforme au GDPR dans les centres de données européens de Google Cloud.
 
 3. **Validez l'installation :**
    ```bash
@@ -187,9 +187,9 @@ python src/main.py
 
 **Comment ça fonctionne** :
 - Mappe directement les numéros de chapitres aux catégories (ex. "02" → "02. Fondations et Caves")
-- L'étape de catégorisation est quasi-instantanée et ne nécessite pas d'IA
+- L'étape de catégorisation est rapide et ne nécessite pas d'IA
 - Détection de démolition intégrée
-- Scores de confiance de 100%
+- Haute fiabilité grâce à la numérotation standardisée
 
 **Les catégories incluent** :
 - 00. Dispositions Générales
@@ -204,13 +204,13 @@ python src/main.py
 **Comment ça fonctionne** :
 - L'IA analyse le contenu sémantiquement
 - Correspond aux définitions de catégories personnalisées
-- Fournit des scores de confiance et des explications
-- Logique de nouvelle tentative intelligente pour de meilleurs résultats
+- Fournit des scores de confiance et des explications (les résultats peuvent varier)
+- Logique de nouvelle tentative intelligente pour des résultats optimaux
 
 **Exigences** :
 - Fichier de catégories personnalisé (Python, Excel ou CSV)
 - Projet Google Cloud avec Vertex AI activé
-- **🔒 Traitement des données conforme au GDPR** via l'infrastructure européenne Vertex AI
+- **🔒 Traitement des données conforme au GDPR** via Vertex AI (infrastructure européenne)
 
 ---
 

@@ -3,7 +3,7 @@
 <div align="center">
   <img src="Requirements/Logo/BWlogo.png" alt="Buildwise Logo" height="70" width="70"/>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="Requirements/Logo/aiconew.svg" alt="AI Construct Logo" height="35" width="120"/>
+  <img src="Requirements/Logo/aiconew.svg" alt="AI Construct Logo" height="70" width="240"/>
 </div>
 
 <p align="center">
@@ -25,7 +25,7 @@ This application supports **both VMSW and Non-VMSW construction documents** with
 - **🔢 VMSW Documents**: Uses number-based category matching for high speed and accuracy
 - **🤖 Non-VMSW Documents**: Employs AI-powered semantic analysis with Google Gemini
 - **🎯 Smart Detection**: Automatically detects document type with manual override option
-- **⚡ Performance**: VMSW categorization is 1000x faster than AI processing
+- **⚡ Performance**: VMSW categorization is significantly faster than AI processing
 - **🖥️ Modern GUI**: Responsive interface with real-time progress tracking
 
 ---
@@ -49,7 +49,7 @@ The AI Construct PDF Opdeler is a powerful tool for processing construction spec
 
 1. **📖 TOC Generation**: Extracts chapters and sections from PDF documents
 2. **🎯 Smart Categorization**: 
-   - **VMSW**: Near-instant direct number mapping (e.g., "02.40" → "02. Funderingen en Kelders")
+   - **VMSW**: Fast direct number mapping (e.g., "02.40" → "02. Funderingen en Kelders")
    - **Non-VMSW**: AI semantic matching with predefined categories
 3. **📄 Document Splitting**: Creates separate PDFs for each construction category
 
@@ -95,7 +95,7 @@ The AI Construct PDF Opdeler is a powerful tool for processing construction spec
    gcloud auth application-default login
    ```
    
-   **🔒 Privacy & GDPR Compliance**: Through Vertex AI integration, all document data is processed in a GDPR-compliant manner within Google Cloud's European data centers, ensuring full data protection compliance.
+   **🔒 Privacy & GDPR**: The Vertex AI integration processes document data in a GDPR-compliant manner within Google Cloud's European data centers.
 
 3. **Validate installation:**
    ```bash
@@ -187,9 +187,9 @@ python src/main.py
 
 **How it works**:
 - Directly maps chapter numbers to categories (e.g., "02" → "02. Funderingen en Kelders")
-- The categorization step is nearly instantaneous and requires no AI
+- The categorization step is fast and requires no AI
 - Built-in demolition detection
-- 100% confidence scores
+- High reliability through standardized numbering
 
 **Categories include**:
 - 00. Algemene Bepalingen
@@ -204,13 +204,13 @@ python src/main.py
 **How it works**:
 - AI analyzes content semantically
 - Matches against custom category definitions
-- Provides confidence scores and explanations
-- Intelligent retry logic for best results
+- Provides confidence scores and explanations (results may vary)
+- Intelligent retry logic for optimal results
 
 **Requirements**:
 - Custom category file (Python, Excel, or CSV)
 - Google Cloud project with Vertex AI enabled
-- **🔒 GDPR-compliant data processing** through Vertex AI European infrastructure
+- **🔒 GDPR-compliant data processing** through Vertex AI (European infrastructure)
 
 ---
 
